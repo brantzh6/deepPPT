@@ -11,8 +11,16 @@
 - [cover_orbit.openclaw-seed.pattern.json](file://style/patterns/cover_orbit.openclaw-seed.pattern.json)
 - [bottleneck_shift.openclaw-seed.pattern.json](file://style/patterns/bottleneck_shift.openclaw-seed.pattern.json)
 - [chapter_summary_signal.openclaw-seed.pattern.json](file://style/patterns/chapter_summary_signal.openclaw-seed.pattern.json)
+- [layered_architecture_stack.openclaw-seed.pattern.json](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json)
 - [template.pattern-card.json](file://style/patterns/template.pattern-card.json)
 </cite>
+
+## Update Summary
+**Changes Made**
+- Enhanced coordinate format handling for line shapes in layered architecture presentations
+- Improved rendering reliability for cross-layer connector lines
+- Added robust coordinate calculation with proper min/max handling for line positioning
+- Maintained backward compatibility while fixing coordinate format issues
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -27,7 +35,7 @@
 10. [Appendices](#appendices)
 
 ## Introduction
-This document explains the PPTX export functionality that generates editable PowerPoint presentations using the PptxGenJS library. It covers the native PowerPoint generation process, slide creation and formatting, layout management, command-line interface, argument handling, output path resolution, slide rendering functions for different page types (cover, narrative map, bottleneck shift, summary), editable delivery strategy, visual styling (shadows, typography, color schemes), performance considerations, memory management, error handling, and integration with the style system and theme application.
+This document explains the PPTX export functionality that generates editable PowerPoint presentations using the PptxGenJS library. It covers the native PowerPoint generation process, slide creation and formatting, layout management, command-line interface, argument handling, output path resolution, slide rendering functions for different page types (cover, narrative map, bottleneck shift, summary, layered architecture), editable delivery strategy, visual styling (shadows, typography, color schemes), performance considerations, memory management, error handling, and integration with the style system and theme application.
 
 ## Project Structure
 The PPTX export capability is implemented as a command-line tool that orchestrates rendering of slides into a PowerPoint deck. Key areas:
@@ -150,6 +158,7 @@ Cmd-->>User : "outputs + manifest"
   - Narrative map: Dominant/supporting chapters, decision cue.
   - Bottleneck shift: Thesis statement, contextual grounding image, support cards.
   - Chapter summary signal: Summary takeaways, implications, decision cue.
+  - Layered architecture: Stack layers with cross-cutting concerns and connector lines.
   - Fallback: Generic centered claim block.
 
 ```mermaid
@@ -160,11 +169,13 @@ Type --> |cover_orbit| Cover["renderCoverSlide"]
 Type --> |narrative_map| Map["renderNarrativeMapSlide"]
 Type --> |bottleneck_shift| Bottleneck["renderBottleneckSlide"]
 Type --> |chapter_summary_signal| Summary["renderSummarySlide"]
+Type --> |layered_architecture_stack| Architecture["renderLayeredArchitectureSlide"]
 Type --> |other/default| Fallback["renderFallbackSlide"]
 Cover --> Validate["Validate Layout"]
 Map --> Validate
 Bottleneck --> Validate
 Summary --> Validate
+Architecture --> Validate
 Fallback --> Validate
 Validate --> End(["Done"])
 ```
@@ -175,6 +186,7 @@ Validate --> End(["Done"])
 - [renderPptx.ts:365-436](file://src/commands/renderPptx.ts#L365-L436)
 - [renderPptx.ts:438-540](file://src/commands/renderPptx.ts#L438-L540)
 - [renderPptx.ts:542-645](file://src/commands/renderPptx.ts#L542-L645)
+- [renderPptx.ts:868-1049](file://src/commands/renderPptx.ts#L868-L1049)
 - [renderPptx.ts:647-668](file://src/commands/renderPptx.ts#L647-L668)
 
 #### Cover Slide Rendering
@@ -212,6 +224,18 @@ Validate --> End(["Done"])
 - [renderPptx.ts:542-645](file://src/commands/renderPptx.ts#L542-L645)
 - [chapter_summary_signal.openclaw-seed.pattern.json:19-23](file://style/patterns/chapter_summary_signal.openclaw-seed.pattern.json#L19-L23)
 
+#### Layered Architecture Rendering
+- **Updated**: Enhanced coordinate format handling for line shapes in layered architecture presentations.
+- Stack layers with consistent spacing and visual hierarchy.
+- Cross-cutting concerns with connector lines that properly handle coordinate calculations.
+- Improved rendering reliability for cross-layer relationships.
+
+**Updated** Enhanced coordinate format handling for line shapes in layered architecture presentations. The rendering now uses robust coordinate calculation with proper min/max handling for line positioning, ensuring reliable cross-layer connector lines regardless of layer arrangement.
+
+**Section sources**
+- [renderPptx.ts:868-1049](file://src/commands/renderPptx.ts#L868-L1049)
+- [layered_architecture_stack.openclaw-seed.pattern.json:10-23](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json#L10-L23)
+
 #### Fallback Rendering
 - Large centered claim card for unknown page types.
 
@@ -231,6 +255,7 @@ Validate --> End(["Done"])
 - [cover_orbit.openclaw-seed.pattern.json:35](file://style/patterns/cover_orbit.openclaw-seed.pattern.json#L35)
 - [bottleneck_shift.openclaw-seed.pattern.json:35](file://style/patterns/bottleneck_shift.openclaw-seed.pattern.json#L35)
 - [chapter_summary_signal.openclaw-seed.pattern.json:34](file://style/patterns/chapter_summary_signal.openclaw-seed.pattern.json#L34)
+- [layered_architecture_stack.openclaw-seed.pattern.json:42](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json#L42)
 
 ### Visual Styling: Shadows, Typography, Color Schemes
 - Shadows: safeOuterShadow helper ensures consistent outer shadows with color, opacity, angle, blur, offset.
@@ -305,6 +330,7 @@ Common issues and remedies:
 - Overlapping text elements: The overlap validator raises warnings and suggestions; adjust positions to avoid overlaps.
 - Elements outside slide bounds: The out-of-bounds validator logs violations; constrain coordinates within slide dimensions.
 - Output path conflicts: The resolver appends a timestamped suffix when the file exists; confirm the intended output location.
+- **Updated**: Layered architecture line rendering issues: The enhanced coordinate format handling ensures reliable cross-layer connector lines regardless of layer arrangement or positioning.
 
 **Section sources**
 - [renderPptx.ts:94-99](file://src/commands/renderPptx.ts#L94-L99)
@@ -314,7 +340,7 @@ Common issues and remedies:
 - [renderPptx.ts:791-800](file://src/commands/renderPptx.ts#L791-L800)
 
 ## Conclusion
-The PPTX export system integrates CLI orchestration, theme-driven styling, and pattern-aware rendering to produce editable PowerPoint decks. It leverages PptxGenJS for native object fidelity, enforces layout correctness via helper validations, and supports an editable delivery strategy. The modular design allows extension to new page types and refinement of visual styles.
+The PPTX export system integrates CLI orchestration, theme-driven styling, and pattern-aware rendering to produce editable PowerPoint decks. It leverages PptxGenJS for native object fidelity, enforces layout correctness via helper validations, and supports an editable delivery strategy. The modular design allows extension to new page types and refinement of visual styles. Recent enhancements to coordinate format handling for line shapes in layered architecture presentations improve rendering reliability while maintaining backward compatibility.
 
 ## Appendices
 
@@ -327,4 +353,18 @@ The PPTX export system integrates CLI orchestration, theme-driven styling, and p
 - [cover_orbit.openclaw-seed.pattern.json:19-23](file://style/patterns/cover_orbit.openclaw-seed.pattern.json#L19-L23)
 - [bottleneck_shift.openclaw-seed.pattern.json:19-23](file://style/patterns/bottleneck_shift.openclaw-seed.pattern.json#L19-L23)
 - [chapter_summary_signal.openclaw-seed.pattern.json:19-23](file://style/patterns/chapter_summary_signal.openclaw-seed.pattern.json#L19-L23)
+- [layered_architecture_stack.openclaw-seed.pattern.json:10-23](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json#L10-L23)
 - [template.pattern-card.json:19-23](file://style/patterns/template.pattern-card.json#L19-L23)
+
+### Appendix B: Enhanced Coordinate Format Handling
+**Updated** The layered architecture rendering now includes enhanced coordinate format handling for line shapes, ensuring reliable cross-layer connector lines regardless of layer arrangement or positioning.
+
+Key improvements:
+- Robust coordinate calculation using Math.min() and Math.max() for proper line positioning
+- Enhanced line shape rendering with improved coordinate format handling
+- Backward compatibility maintained while improving rendering reliability
+- Proper handling of diagonal line segments and their bounding boxes
+
+**Section sources**
+- [renderPptx.ts:1017-1024](file://src/commands/renderPptx.ts#L1017-L1024)
+- [layout.js:82-156](file://render/pptxgenjs_helpers/layout.js#L82-L156)

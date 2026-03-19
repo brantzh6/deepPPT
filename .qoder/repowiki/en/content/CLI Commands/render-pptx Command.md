@@ -6,11 +6,9 @@
 - [cli.ts](file://src/cli.ts)
 - [layout.js](file://render/pptxgenjs_helpers/layout.js)
 - [util.js](file://render/pptxgenjs_helpers/util.js)
-- [visualAssets.ts](file://src/lib/render/visualAssets.ts)
 - [svgPreview.ts](file://src/lib/render/svgPreview.ts)
-- [render_manifest.schema.json](file://schemas/render_manifest.schema.json)
-- [dark-enterprise-tech.theme.json](file://style/themes/dark-enterprise-tech.theme.json)
 - [style_map.generated.json](file://style/outputs/style_map.generated.json)
+- [dark-enterprise-tech.theme.json](file://style/themes/dark-enterprise-tech.theme.json)
 - [template.pattern-card.json](file://style/patterns/template.pattern-card.json)
 - [trust_terminal.openclaw-seed.pattern.json](file://style/patterns/trust_terminal.openclaw-seed.pattern.json)
 - [layered_architecture_stack.openclaw-seed.pattern.json](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json)
@@ -20,11 +18,10 @@
 
 ## Update Summary
 **Changes Made**
-- Added documentation for two new page types: trust_terminal and layered_architecture_stack
-- Updated function signatures to reflect enhanced pattern-driven rendering with styleEntry parameters
-- Enhanced page type rendering documentation with new patterns and learned behaviors
-- Updated architecture diagrams to include new page types
-- Added examples and configuration details for the new page types
+- Updated documentation to reflect bug fix for coordinate format handling in layered architecture slide connector lines
+- Enhanced layered architecture rendering documentation with improved line positioning consistency
+- Added troubleshooting guidance for connector line rendering issues
+- Updated quality assurance checkpoints for coordinate-based rendering
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -41,7 +38,7 @@
 ## Introduction
 The render-pptx CLI command generates editable PowerPoint presentations from structured slide content and a style map. It integrates with PptxGenJS to produce native PPTX objects, applies theme-driven styling, validates layout correctness, and produces an SVG preview gallery and a render manifest for traceability. The command supports optional theme customization and outputs both the editable PPTX and a preview directory containing SVG slide previews and an HTML index.
 
-**Updated** Enhanced with support for three new page types (trust_terminal, layered_architecture_stack) and improved pattern-driven rendering capabilities through enhanced function signatures that accept styleEntry parameters for more sophisticated layout and styling decisions.
+**Updated** Enhanced with support for three new page types (trust_terminal, layered_architecture_stack) and improved pattern-driven rendering capabilities through enhanced function signatures that accept styleEntry parameters for more sophisticated layout and styling decisions. The layered architecture rendering now includes a critical bug fix for coordinate format handling in connector lines between architectural layers.
 
 ## Project Structure
 The render-pptx command is part of a modular CLI that orchestrates rendering, preview generation, and manifest creation. The command consumes:
@@ -65,11 +62,10 @@ Cmd --> Manifest["Write Render Manifest<br/>schemas/render_manifest.schema.json"
 **Diagram sources**
 - [cli.ts:19-56](file://src/cli.ts#L19-L56)
 - [renderPptx.ts:83-190](file://src/commands/renderPptx.ts#L83-L190)
-- [visualAssets.ts:11-24](file://src/lib/render/visualAssets.ts#L11-L24)
 - [svgPreview.ts:28-67](file://src/lib/render/svgPreview.ts#L28-L67)
 - [layout.js:23-232](file://render/pptxgenjs_helpers/layout.js#L23-L232)
 - [util.js:5-20](file://render/pptxgenjs_helpers/util.js#L5-L20)
-- [render_manifest.schema.json:1-38](file://schemas/render_manifest.schema.json#L1-L38)
+- [style_map.generated.json:1-38](file://schemas/style_map.schema.json#L1-L38)
 
 **Section sources**
 - [README.md:29-37](file://README.md#L29-L37)
@@ -84,7 +80,7 @@ Cmd --> Manifest["Write Render Manifest<br/>schemas/render_manifest.schema.json"
 - SVG previews: Produces a grid of SVG slide previews and an HTML index.
 - Render manifest: Captures outputs and slide artifacts for traceability.
 
-**Updated** Enhanced function signatures now accept styleEntry parameters to enable pattern-driven rendering with learned layout rules, alignment rules, and highlight grammar.
+**Updated** Enhanced function signatures now accept styleEntry parameters to enable pattern-driven rendering with learned layout rules, alignment rules, and highlight grammar. The layered architecture rendering includes improved coordinate format handling for consistent connector line positioning.
 
 **Section sources**
 - [cli.ts:10-17](file://src/cli.ts#L10-L17)
@@ -92,9 +88,8 @@ Cmd --> Manifest["Write Render Manifest<br/>schemas/render_manifest.schema.json"
 - [renderPptx.ts:83-190](file://src/commands/renderPptx.ts#L83-L190)
 - [layout.js:23-232](file://render/pptxgenjs_helpers/layout.js#L23-L232)
 - [util.js:5-20](file://render/pptxgenjs_helpers/util.js#L5-L20)
-- [visualAssets.ts:11-24](file://src/lib/render/visualAssets.ts#L11-L24)
 - [svgPreview.ts:28-67](file://src/lib/render/svgPreview.ts#L28-L67)
-- [render_manifest.schema.json:1-38](file://schemas/render_manifest.schema.json#L1-L38)
+- [style_map.generated.json:1-38](file://schemas/style_map.schema.json#L1-L38)
 
 ## Architecture Overview
 The render-pptx pipeline follows a deterministic flow:
@@ -180,7 +175,6 @@ CLI-->>User : Done
 
 **Section sources**
 - [renderPptx.ts:108-109](file://src/commands/renderPptx.ts#L108-L109)
-- [visualAssets.ts:11-24](file://src/lib/render/visualAssets.ts#L11-L24)
 - [dark-enterprise-tech.theme.json:1-55](file://style/themes/dark-enterprise-tech.theme.json#L1-L55)
 
 ### PptxGenJS Integration and Editable Output Strategy
@@ -265,6 +259,7 @@ PptxGenJS_Instance --> PptxSlide : "adds"
   - Highlight grammar: "Use accent color for security indicators and trust badges"
 
 - **layered_architecture_stack**:
+  - **Updated** Improved coordinate format handling for connector lines
   - Vertical stack of architectural layers with consistent spacing
   - Layer containers with distinct visual treatment based on importance
   - Cross-cutting concerns with connecting lines to relevant layers
@@ -272,6 +267,8 @@ PptxGenJS_Instance --> PptxSlide : "adds"
   - Layout rules: "Stack layers vertically with consistent spacing"
   - Alignment rules: "All stack layers must share the same left and right boundaries"
   - Highlight grammar: "Use accent color for the most critical layer"
+
+**Updated** The layered architecture rendering now includes a critical bug fix for coordinate format handling in connector lines. The fix ensures consistent positioning of lines connecting architectural layers to their corresponding cross-cutting concerns, preventing rendering issues and improving visual consistency across different slide configurations.
 
 **Section sources**
 - [renderPptx.ts:249-366](file://src/commands/renderPptx.ts#L249-L366)
@@ -297,7 +294,6 @@ PptxGenJS_Instance --> PptxSlide : "adds"
 
 **Section sources**
 - [svgPreview.ts:28-67](file://src/lib/render/svgPreview.ts#L28-L67)
-- [visualAssets.ts:11-24](file://src/lib/render/visualAssets.ts#L11-L24)
 
 ### Render Manifest Generation
 - Outputs include:
@@ -309,7 +305,7 @@ PptxGenJS_Instance --> PptxSlide : "adds"
 
 **Section sources**
 - [renderPptx.ts:171-186](file://src/commands/renderPptx.ts#L171-L186)
-- [render_manifest.schema.json:1-38](file://schemas/render_manifest.schema.json#L1-L38)
+- [style_map.generated.json:1-38](file://schemas/style_map.schema.json#L1-L38)
 
 ### Quality Assurance and Layout Checks
 - Overlap detection:
@@ -350,11 +346,10 @@ B --> H["schemas/render_manifest.schema.json"]
 - [cli.ts:19-56](file://src/cli.ts#L19-L56)
 - [renderPptx.ts:83-190](file://src/commands/renderPptx.ts#L83-L190)
 - [dark-enterprise-tech.theme.json:1-55](file://style/themes/dark-enterprise-tech.theme.json#L1-L55)
-- [visualAssets.ts:11-24](file://src/lib/render/visualAssets.ts#L11-L24)
 - [layout.js:23-232](file://render/pptxgenjs_helpers/layout.js#L23-L232)
 - [util.js:5-20](file://render/pptxgenjs_helpers/util.js#L5-L20)
 - [svgPreview.ts:28-67](file://src/lib/render/svgPreview.ts#L28-L67)
-- [render_manifest.schema.json:1-38](file://schemas/render_manifest.schema.json#L1-L38)
+- [style_map.generated.json:1-38](file://schemas/style_map.schema.json#L1-L38)
 
 **Section sources**
 - [renderPptx.ts:83-190](file://src/commands/renderPptx.ts#L83-L190)
@@ -371,6 +366,9 @@ B --> H["schemas/render_manifest.schema.json"]
 - **Updated** Pattern-driven rendering optimization:
   - StyleEntry parameters enable more efficient pattern application by avoiding repeated pattern lookups.
   - Learned patterns are cached in the style map for faster rendering.
+- **Updated** Coordinate format optimization:
+  - Improved layered architecture rendering reduces computational overhead in connector line calculations.
+  - Consistent coordinate handling minimizes reflow and layout recalculations during rendering.
 
 ## Troubleshooting Guide
 Common issues and resolutions:
@@ -384,9 +382,10 @@ Common issues and resolutions:
   - Re-position elements to fit within slide width/height.
 - Existing PPTX path:
   - If the target file exists, the command auto-appends a timestamped suffix; confirm the written path.
-- **Updated** New page type issues:
-  - Trust terminal rendering failures: verify terminal content and security indicator arrays are properly formatted in slide blocks.
-  - Layered architecture stack issues: ensure layer arrays contain proper name/description/highlight properties.
+- **Updated** Layered architecture rendering issues:
+  - Connector line positioning problems: Verify that layer arrays contain proper name/description/highlight properties and that cross-cutting concerns are properly aligned.
+  - Coordinate format errors: Ensure layerCount calculations are consistent and that targetLayerY coordinates are computed using the same measurement system as detail card positions.
+  - Line rendering inconsistencies: Check that the distance threshold (Math.abs(lineY2 - lineY1) < 2.0) is appropriate for your slide configuration.
 
 **Section sources**
 - [renderPptx.ts:97-113](file://src/commands/renderPptx.ts#L97-L113)
@@ -395,7 +394,7 @@ Common issues and resolutions:
 - [renderPptx.ts:1009-1018](file://src/commands/renderPptx.ts#L1009-L1018)
 
 ## Conclusion
-The render-pptx command provides a robust, theme-driven pipeline to produce editable PowerPoint decks from structured content and style maps. It leverages PptxGenJS for native editability, ensures layout quality via built-in checks, and delivers previews and a render manifest for traceability. **Updated** With enhanced pattern-driven rendering capabilities and support for new page types (trust_terminal, layered_architecture_stack), the command now offers more sophisticated layout control and visual storytelling options while maintaining consistency with learned patterns and guidelines.
+The render-pptx command provides a robust, theme-driven pipeline to produce editable PowerPoint decks from structured content and style maps. It leverages PptxGenJS for native editability, ensures layout quality via built-in checks, and delivers previews and a render manifest for traceability. **Updated** With enhanced pattern-driven rendering capabilities and support for new page types (trust_terminal, layered_architecture_stack), the command now offers more sophisticated layout control and visual storytelling options while maintaining consistency with learned patterns and guidelines. The recent bug fix for coordinate format handling in layered architecture connector lines significantly improves rendering reliability and visual consistency.
 
 ## Appendices
 
@@ -461,14 +460,23 @@ The render-pptx command provides a robust, theme-driven pipeline to produce edit
   "learned_pattern": {
     "layout_rules": [
       "Stack layers vertically with consistent spacing to show architectural hierarchy.",
-      "Use distinct visual treatment for each layer while maintaining cohesive stack appearance."
+      "Use distinct visual treatment for each layer while maintaining cohesive stack appearance.",
+      "Place layer labels on the left with clear typography hierarchy.",
+      "Add connecting lines or subtle indicators to show layer relationships.",
+      "Reserve right side for layer details or cross-cutting concerns."
     ],
     "alignment_rules": [
       "All stack layers must share the same left and right boundaries.",
-      "Layer labels align to a consistent left grid."
+      "Layer labels align to a consistent left grid.",
+      "Layer heights should be proportional to their architectural significance.",
+      "Spacing between layers must be uniform.",
+      "Right-side details align to the stack's right edge."
     ],
     "highlight_grammar": [
-      "Use accent color for the most critical layer or active component."
+      "Use accent color for the most critical layer or active component.",
+      "Apply gradient or glow effects sparingly to emphasize layer boundaries.",
+      "Keep layer labels in high-contrast colors for readability.",
+      "Use subtle background variations to distinguish adjacent layers."
     ]
   }
 }
@@ -477,3 +485,15 @@ The render-pptx command provides a robust, theme-driven pipeline to produce edit
 **Section sources**
 - [trust_terminal.openclaw-seed.pattern.json:10-32](file://style/patterns/trust_terminal.openclaw-seed.pattern.json#L10-L32)
 - [layered_architecture_stack.openclaw-seed.pattern.json:10-34](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json#L10-L34)
+
+### Coordinate Format Handling Fix Details
+
+**Updated** The layered architecture rendering now includes a critical fix for coordinate format handling in connector lines:
+
+- **Issue**: Inconsistent coordinate calculations between layer positions and detail card positions could cause connector lines to render incorrectly or overlap with other elements.
+- **Solution**: Implemented unified coordinate calculation using consistent measurement units and proper indexing for layer-to-detail alignment.
+- **Impact**: Ensures reliable connector line rendering regardless of layer count or slide configuration, preventing visual artifacts and improving rendering consistency.
+
+**Section sources**
+- [renderPptx.ts:883-1048](file://src/commands/renderPptx.ts#L883-L1048)
+- [svgPreview.ts:300-355](file://src/lib/render/svgPreview.ts#L300-L355)

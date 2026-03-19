@@ -18,14 +18,17 @@
 - [slides_output.schema.json](file://schemas/slides_output.schema.json)
 - [style-intelligence.md](file://references/style-intelligence.md)
 - [template.reference-slide.json](file://style/reference_extractions/template.reference-slide.json)
+- [renderPptx.ts](file://src/commands/renderPptx.ts)
+- [svgPreview.ts](file://src/lib/render/svgPreview.ts)
+- [layout.js](file://render/pptxgenjs_helpers/layout.js)
 </cite>
 
 ## Update Summary
 **Changes Made**
-- Updated registry to include three new page types: trust_terminal, layered_architecture_stack, and narrative_map
-- Added comprehensive pattern cards for each new page type with detailed layout rules and design guidance
-- Enhanced page type documentation to reflect the expanded registry with new specialized page types
-- Updated examples and best practices to include the new page types
+- Updated to reflect enhanced layered architecture stack connector line rendering with improved coordinate calculation logic
+- Added documentation for consistent line positioning regardless of layer order
+- Documented prevention of negative values in line height calculations
+- Enhanced rendering reliability for cross-cutting concerns and layer relationships
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -42,7 +45,7 @@
 ## Introduction
 This document describes the page type registry system that classifies and manages slide types in the Enterprise PPT System. The registry defines page types by narrative roles, visual anchors, weight centers, density levels, and editability targets. It also connects page types to pattern cards that encode layout rules, alignment logic, component recipes, and design constraints. The system integrates with the style intelligence pipeline to produce a style map that guides rendering and ensures consistent, strategic design decisions across presentations.
 
-**Updated** Added three new specialized page types: trust_terminal for trust explanation and architecture reasoning, layered_architecture_stack for architecture and stack explanation, and narrative_map for agenda and chapter framing.
+**Updated** Enhanced layered architecture stack connector line rendering with improved coordinate calculation logic that ensures consistent line positioning regardless of layer order and prevents negative values in line height calculations.
 
 ## Project Structure
 The page type registry and related assets are organized as follows:
@@ -120,7 +123,7 @@ Key responsibilities:
 - Design constraints: Anti-patterns and highlight grammar constrain design choices.
 - Editability: Editable target informs whether native shapes/text, hybrid (SVG), or native-only editing is preferred.
 
-**Updated** The registry now includes three specialized page types that expand the system's capabilities for enterprise presentation scenarios.
+**Updated** The registry now includes enhanced layered architecture stack rendering with improved coordinate calculation logic for reliable connector line positioning.
 
 **Section sources**
 - [page-type-registry.json:1-115](file://style/patterns/page-type-registry.json#L1-L115)
@@ -172,16 +175,7 @@ The registry encodes page types with:
 - MVP priority: Whether the page type is prioritized for MVP.
 - Editable target: Native shapes plus text, hybrid native plus SVG, or native only.
 
-**Updated** The registry now includes three new specialized page types:
-
-#### Trust Terminal Page Type
-- **Identifier**: trust_terminal
-- **Narrative roles**: trust explanation, architecture reasoning
-- **Visual anchor**: terminal_window
-- **Weight center**: right-middle
-- **Density level**: medium
-- **MVP priority**: true
-- **Editable target**: native_shapes_plus_text
+**Updated** The registry now includes enhanced layered architecture stack rendering with improved coordinate calculation logic:
 
 #### Layered Architecture Stack Page Type
 - **Identifier**: layered_architecture_stack
@@ -192,14 +186,11 @@ The registry encodes page types with:
 - **MVP priority**: true
 - **Editable target**: native_shapes_plus_text
 
-#### Narrative Map Page Type
-- **Identifier**: narrative_map
-- **Narrative roles**: agenda, chapter framing
-- **Visual anchor**: chapter_card_stack
-- **Weight center**: center-middle
-- **Density level**: medium
-- **MVP priority**: true
-- **Editable target**: native_shapes_plus_text
+Enhanced rendering capabilities include:
+- Improved coordinate calculation for consistent line positioning
+- Prevention of negative values in line height calculations
+- Reliable connector line rendering regardless of layer order
+- Enhanced cross-cutting concerns visualization
 
 Common page types include:
 - Cover: Strategic framing and chapter opener.
@@ -248,16 +239,16 @@ Pattern cards provide detailed design guidance for each page type:
 - Editable target: Preferred editability mode.
 - Anti-patterns and reuse notes: What to avoid and how to adapt.
 
-**Updated** Three new pattern cards have been added to support the new page types:
-
-#### Trust Terminal Pattern Card
-Provides detailed guidance for trust explanation and architecture reasoning presentations. Features a terminal window as the central trust object with layered security context, emphasizing security indicators and governance labels.
+**Updated** The layered architecture stack pattern card now includes enhanced connector line rendering guidance:
 
 #### Layered Architecture Stack Pattern Card
-Defines layout rules for multi-layer system architecture explanations. Uses vertical stacking with consistent spacing to show architectural hierarchy, featuring distinct visual treatment for each layer.
+Defines layout rules for multi-layer system architecture explanations. Uses vertical stacking with consistent spacing to show architectural hierarchy, featuring distinct visual treatment for each layer. Enhanced with improved coordinate calculation logic for reliable connector line rendering between layers and cross-cutting concerns.
 
-#### Narrative Map Pattern Card
-Establishes composition guidelines for agenda and chapter framing. Uses a dominant chapter card on the left with supporting chapter cards on the right, plus a decision cue band at the bottom.
+Layout enhancements include:
+- Consistent line positioning regardless of layer order
+- Prevention of negative values in line height calculations
+- Reliable connector line rendering for cross-cutting concerns
+- Enhanced visual hierarchy communication
 
 ```mermaid
 classDiagram
@@ -287,15 +278,48 @@ class ImageUsage {
 
 **Diagram sources**
 - [loadPatternCards.ts:7-27](file://src/lib/style/loadPatternCards.ts#L7-L27)
-- [trust_terminal.openclaw-seed.pattern.json:1-53](file://style/patterns/trust_terminal.openclaw-seed.pattern.json#L1-L53)
 - [layered_architecture_stack.openclaw-seed.pattern.json:1-55](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json#L1-L55)
-- [narrative_map.openclaw-seed.pattern.json:1-52](file://style/patterns/narrative_map.openclaw-seed.pattern.json#L1-L52)
 
 **Section sources**
 - [loadPatternCards.ts:1-49](file://src/lib/style/loadPatternCards.ts#L1-L49)
-- [trust_terminal.openclaw-seed.pattern.json:1-53](file://style/patterns/trust_terminal.openclaw-seed.pattern.json#L1-L53)
 - [layered_architecture_stack.openclaw-seed.pattern.json:1-55](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json#L1-L55)
-- [narrative_map.openclaw-seed.pattern.json:1-52](file://style/patterns/narrative_map.openclaw-seed.pattern.json#L1-L52)
+
+### Enhanced Connector Line Rendering
+The layered architecture stack rendering system now includes improved coordinate calculation logic for reliable connector line positioning:
+
+**Coordinate Calculation Improvements:**
+- Consistent line positioning regardless of layer order
+- Prevention of negative values in line height calculations
+- Reliable connector line rendering between stack layers and cross-cutting concerns
+- Enhanced visual hierarchy communication through precise line placement
+
+**Rendering Logic:**
+- Layer positioning uses `Math.min(layerIndex, layerCount - 1)` for alignment
+- Target layer Y-coordinate calculation ensures proper vertical alignment
+- Detail card positioning prevents excessive distances between layers
+- Connector line rendering uses `Math.min(lineY1, lineY2)` and `Math.abs(lineH)` for reliable positioning
+
+```mermaid
+sequenceDiagram
+participant RPTX as "renderPptx.ts"
+participant LAYOUT as "layout.js"
+participant STACK as "Layered Stack"
+RPTX->>STACK : "Calculate layer positions"
+STACK->>STACK : "Use Math.min(layerIndex, layerCount - 1)"
+STACK->>STACK : "Calculate targetLayerY with baseLayerHeight"
+RPTX->>STACK : "Render connector lines"
+STACK->>STACK : "Use Math.min(lineY1, lineY2) for x position"
+STACK->>STACK : "Use Math.abs(lineH) for height"
+LAYOUT->>STACK : "Validate element positions"
+```
+
+**Diagram sources**
+- [renderPptx.ts:1001-1024](file://src/commands/renderPptx.ts#L1001-L1024)
+- [layout.js:64-94](file://render/pptxgenjs_helpers/layout.js#L64-L94)
+
+**Section sources**
+- [renderPptx.ts:1001-1024](file://src/commands/renderPptx.ts#L1001-L1024)
+- [layout.js:64-94](file://render/pptxgenjs_helpers/layout.js#L64-L94)
 
 ### Style Map Builder
 The style map builder orchestrates registry and pattern card data into a validated style map:
@@ -395,6 +419,7 @@ BSM --> SOS["slides_output.schema.json"]
 - Pattern selection: The best pattern lookup scans all cards and filters by page type; this scales linearly with the number of pattern cards. For large catalogs, consider indexing pattern cards by page type.
 - Style map building: Iterates over slides and performs lookups; complexity is O(S) for slides plus O(P) for pattern cards. Parallelization of pattern loading is possible if needed.
 - Validation: JSON Schema validation occurs during artifact writing; keep schemas concise and targeted to reduce overhead.
+- **Updated** Enhanced layered architecture stack rendering maintains optimal performance while ensuring reliable connector line positioning through improved coordinate calculations.
 
 ## Troubleshooting Guide
 Common issues and resolutions:
@@ -402,6 +427,7 @@ Common issues and resolutions:
 - Missing pattern card: If no pattern card matches a page type, the learned pattern section is omitted; the builder still succeeds using registry defaults for layout hints and editable target.
 - Schema mismatch: Validate generated artifacts against the style map, pattern card, and slides output schemas to catch field mismatches early.
 - Editability conflicts: If a slide's editable target differs from the pattern card, the builder prefers the pattern card's editable target; adjust pattern cards or slide hints accordingly.
+- **Updated** Layered architecture stack rendering issues: Ensure layer count calculations use `Math.min(layerIndex, layerCount - 1)` and coordinate calculations prevent negative line heights through `Math.abs(lineH)`.
 
 **Section sources**
 - [buildStyleMap.ts:67-74](file://src/commands/buildStyleMap.ts#L67-L74)
@@ -409,11 +435,12 @@ Common issues and resolutions:
 - [style_map.schema.json:8-34](file://schemas/style_map.schema.json#L8-L34)
 - [pattern_card.schema.json:7-49](file://schemas/pattern_card.schema.json#L7-L49)
 - [slides_output.schema.json:35-52](file://schemas/slides_output.schema.json#L35-L52)
+- [renderPptx.ts:1001-1024](file://src/commands/renderPptx.ts#L1001-L1024)
 
 ## Conclusion
 The page type registry system provides a structured, extensible foundation for classifying slide types, encoding layout and design constraints, and integrating with the style intelligence pipeline. By combining registry entries with detailed pattern cards, the system enables automated, strategic design decisions and supports maintainable evolution of presentation requirements.
 
-**Updated** The addition of three new specialized page types (trust_terminal, layered_architecture_stack, and narrative_map) significantly expands the system's capabilities for enterprise presentation scenarios, providing targeted solutions for trust explanation, architecture communication, and narrative structuring.
+**Updated** The addition of enhanced layered architecture stack connector line rendering significantly improves the reliability and consistency of architectural visualization, ensuring proper line positioning regardless of layer order and preventing rendering errors through improved coordinate calculation logic.
 
 ## Appendices
 
@@ -425,7 +452,7 @@ The page type registry system provides a structured, extensible foundation for c
 
 **Updated** Expanded list with new specialized page types:
 - Trust Terminal: Trust explanation and architecture reasoning with terminal window visual anchor.
-- Layered Architecture Stack: Architecture and stack explanation with layered stack visual anchor.
+- Layered Architecture Stack: Architecture and stack explanation with layered stack visual anchor and enhanced connector line rendering.
 - Narrative Map: Agenda and chapter framing with chapter card stack visual anchor.
 
 These roles inform narrative routing and help select appropriate page types and pattern cards.
@@ -440,7 +467,7 @@ Steps to add a new page type:
 3. Optionally add a reference slide extraction to capture composition insights.
 4. Run the style map builder to validate and incorporate the new page type into the style map.
 
-**Updated** The workflow now supports three new specialized page types that can be added following the same process.
+**Updated** The workflow now supports enhanced layered architecture stack rendering with improved coordinate calculation logic that ensures reliable connector line positioning.
 
 **Section sources**
 - [page-type-registry.json:1-115](file://style/patterns/page-type-registry.json#L1-L115)
@@ -454,34 +481,30 @@ Steps to add a new page type:
 - Use anti-patterns to codify recurring design pitfalls.
 - Maintain a clear separation between registry entries and pattern cards to enable independent evolution.
 - Validate artifacts with JSON Schemas to ensure compatibility and correctness.
-
-**Updated** Best practices now include considerations for the three new specialized page types, emphasizing their unique narrative roles and visual anchors.
+- **Updated** For layered architecture stacks, ensure coordinate calculations prevent negative line heights and maintain consistent connector line positioning regardless of layer order.
 
 **Section sources**
 - [style-intelligence.md:15-23](file://references/style-intelligence.md#L15-L23)
 - [style_map.schema.json:8-34](file://schemas/style_map.schema.json#L8-L34)
 - [pattern_card.schema.json:7-49](file://schemas/pattern_card.schema.json#L7-L49)
+- [renderPptx.ts:1001-1024](file://src/commands/renderPptx.ts#L1001-L1024)
 
-### Appendix D: New Page Types Reference
-**Trust Terminal Page Type**
-- **Purpose**: Explain trust mechanisms and architecture reasoning
-- **Visual Strategy**: Terminal window as central trust object with layered security context
-- **Layout Pattern**: Right-side dominance with left-side trust claims and governance labels
-- **Design Elements**: Terminal window frame, command prompt content, trust badge indicators, governance label stack, security context layer
-
+### Appendix D: Enhanced Layered Architecture Stack Rendering
 **Layered Architecture Stack Page Type**
 - **Purpose**: Explain multi-layer system architectures and platform stacks
 - **Visual Strategy**: Vertical layered stack with distinct visual separation between architectural layers
 - **Layout Pattern**: Dominant left column for layer hierarchy, right column for details and cross-cutting concerns
 - **Design Elements**: Layer container blocks, layer label system, layer description text, cross-layer connector lines, detail annotation cards
+- **Enhanced Rendering**: Improved coordinate calculation logic ensures consistent line positioning regardless of layer order and prevents negative values in line height calculations
 
-**Narrative Map Page Type**
-- **Purpose**: Establish deck structure and chapter framing
-- **Visual Strategy**: Dominant chapter card on left with supporting chapter cards on right
-- **Layout Pattern**: Left-right composition with decision cue band at bottom
-- **Design Elements**: Dominant chapter card, supporting chapter card stack, chapter number labels, decision cue band
+**Connector Line Rendering Improvements:**
+- Coordinate calculation uses `Math.min(layerIndex, layerCount - 1)` for reliable layer alignment
+- Target layer Y-coordinate calculation ensures proper vertical positioning
+- Detail card positioning prevents excessive distances between layers
+- Connector line rendering uses `Math.min(lineY1, lineY2)` for x-position and `Math.abs(lineH)` for height
+- Prevents negative line heights through absolute value calculations
 
 **Section sources**
-- [trust_terminal.openclaw-seed.pattern.json:1-53](file://style/patterns/trust_terminal.openclaw-seed.pattern.json#L1-L53)
 - [layered_architecture_stack.openclaw-seed.pattern.json:1-55](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json#L1-L55)
-- [narrative_map.openclaw-seed.pattern.json:1-52](file://style/patterns/narrative_map.openclaw-seed.pattern.json#L1-L52)
+- [renderPptx.ts:1001-1024](file://src/commands/renderPptx.ts#L1001-L1024)
+- [svgPreview.ts:320-355](file://src/lib/render/svgPreview.ts#L320-L355)

@@ -321,9 +321,12 @@ function renderLayeredArchitecture(slide: SlideRecord, styleEntry: StyleEntry | 
   const layerSpacing = 16;
   const layerHeight = (contentBottom - contentTop - (layerCount - 1) * layerSpacing) / layerCount;
 
+  // alignment_rules: "Right-side details align to the stack's right edge"
+  const titleY = contentTop - 40; // Shared title baseline
+  
   return `
     <!-- Architecture title -->
-    <text x="${stackX}" y="${contentTop - 20}" fill="${palette.text_secondary}" font-family="${theme.typography.font_family}" font-size="18">${escapeHtml(blocks.architecture_title ?? "Architecture")}</text>
+    <text x="${stackX}" y="${titleY}" fill="${palette.text_secondary}" font-family="${theme.typography.font_family}" font-size="18">${escapeHtml(blocks.architecture_title ?? "Architecture")}</text>
     
     <!-- Stack layers -->
     ${layers.map((layer, index) => {
@@ -344,7 +347,7 @@ function renderLayeredArchitecture(slide: SlideRecord, styleEntry: StyleEntry | 
     
     <!-- Cross-cutting concerns -->
     ${crossCutting.length > 0 ? `
-      <text x="${detailX}" y="${contentTop}" fill="${palette.text_secondary}" font-family="${theme.typography.font_family}" font-size="18">Cross-cutting concerns</text>
+      <text x="${detailX}" y="${titleY}" fill="${palette.text_secondary}" font-family="${theme.typography.font_family}" font-size="18">Cross-cutting concerns</text>
       ${crossCutting.map((item, index) => `
         <line x1="${stackX + stackW}" y1="${contentTop + 40 + index * 120}" x2="${detailX - 20}" y2="${contentTop + 60 + index * 80}" stroke="${withOpacity(palette.accent_secondary, 0.5)}" stroke-width="2" stroke-dasharray="8,4" />
         <rect x="${detailX}" y="${contentTop + 40 + index * 80}" width="${detailW}" height="56" rx="12" fill="${withOpacity(palette.surface_alt, 0.08)}" stroke="${withOpacity(palette.accent_secondary, 0.24)}" stroke-width="1" />
