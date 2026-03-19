@@ -890,16 +890,15 @@ function renderLayeredArchitectureSlide(
   const useAccentForHighlight = highlightGrammar.some((g) => g.includes("accent color for the most critical layer"));
 
   // Layout following alignment_rules: "All stack layers must share the same left and right boundaries"
-  // Note: Header (addHeader) uses y=1.02 for title, y=1.62 for subtitle
-  // We must start our content below that
-  const contentTop = 2.35; // Start well below header area (subtitle ends ~1.9)
+  // Control panel layout: stack on left, control panel on right
+  const contentTop = 2.35;
   const contentBottom = 6.2;
   const stackX = 0.75;
-  const stackW = 7.5;
-  const detailX = 8.6;
-  const detailW = 4.0;
+  const stackW = 6.8;
+  const panelX = 7.8;
+  const panelW = 4.8;
 
-  // Architecture title - positioned below subtitle, above stack
+  // Architecture title
   slide.addText(blocks.architecture_title ?? "Architecture", {
     x: stackX,
     y: 2.05,
@@ -911,18 +910,17 @@ function renderLayeredArchitectureSlide(
     margin: 0
   });
 
-  // Calculate layer heights - fixed height per layer to ensure proper spacing
+  // Calculate layer heights
   const layerCount = Math.max(layers.length, 1);
   const layerSpacing = 0.12;
-  const baseLayerHeight = 1.15; // Fixed height for each layer
+  const baseLayerHeight = 1.15;
 
-  // Render layers from top to bottom (reverse order for visual stack)
+  // Render layers
   [...layers].reverse().forEach((layer, index) => {
     const reversedIndex = layerCount - 1 - index;
     const yPos = contentTop + index * (baseLayerHeight + layerSpacing);
     const isHighlighted = layer.highlight;
 
-    // Layer background
     const layerColor = isHighlighted && useAccentForHighlight
       ? theme.palette.accent_primary
       : theme.palette.surface;
@@ -933,7 +931,7 @@ function renderLayeredArchitectureSlide(
       y: yPos,
       w: stackW,
       h: baseLayerHeight,
-      rectRadius: 0.12,
+      rectRadius: 0.10,
       fill: { color: layerColor.replace("#", ""), transparency },
       line: { color: isHighlighted ? theme.palette.accent_primary.replace("#", "") : "FFFFFF", transparency: isHighlighted ? 40 : 75, width: isHighlighted ? 1.5 : 1 },
       shadow: isHighlighted ? safeOuterShadow(theme.palette.accent_primary.replace("#", ""), 0.15, 45, 4, 2) : undefined
@@ -941,12 +939,12 @@ function renderLayeredArchitectureSlide(
 
     // Layer number
     slide.addText(String(reversedIndex + 1), {
-      x: stackX + 0.2,
+      x: stackX + 0.22,
       y: yPos + 0.15,
-      w: 0.4,
-      h: 0.3,
+      w: 0.35,
+      h: 0.28,
       fontFace: theme.typography.font_family,
-      fontSize: 14,
+      fontSize: 15,
       bold: true,
       color: isHighlighted ? theme.palette.accent_primary.replace("#", "") : theme.palette.text_secondary.replace("#", ""),
       margin: 0,
@@ -957,8 +955,8 @@ function renderLayeredArchitectureSlide(
     slide.addText(layer.name, {
       x: stackX + 0.7,
       y: yPos + 0.12,
-      w: 3.5,
-      h: 0.35,
+      w: 4.0,
+      h: 0.32,
       fontFace: theme.typography.font_family,
       fontSize: 16,
       bold: true,
@@ -969,9 +967,9 @@ function renderLayeredArchitectureSlide(
     // Layer description
     slide.addText(layer.description, {
       x: stackX + 0.7,
-      y: yPos + 0.5,
-      w: stackW - 1.0,
-      h: baseLayerHeight - 0.65,
+      y: yPos + 0.48,
+      w: stackW - 0.9,
+      h: baseLayerHeight - 0.62,
       fontFace: theme.typography.font_family,
       fontSize: 11,
       color: theme.palette.text_secondary.replace("#", ""),
@@ -979,14 +977,24 @@ function renderLayeredArchitectureSlide(
     });
   });
 
-  // Detail annotations - compact governance controls aligned to stack edge
-  // Following reference extraction: "detail annotations" as "annotation_cards"
+  // Control Panel - modern dashboard style
   if (crossCutting.length > 0) {
-    // Title aligned with architecture title
-    slide.addText("Governance controls", {
-      x: detailX,
+    // Panel background
+    slide.addShape("roundRect", {
+      x: panelX,
+      y: contentTop - 0.08,
+      w: panelW,
+      h: contentBottom - contentTop + 0.16,
+      rectRadius: 0.14,
+      fill: { color: theme.palette.surface_alt.replace("#", ""), transparency: 15 },
+      line: { color: theme.palette.accent_secondary.replace("#", ""), transparency: 75, width: 0.8 }
+    });
+
+    // Panel header
+    slide.addText("Control Plane", {
+      x: panelX + 0.18,
       y: 2.05,
-      w: detailW,
+      w: panelW - 0.36,
       h: 0.22,
       fontFace: theme.typography.font_family,
       fontSize: 10,
@@ -994,33 +1002,61 @@ function renderLayeredArchitectureSlide(
       margin: 0
     });
 
-    // Compact pill-style annotations
-    const pillHeight = 0.28;
-    const pillSpacing = 0.35;
-    const startY = contentTop + 0.08;
-
+    // Control items - aligned with layers
     crossCutting.forEach((item, index) => {
-      const yPos = startY + index * (pillHeight + pillSpacing);
-      // Annotation pill
+      const controlY = contentTop + index * (baseLayerHeight + layerSpacing) + baseLayerHeight / 2 - 0.22;
+      const isActive = index === 0;
+
+      // Control row background
       slide.addShape("roundRect", {
-        x: detailX + 0.15,
-        y: yPos,
-        w: detailW - 0.15,
-        h: pillHeight,
-        rectRadius: 0.15,
-        fill: { color: theme.palette.surface_alt.replace("#", ""), transparency: 12 },
-        line: { color: theme.palette.accent_secondary.replace("#", ""), transparency: 70, width: 0.75 }
+        x: panelX + 0.14,
+        y: controlY,
+        w: panelW - 0.28,
+        h: 0.44,
+        rectRadius: 0.08,
+        fill: { color: isActive ? theme.palette.accent_primary.replace("#", "") : theme.palette.surface.replace("#", ""), transparency: isActive ? 15 : 8 }
       });
 
+      // Status LED (ellipse)
+      slide.addShape("ellipse", {
+        x: panelX + 0.32,
+        y: controlY + 0.16,
+        w: 0.12,
+        h: 0.12,
+        fill: { color: isActive ? "4ADE80" : theme.palette.accent_secondary.replace("#", ""), transparency: isActive ? 10 : 30 }
+      });
+
+      // Toggle switch (simplified as a small indicator dot)
+      slide.addShape("ellipse", {
+        x: panelX + panelW - 0.38,
+        y: controlY + 0.18,
+        w: 0.10,
+        h: 0.10,
+        fill: { color: isActive ? theme.palette.accent_primary.replace("#", "") : theme.palette.text_secondary.replace("#", ""), transparency: isActive ? 0 : 60 }
+      });
+
+      // Control label
       slide.addText(item, {
-        x: detailX + 0.38,
-        y: yPos + 0.08,
-        w: detailW - 0.5,
-        h: 0.18,
+        x: panelX + 0.56,
+        y: controlY + 0.13,
+        w: panelW - 1.2,
+        h: 0.20,
         fontFace: theme.typography.font_family,
         fontSize: 10,
+        bold: isActive,
         color: theme.palette.text_primary.replace("#", ""),
         margin: 0
+      });
+
+      // Connector to layer
+      const layerY = contentTop + index * (baseLayerHeight + layerSpacing) + baseLayerHeight / 2;
+      const connectorY2 = controlY + 0.22;
+      slide.addShape("line", {
+        x: stackX + stackW,
+        y: Math.min(layerY, connectorY2),
+        w: panelX + 0.14 - (stackX + stackW),
+        h: Math.abs(connectorY2 - layerY),
+        line: { color: theme.palette.accent_secondary.replace("#", ""), transparency: 60, width: 0.8, dashType: "dash" }
       });
     });
   }

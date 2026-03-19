@@ -15,7 +15,21 @@
 - [dark-enterprise-tech.theme.json](file://style/themes/dark-enterprise-tech.theme.json)
 - [slides_output.schema.json](file://schemas/slides_output.schema.json)
 - [renderPptx.ts](file://src/commands/renderPptx.ts)
+- [openclaw-executive--seed--narrative_map.pattern.json](file://style/patterns/openclaw-executive--seed--narrative_map.pattern.json)
+- [openclaw-executive--seed--trust_terminal.pattern.json](file://style/patterns/openclaw-executive--seed--trust_terminal.pattern.json)
+- [openclaw-executive--seed--layered_architecture_stack.pattern.json](file://style/patterns/openclaw-executive--seed--layered_architecture_stack.pattern.json)
+- [openclaw-executive--seed-04--narrative-map.json](file://style/reference_extractions/openclaw-executive--seed-04--narrative-map.json)
+- [openclaw-executive--seed-05--trust-terminal.json](file://style/reference_extractions/openclaw-executive--seed-05--trust-terminal.json)
+- [openclaw-executive--seed-06--layered-architecture-stack.json](file://style/reference_extractions/openclaw-executive--seed-06--layered-architecture-stack.json)
 </cite>
+
+## Update Summary
+**Changes Made**
+- Added documentation for three new pattern cards: narrative_map, trust_terminal, and layered_architecture_stack
+- Updated page type registry to include the three new page types with appropriate density levels
+- Enhanced density level support documentation with examples from the new pattern cards
+- Added comprehensive examples of pattern card creation and validation processes
+- Updated pattern card loading and selection logic to accommodate new pattern types
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -23,11 +37,13 @@
 3. [Core Components](#core-components)
 4. [Architecture Overview](#architecture-overview)
 5. [Detailed Component Analysis](#detailed-component-analysis)
-6. [Dependency Analysis](#dependency-analysis)
-7. [Performance Considerations](#performance-considerations)
-8. [Troubleshooting Guide](#troubleshooting-guide)
-9. [Conclusion](#conclusion)
-10. [Appendices](#appendices)
+6. [New Pattern Cards](#new-pattern-cards)
+7. [Enhanced Density Level Support](#enhanced-density-level-support)
+8. [Dependency Analysis](#dependency-analysis)
+9. [Performance Considerations](#performance-considerations)
+10. [Troubleshooting Guide](#troubleshooting-guide)
+11. [Conclusion](#conclusion)
+12. [Appendices](#appendices)
 
 ## Introduction
 Pattern cards are reusable design blueprints that encode how specific slide types should be composed, arranged, and styled. They capture:
@@ -40,6 +56,8 @@ Pattern cards are reusable design blueprints that encode how specific slide type
 
 By encapsulating these design decisions, pattern cards enable consistent presentation patterns across diverse topics while preserving flexibility for content adaptation.
 
+**Updated** Added three new pattern cards that expand the system's capabilities for narrative structuring, trust communication, and architectural explanation.
+
 ## Project Structure
 Pattern cards live alongside page-type registries and are consumed by the style-map building pipeline and renderers. The following diagram shows how pattern cards relate to page types, style maps, and rendering.
 
@@ -49,10 +67,12 @@ subgraph "Pattern Authoring"
 TPL["Template Pattern<br/>template.pattern-card.json"]
 EX["Example Pattern<br/>pattern_card.example.json"]
 REG["Page Type Registry<br/>page-type-registry.json"]
+NEW["New Patterns<br/>narrative_map, trust_terminal,<br/>layered_architecture_stack"]
 end
 subgraph "System Inputs"
 SLIDES["Slides Output<br/>slides_output.schema.json"]
 THEME["Theme Definition<br/>dark-enterprise-tech.theme.json"]
+REF["Reference Extractors<br/>seed-based validation"]
 end
 subgraph "Processing"
 LOAD["Load Pattern Cards<br/>loadPatternCards.ts"]
@@ -67,8 +87,10 @@ end
 TPL --> LOAD
 EX --> LOAD
 REG --> MAP
+NEW --> LOAD
 SLIDES --> MAP
 THEME --> MAP
+REF --> NEW
 LOAD --> MAP
 SCHEMA --> MAP
 SMSCHEMA --> MAP
@@ -80,6 +102,9 @@ STYLMAP --> RENDER
 - [template.pattern-card.json:1-46](file://style/patterns/template.pattern-card.json#L1-L46)
 - [pattern_card.example.json:1-54](file://examples/pattern_card.example.json#L1-L54)
 - [page-type-registry.json:1-115](file://style/patterns/page-type-registry.json#L1-L115)
+- [openclaw-executive--seed--narrative_map.pattern.json:1-52](file://style/patterns/openclaw-executive--seed--narrative_map.pattern.json#L1-L52)
+- [openclaw-executive--seed--trust_terminal.pattern.json:1-53](file://style/patterns/openclaw-executive--seed--trust_terminal.pattern.json#L1-L53)
+- [openclaw-executive--seed--layered_architecture_stack.pattern.json:1-55](file://style/patterns/openclaw-executive--seed--layered_architecture_stack.pattern.json#L1-L55)
 - [slides_output.schema.json:35-52](file://schemas/slides_output.schema.json#L35-L52)
 - [dark-enterprise-tech.theme.json:1-55](file://style/themes/dark-enterprise-tech.theme.json#L1-L55)
 - [loadPatternCards.ts:1-48](file://src/lib/style/loadPatternCards.ts#L1-L48)
@@ -92,6 +117,9 @@ STYLMAP --> RENDER
 - [template.pattern-card.json:1-46](file://style/patterns/template.pattern-card.json#L1-L46)
 - [pattern_card.example.json:1-54](file://examples/pattern_card.example.json#L1-L54)
 - [page-type-registry.json:1-115](file://style/patterns/page-type-registry.json#L1-L115)
+- [openclaw-executive--seed--narrative_map.pattern.json:1-52](file://style/patterns/openclaw-executive--seed--narrative_map.pattern.json#L1-L52)
+- [openclaw-executive--seed--trust_terminal.pattern.json:1-53](file://style/patterns/openclaw-executive--seed--trust_terminal.pattern.json#L1-L53)
+- [openclaw-executive--seed--layered_architecture_stack.pattern.json:1-55](file://style/patterns/openclaw-executive--seed--layered_architecture_stack.pattern.json#L1-L55)
 - [slides_output.schema.json:35-52](file://schemas/slides_output.schema.json#L35-L52)
 - [dark-enterprise-tech.theme.json:1-55](file://style/themes/dark-enterprise-tech.theme.json#L1-L55)
 - [loadPatternCards.ts:1-48](file://src/lib/style/loadPatternCards.ts#L1-L48)
@@ -111,6 +139,8 @@ Key responsibilities:
 - The registry provides defaults for page types when no pattern card is found.
 - The style map builder resolves the best pattern card per page type and augments it with slide-specific hints.
 - Renderers consume the style map to enforce composition discipline and theme-appropriate styling.
+
+**Updated** Enhanced with support for three new pattern cards that extend the system's narrative and architectural presentation capabilities.
 
 **Section sources**
 - [pattern_card.schema.json:1-75](file://schemas/pattern_card.schema.json#L1-L75)
@@ -132,7 +162,7 @@ participant MapSchema as "Style Map Schema"
 participant Renderer as "Render PPTX"
 Author->>Registry : Provide page_type and slide hints
 Registry-->>Builder : Defaults (visual_anchor, weight_center, density, editable_target)
-Loader-->>Builder : Best Pattern Card for page_type
+Loader-->>Builder : Best Pattern Card for page_type (including new patterns)
 Schema-->>Builder : Validation of pattern fields
 Builder->>Builder : Merge pattern with slide hints
 MapSchema-->>Builder : Validate style map shape
@@ -182,6 +212,8 @@ Page types define the semantic category of a slide and provide default compositi
 - Page type registry entries include id, narrative_roles, visual_anchor, weight_center, density_level, mvp_priority, and editable_target.
 - Pattern cards supply page_type-specific refinements such as layout_rules, alignment_rules, image_usage, highlight_grammar, and component_recipe.
 - The style map builder selects the best pattern card per page_type and merges it with registry defaults and slide hints.
+
+**Updated** The page type registry now includes three new page types: narrative_map (medium density), trust_terminal (medium density), and layered_architecture_stack (high density), expanding the system's architectural and narrative presentation capabilities.
 
 References:
 - Page type registry: [page-type-registry.json:1-115](file://style/patterns/page-type-registry.json#L1-L115)
@@ -266,6 +298,8 @@ Example rendering references:
 - Style intelligence documentation: outlines what to store and how to think about reusable patterns.
 - Validated slide patterns: documents concrete, reusable page types with observed strengths and usage guidance.
 
+**Updated** Reference extraction now includes three new documented seeds that validate the three new pattern cards, providing concrete examples of pattern creation and validation.
+
 References:
 - Reference extraction workflow: [reference-extraction-workflow.md:1-73](file://docs/workflows/reference-extraction-workflow.md#L1-L73)
 - Style intelligence: [style-intelligence.md:1-93](file://references/style-intelligence.md#L1-L93)
@@ -275,6 +309,74 @@ References:
 - [reference-extraction-workflow.md:1-73](file://docs/workflows/reference-extraction-workflow.md#L1-L73)
 - [style-intelligence.md:1-93](file://references/style-intelligence.md#L1-L93)
 - [validated-slide-patterns.md:1-345](file://references/validated-slide-patterns.md#L1-L345)
+
+## New Pattern Cards
+
+### Narrative Map Pattern Card
+The narrative_map pattern card establishes deck structure through hierarchical chapter presentation:
+
+- **Visual Anchor**: Chapter card stack with dominant chapter emphasized
+- **Weight Center**: Center-middle for balanced composition
+- **Density Level**: Medium for optimal readability
+- **Layout Rules**: One dominant left chapter card, supporting right stack, decision cue band at bottom
+- **Alignment Rules**: Shared boundaries between left and right columns, consistent vertical rhythm
+- **Component Recipe**: Dominant chapter card, supporting chapter stack, chapter number labels, decision cue band
+
+**Section sources**
+- [openclaw-executive--seed--narrative_map.pattern.json:1-52](file://style/patterns/openclaw-executive--seed--narrative_map.pattern.json#L1-L52)
+- [openclaw-executive--seed-04--narrative-map.json:1-72](file://style/reference_extractions/openclaw-executive--seed-04--narrative-map.json#L1-L72)
+
+### Trust Terminal Pattern Card
+The trust_terminal pattern card communicates trust through visible runtime control:
+
+- **Visual Anchor**: Terminal window as central trust object with layered security context
+- **Weight Center**: Right-middle to emphasize the trust anchor
+- **Density Level**: Medium for balanced explanation and demonstration
+- **Layout Rules**: Terminal window as dominant right-side object, left-side trust claims and governance labels
+- **Image Usage**: Required hero image (terminal window/SVG) for concrete trust demonstration
+- **Component Recipe**: Terminal window frame, command prompt content, trust badge indicators, governance label stack, security context layer
+
+**Section sources**
+- [openclaw-executive--seed--trust_terminal.pattern.json:1-53](file://style/patterns/openclaw-executive--seed--trust_terminal.pattern.json#L1-L53)
+- [openclaw-executive--seed-05--trust-terminal.json:1-72](file://style/reference_extractions/openclaw-executive--seed-05--trust-terminal.json#L1-L72)
+
+### Layered Architecture Stack Pattern Card
+The layered_architecture_stack pattern card explains complex system hierarchies:
+
+- **Visual Anchor**: Layered stack with distinct visual separation between architectural layers
+- **Weight Center**: Middle for central focus on the stack
+- **Density Level**: High for handling complex architectural information
+- **Layout Rules**: Vertically stacked layers with consistent spacing, distinct visual treatment per layer
+- **Alignment Rules**: Shared boundaries across all layers, proportional layer heights, uniform spacing
+- **Component Recipe**: Layer container blocks, layer label system, layer description text, cross-layer connector lines, detail annotation cards
+
+**Section sources**
+- [openclaw-executive--seed--layered_architecture_stack.pattern.json:1-55](file://style/patterns/openclaw-executive--seed--layered_architecture_stack.pattern.json#L1-L55)
+- [openclaw-executive--seed-06--layered-architecture-stack.json:1-72](file://style/reference_extractions/openclaw-executive--seed-06--layered-architecture-stack.json#L1-L72)
+
+## Enhanced Density Level Support
+
+### Density Level Enumeration
+The pattern card system now supports three density levels with clear distinctions:
+
+- **Low Density**: Used for concise, impactful messages (e.g., chapter_summary_signal)
+- **Medium Density**: Balanced information density for most business presentations
+- **High Density**: Maximum information capacity for complex technical content
+
+**Updated** The layered_architecture_stack pattern demonstrates high-density support with sophisticated component management and annotation systems.
+
+### Density Level Implementation
+Density levels are validated through multiple schema layers:
+- Pattern card schema enforces enumeration constraints
+- Page type registry defines default density per page type
+- Reference extraction validates density level consistency
+- Style map builder propagates density levels to rendering
+
+**Section sources**
+- [pattern_card.schema.json:20](file://schemas/pattern_card.schema.json#L20)
+- [page-type-registry.json:19](file://style/patterns/page-type-registry.json#L19)
+- [page-type-registry.json:64](file://style/patterns/page-type-registry.json#L64)
+- [openclaw-executive--seed--layered_architecture_stack.pattern.json:9](file://style/patterns/openclaw-executive--seed--layered_architecture_stack.pattern.json#L9)
 
 ## Dependency Analysis
 Pattern cards depend on:
@@ -289,6 +391,8 @@ PC["Pattern Card<br/>pattern_card.schema.json"] --> SM["Style Map<br/>style_map.
 REG["Page Type Registry<br/>page-type-registry.json"] --> SM
 SLIDE["Slides Output<br/>slides_output.schema.json"] --> SM
 THEME["Theme<br/>dark-enterprise-tech.theme.json"] --> SM
+NP["New Patterns<br/>narrative_map, trust_terminal,<br/>layered_architecture_stack"] --> PC
+REF["Reference Extractors<br/>seed validation"] --> NP
 SM --> RND["Renderer<br/>renderPptx.ts"]
 ```
 
@@ -298,6 +402,9 @@ SM --> RND["Renderer<br/>renderPptx.ts"]
 - [page-type-registry.json:1-115](file://style/patterns/page-type-registry.json#L1-L115)
 - [slides_output.schema.json:35-52](file://schemas/slides_output.schema.json#L35-L52)
 - [dark-enterprise-tech.theme.json:1-55](file://style/themes/dark-enterprise-tech.theme.json#L1-L55)
+- [openclaw-executive--seed--narrative_map.pattern.json:1-52](file://style/patterns/openclaw-executive--seed--narrative_map.pattern.json#L1-L52)
+- [openclaw-executive--seed--trust_terminal.pattern.json:1-53](file://style/patterns/openclaw-executive--seed--trust_terminal.pattern.json#L1-L53)
+- [openclaw-executive--seed--layered_architecture_stack.pattern.json:1-55](file://style/patterns/openclaw-executive--seed--layered_architecture_stack.pattern.json#L1-L55)
 - [renderPptx.ts:210-258](file://src/commands/renderPptx.ts#L210-L258)
 
 **Section sources**
@@ -306,6 +413,9 @@ SM --> RND["Renderer<br/>renderPptx.ts"]
 - [page-type-registry.json:1-115](file://style/patterns/page-type-registry.json#L1-L115)
 - [slides_output.schema.json:35-52](file://schemas/slides_output.schema.json#L35-L52)
 - [dark-enterprise-tech.theme.json:1-55](file://style/themes/dark-enterprise-tech.theme.json#L1-L55)
+- [openclaw-executive--seed--narrative_map.pattern.json:1-52](file://style/patterns/openclaw-executive--seed--narrative_map.pattern.json#L1-L52)
+- [openclaw-executive--seed--trust_terminal.pattern.json:1-53](file://style/patterns/openclaw-executive--seed--trust_terminal.pattern.json#L1-L53)
+- [openclaw-executive--seed--layered_architecture_stack.pattern.json:1-55](file://style/patterns/openclaw-executive--seed--layered_architecture_stack.pattern.json#L1-L55)
 - [renderPptx.ts:210-258](file://src/commands/renderPptx.ts#L210-L258)
 
 ## Performance Considerations
@@ -313,12 +423,16 @@ SM --> RND["Renderer<br/>renderPptx.ts"]
 - Style map building: Merging patterns with slides and registry entries is linear in the number of slides. Prefer caching or incremental updates when iterating on patterns.
 - Rendering: Applying learned patterns adds minimal overhead compared to template-based rendering, but ensure component_recipe and image_usage are concise to reduce layout computation.
 
+**Updated** With three new pattern cards, consider the increased complexity of pattern selection and validation, particularly for the layered_architecture_stack pattern which requires more sophisticated component management.
+
 ## Troubleshooting Guide
 Common issues and resolutions:
-- Unknown page type: Ensure the slide’s page_type matches an entry in the registry. The builder throws an error if the page_type is missing or unknown.
+- Unknown page type: Ensure the slide's page_type matches an entry in the registry. The builder throws an error if the page_type is missing or unknown.
 - Missing pattern card: If no pattern card exists for a page_type, the builder falls back to registry defaults. Add a pattern card to refine composition.
 - Validation errors: Verify that pattern cards conform to the schema, especially required fields and enumerated values.
 - Rendering mismatches: Confirm that the renderer respects learned_pattern fields and editable_target preferences.
+
+**Updated** For the new pattern cards, verify that density levels are properly configured (medium for narrative_map and trust_terminal, high for layered_architecture_stack) and that component recipes match the intended visual complexity.
 
 **Section sources**
 - [buildStyleMap.ts:67-74](file://src/commands/buildStyleMap.ts#L67-L74)
@@ -326,7 +440,9 @@ Common issues and resolutions:
 - [style_map.schema.json:1-70](file://schemas/style_map.schema.json#L1-L70)
 
 ## Conclusion
-Pattern cards are the core of the Enterprise PPT System’s design memory. They capture reusable composition logic, enforce alignment discipline, and guide rendering to produce consistent, strategic slides. By organizing patterns around page types, validating with schemas, and integrating with the style map builder and renderer, the system balances consistency with adaptability across topics.
+Pattern cards are the core of the Enterprise PPT System's design memory. They capture reusable composition logic, enforce alignment discipline, and guide rendering to produce consistent, strategic slides. By organizing patterns around page types, validating with schemas, and integrating with the style map builder and renderer, the system balances consistency with adaptability across topics.
+
+**Updated** The addition of three new pattern cards significantly expands the system's capabilities for narrative structuring, trust communication, and architectural explanation, while maintaining the established patterns for coverage, process flows, and summary communications.
 
 ## Appendices
 
@@ -336,6 +452,8 @@ Pattern cards are the core of the Enterprise PPT System’s design memory. They 
 - Document topic_fit to help surface applicable patterns for new topics.
 - Record anti_patterns to prevent common mistakes.
 - Provide reuse_notes to guide adaptation across domains.
+
+**Updated** When creating new pattern cards, consider the density level implications and ensure component recipes match the intended information density and visual complexity.
 
 **Section sources**
 - [template.pattern-card.json:1-46](file://style/patterns/template.pattern-card.json#L1-L46)
@@ -348,7 +466,23 @@ Pattern cards are the core of the Enterprise PPT System’s design memory. They 
 - Apply highlight_grammar and image_usage to maintain visual discipline.
 - Allow topic_fit and reuse_notes to guide adaptation without sacrificing core composition rules.
 
+**Updated** For the new pattern cards, maintain consistency in density level usage and ensure that the visual hierarchy reflects the intended narrative or architectural priorities.
+
 **Section sources**
 - [page-type-registry.json:1-115](file://style/patterns/page-type-registry.json#L1-L115)
 - [buildStyleMap.ts:75-98](file://src/commands/buildStyleMap.ts#L75-L98)
 - [style_map.schema.json:1-70](file://schemas/style_map.schema.json#L1-L70)
+
+### New Pattern Card Implementation Guidelines
+When implementing new pattern cards:
+1. Define clear narrative roles and topic_fit categories
+2. Establish appropriate density levels based on information complexity
+3. Create detailed layout and alignment rules
+4. Develop component recipes that support the intended visual hierarchy
+5. Include comprehensive anti-pattern documentation
+6. Provide reuse notes for adaptation guidance
+
+**Section sources**
+- [openclaw-executive--seed--narrative_map.pattern.json:1-52](file://style/patterns/openclaw-executive--seed--narrative_map.pattern.json#L1-L52)
+- [openclaw-executive--seed--trust_terminal.pattern.json:1-53](file://style/patterns/openclaw-executive--seed--trust_terminal.pattern.json#L1-L53)
+- [openclaw-executive--seed--layered_architecture_stack.pattern.json:1-55](file://style/patterns/openclaw-executive--seed--layered_architecture_stack.pattern.json#L1-L55)

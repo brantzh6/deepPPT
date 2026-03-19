@@ -15,7 +15,7 @@
 - [page-type-registry.json](file://style/patterns/page-type-registry.json)
 - [template.pattern-card.json](file://style/patterns/template.pattern-card.json)
 - [trust_terminal.openclaw-seed.pattern.json](file://style/patterns/trust_terminal.openclaw-seed.pattern.json)
-- [layered_architecture_stack.openclaw-seed.pattern.json](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json)
+- [layered_architecture_stack.openclaw-seed.pattern.json](file://style/patterns/openclaw-executive--seed--layered_architecture_stack.pattern.json)
 - [narrative_map.openclaw-seed.pattern.json](file://style/patterns/narrative_map.openclaw-seed.pattern.json)
 - [style_map.generated.json](file://style/outputs/style_map.generated.json)
 - [slides.generated.json](file://story/outputs/slides.generated.json)
@@ -23,13 +23,15 @@
 - [mvp-preview-deck.pptx](file://output/delivery/mvp-preview-deck.pptx)
 - [render-manifest.json](file://output/delivery/render-manifest.json)
 - [index.html](file://output/preview/index.html)
+- [reference-extraction-workflow.md](file://docs/workflows/reference-extraction-workflow.md)
+- [openclaw-executive--seed-06--layered-architecture-stack.json](file://style/reference_extractions/openclaw-executive--seed-06--layered-architecture-stack.json)
 </cite>
 
 ## Update Summary
 **Changes Made**
-- Enhanced layered architecture rendering with improved cross-cutting concerns alignment and connector line positioning algorithms
-- Improved visual coherence in renderPptx.ts with sophisticated layer positioning and alignment logic
-- Enhanced narrative_map layout algorithms with better visual hierarchy enforcement
+- Enhanced layered architecture rendering with compact annotation pill design following OpenClaw seed reference extraction guidance
+- Replaced previous cross-cutting concern card approach with pill-shaped annotation elements
+- Improved connector line positioning algorithms for precise layer-to-annotation relationships
 - Updated trust_terminal page type with comprehensive security architecture visualization
 - Strengthened layout validation with advanced overlap detection and positioning algorithms
 
@@ -48,7 +50,7 @@
 ## Introduction
 This document explains the Enterprise PPT System's rendering pipeline that transforms structured slide data and style maps into editable PowerPoint presentations using PptxGenJS. It documents the preview rendering system for HTML/SVG visualization, the delivery pipeline for native PPTX export, and asset management strategies. The pipeline emphasizes an editable delivery strategy that preserves PowerPoint object structure for content modification, along with layout algorithms, utility functions, page-type handlers, formatting specifications, performance considerations, memory management, scalability, external tool integrations, and quality assurance processes.
 
-**Updated** Enhanced with sophisticated layered architecture rendering featuring improved cross-cutting concerns alignment, connector line positioning algorithms, and visual coherence improvements that ensure precise layer relationships and professional presentation quality.
+**Updated** Enhanced with sophisticated layered architecture rendering featuring compact annotation pill design that replaces cross-cutting concern cards, improved cross-cutting concerns alignment, connector line positioning algorithms, and visual coherence improvements that ensure precise layer relationships and professional presentation quality.
 
 ## Project Structure
 The rendering pipeline spans several areas:
@@ -129,7 +131,7 @@ RPTX --> NM
 - [page-type-registry.json](file://style/patterns/page-type-registry.json)
 - [template.pattern-card.json](file://style/patterns/template.pattern-card.json)
 - [trust_terminal.openclaw-seed.pattern.json](file://style/patterns/trust_terminal.openclaw-seed.pattern.json)
-- [layered_architecture_stack.openclaw-seed.pattern.json](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json)
+- [layered_architecture_stack.openclaw-seed.pattern.json](file://style/patterns/openclaw-executive--seed--layered_architecture_stack.pattern.json)
 - [narrative_map.openclaw-seed.pattern.json](file://style/patterns/narrative_map.openclaw-seed.pattern.json)
 
 **Section sources**
@@ -236,7 +238,7 @@ RPTX-->>CLI : PPTX + previews + manifest
   - Applies layout validation helpers after each slide.
   - Writes PPTX, SVG previews, and a render manifest.
 
-**Updated** Enhanced with sophisticated layered architecture rendering featuring improved cross-cutting concerns alignment, connector line positioning algorithms, and visual coherence improvements that ensure precise layer relationships and professional presentation quality.
+**Updated** Enhanced with sophisticated layered architecture rendering featuring compact annotation pill design that replaces cross-cutting concern cards, improved cross-cutting concerns alignment, connector line positioning algorithms, and visual coherence improvements that ensure precise layer relationships and professional presentation quality.
 
 ```mermaid
 flowchart TD
@@ -279,13 +281,14 @@ WriteOut --> End(["Done"])
 - Bottleneck Shift: Presents a primary statement, contextual visuals, and up to three impact cards.
 - Chapter Summary Signal: Summarizes key signals and implications with a decision cue panel.
 - Trust Terminal: Implements comprehensive security architecture explanation with terminal window visualization, governance labels, and security indicators.
-- Layered Architecture Stack: Creates multi-layer system architecture visualization with distinct layer containers, labels, and cross-cutting concerns.
+- Layered Architecture Stack: Creates multi-layer system architecture visualization with distinct layer containers, labels, and compact annotation pills for cross-cutting concerns.
 - Fallback: Provides a robust default layout for unknown page types.
 
 **Updated** Enhanced with sophisticated layered architecture rendering featuring:
 - Precise layer positioning with fixed heights and uniform spacing
 - Advanced connector line algorithms that position lines between stack and cross-cutting concerns
 - Visual coherence improvements ensuring proper alignment and relationship visualization
+- Compact annotation pill design replacing previous cross-cutting concern card approach
 - Enhanced cross-cutting concerns alignment with intelligent positioning algorithms
 
 ```mermaid
@@ -328,6 +331,7 @@ class RenderPptx {
 - Intelligent connector line positioning with distance-based validation
 - Cross-cutting concerns alignment with target layer mapping
 - Advanced overlap detection with diagonal line false-positive filtering
+- Compact annotation pill design with precise positioning and styling
 
 ```mermaid
 flowchart TD
@@ -342,6 +346,7 @@ F --> G["distributeSlideElements()"]
 H["Layered Architecture Positioning"] --> I["Fixed-height layer calculation"]
 I --> J["Connector line positioning"]
 J --> K["Cross-cutting concern alignment"]
+K --> L["Compact annotation pill design"]
 ```
 
 **Diagram sources**
@@ -361,7 +366,7 @@ J --> K["Cross-cutting concern alignment"]
 - SVG Previews: Generates SVG previews for slides and writes an index.html for easy visualization.
 - Asset Management: Ensures visual assets are available under the preview directory using theme-provided assets.
 
-**Updated** Enhanced with comprehensive SVG preview support for new page types including trust_terminal and layered_architecture_stack with detailed terminal window visualization and architecture stack rendering.
+**Updated** Enhanced with comprehensive SVG preview support for new page types including trust_terminal and layered_architecture_stack with detailed terminal window visualization and architecture stack rendering featuring compact annotation pill design.
 
 **Section sources**
 - [renderPptx.ts:165-166](file://src/commands/renderPptx.ts#L165-L166)
@@ -399,7 +404,7 @@ J --> K["Cross-cutting concern alignment"]
 - Output Dependencies:
   - render-manifest.json links editable PPTX and preview assets.
 
-**Updated** Enhanced with dependencies on new pattern files for trust_terminal, layered_architecture_stack, and narrative_map page types.
+**Updated** Enhanced with dependencies on new pattern files for trust_terminal, layered_architecture_stack, and narrative_map page types, including reference extraction guidance from OpenClaw seed patterns.
 
 ```mermaid
 graph LR
@@ -413,6 +418,8 @@ BSM --> LPC["loadPatternCards.ts"]
 BSM --> TT["trust_terminal.pattern.json"]
 BSM --> LAS["layered_architecture_stack.pattern.json"]
 BSM --> NM["narrative_map.pattern.json"]
+LAS --> REF["OpenClaw Seed Reference Extraction"]
+REF --> WFLOW["Reference Extraction Workflow"]
 ```
 
 **Diagram sources**
@@ -426,8 +433,10 @@ BSM --> NM["narrative_map.pattern.json"]
 - [loadPageTypeRegistry.ts](file://src/lib/style/loadPageTypeRegistry.ts)
 - [loadPatternCards.ts](file://src/lib/style/loadPatternCards.ts)
 - [trust_terminal.openclaw-seed.pattern.json](file://style/patterns/trust_terminal.openclaw-seed.pattern.json)
-- [layered_architecture_stack.openclaw-seed.pattern.json](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json)
+- [layered_architecture_stack.openclaw-seed.pattern.json](file://style/patterns/openclaw-executive--seed--layered_architecture_stack.pattern.json)
 - [narrative_map.openclaw-seed.pattern.json](file://style/patterns/narrative_map.openclaw-seed.pattern.json)
+- [reference-extraction-workflow.md](file://docs/workflows/reference-extraction-workflow.md)
+- [openclaw-executive--seed-06--layered-architecture-stack.json](file://style/reference_extractions/openclaw-executive--seed-06--layered-architecture-stack.json)
 
 **Section sources**
 - [renderPptx.ts:83-187](file://src/commands/renderPptx.ts#L83-L187)
@@ -446,8 +455,11 @@ BSM --> NM["narrative_map.pattern.json"]
   - Ensure output directories exist before writing; use atomic writes for manifests.
 - Rendering Cost:
   - Prefer vector assets for scalability; limit heavy shadows and gradients where unnecessary.
+- Layered Architecture Performance:
+  - Compact annotation pill design reduces rendering complexity compared to traditional cross-cutting concern cards.
+  - Optimized connector line positioning algorithms minimize computational overhead.
 
-**Updated** Performance considerations now include handling of complex SVG rendering for new page types with multiple layers and terminal windows, with optimized connector line positioning algorithms that minimize computational overhead.
+**Updated** Performance considerations now include handling of complex SVG rendering for new page types with multiple layers and terminal windows, with optimized connector line positioning algorithms that minimize computational overhead and improved memory usage for compact annotation pill rendering.
 
 ## Troubleshooting Guide
 - Missing Arguments:
@@ -466,8 +478,12 @@ BSM --> NM["narrative_map.pattern.json"]
 - Layered Architecture Issues:
   - Verify layer positioning calculations are within slide boundaries.
   - Check connector line distance validation to ensure proper visual relationships.
+  - Ensure compact annotation pill design is properly sized and positioned.
+- Reference Extraction Issues:
+  - Verify OpenClaw seed reference extraction guidance is properly applied.
+  - Check that "detail annotations" are correctly mapped to "annotation_cards".
 
-**Updated** Added troubleshooting guidance for new page types including trust_terminal rendering issues and layered architecture stack layout problems, with specific attention to connector line positioning and cross-cutting concerns alignment.
+**Updated** Added troubleshooting guidance for new page types including trust_terminal rendering issues and layered architecture stack layout problems, with specific attention to connector line positioning, cross-cutting concerns alignment, and compact annotation pill design implementation. Also includes guidance for reference extraction workflow compliance with OpenClaw seed patterns.
 
 **Section sources**
 - [renderPptx.ts:94-99](file://src/commands/renderPptx.ts#L94-L99)
@@ -478,7 +494,7 @@ BSM --> NM["narrative_map.pattern.json"]
 ## Conclusion
 The Enterprise PPT System's rendering pipeline integrates story scaffolding, style mapping, and PptxGenJS-driven rendering to produce editable PowerPoint decks with robust preview and asset management. Layout algorithms and utilities ensure visual quality, while the editable delivery strategy preserves PowerPoint object structure for enterprise review and revision. With careful attention to performance, memory, and scalability, the pipeline supports iterative development and QA processes for large presentations.
 
-**Updated** The pipeline now supports sophisticated layered architecture rendering with enhanced cross-cutting concerns alignment, connector line positioning algorithms, and visual coherence improvements that ensure precise layer relationships and professional presentation quality. These enhancements enable complex system architecture explanations and security architecture visualizations with improved clarity and visual hierarchy.
+**Updated** The pipeline now supports sophisticated layered architecture rendering with compact annotation pill design that replaces cross-cutting concern cards, enhanced cross-cutting concerns alignment, connector line positioning algorithms, and visual coherence improvements that ensure precise layer relationships and professional presentation quality. These enhancements enable complex system architecture explanations and security architecture visualizations with improved clarity and visual hierarchy, following OpenClaw seed reference extraction guidance for optimal design patterns.
 
 ## Appendices
 
@@ -502,10 +518,17 @@ The Enterprise PPT System's rendering pipeline integrates story scaffolding, sty
 
 ### New Page Types Reference
 - Trust Terminal: Security architecture explanation with terminal window visualization, governance labels, and security indicators
-- Layered Architecture Stack: Multi-layer system architecture with distinct layer containers, cross-cutting concerns, and intelligent connector line positioning
+- Layered Architecture Stack: Multi-layer system architecture with distinct layer containers, cross-cutting concerns, and compact annotation pill design
 - Enhanced Narrative Map: Improved agenda setting with better layout algorithms, visual hierarchy enforcement, and alignment rules
+
+### Reference Extraction Workflow
+- OpenClaw Seed Reference Extraction: Following documented guidance for "detail annotations" as "annotation_cards" with precise positioning and styling requirements
+- Pattern Card Development: Merging repeated logic into reusable pattern cards with layout rules, alignment rules, and highlight grammar
+- Quality Assurance: Ensuring patterns meet enterprise standards for visual hierarchy, editable-friendly composition, and cross-cutting concerns alignment
 
 **Section sources**
 - [trust_terminal.openclaw-seed.pattern.json:1-53](file://style/patterns/trust_terminal.openclaw-seed.pattern.json#L1-L53)
-- [layered_architecture_stack.openclaw-seed.pattern.json:1-55](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json#L1-L55)
+- [layered_architecture_stack.openclaw-seed.pattern.json:1-55](file://style/patterns/openclaw-executive--seed--layered_architecture_stack.pattern.json#L1-L55)
 - [narrative_map.openclaw-seed.pattern.json:1-52](file://style/patterns/narrative_map.openclaw-seed.pattern.json#L1-L52)
+- [reference-extraction-workflow.md:1-73](file://docs/workflows/reference-extraction-workflow.md#L1-L73)
+- [openclaw-executive--seed-06--layered-architecture-stack.json:1-72](file://style/reference_extractions/openclaw-executive--seed-06--layered-architecture-stack.json#L1-L72)

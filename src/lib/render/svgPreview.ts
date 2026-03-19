@@ -309,67 +309,72 @@ function renderLayeredArchitecture(slide: SlideRecord, styleEntry: StyleEntry | 
   const layers = blocks.layers ?? [];
   const crossCutting = blocks.cross_cutting ?? [];
   
-  // Layout following reference extraction: "Main stacked architecture layers in the center or left-center with aligned detail notes on the right"
+  // Control panel layout: stack on left, control panel on right
   const contentTop = 280;
   const contentBottom = 780;
   const stackX = 90;
-  const stackW = 950;
-  const detailX = 1080;
-  const detailW = 430;
+  const stackW = 850;
+  const panelX = 980;
+  const panelW = 530;
   
   const layerCount = Math.max(layers.length, 1);
   const layerSpacing = 16;
   const layerHeight = (contentBottom - contentTop - (layerCount - 1) * layerSpacing) / layerCount;
 
-  // alignment_rules: "Right-side details align to the stack's right edge"
   const titleY = contentTop - 40;
   
   return `
     <!-- Architecture title -->
     <text x="${stackX}" y="${titleY}" fill="${palette.text_secondary}" font-family="${theme.typography.font_family}" font-size="18">${escapeHtml(blocks.architecture_title ?? "Architecture")}</text>
     
-    <!-- Stack layers - visual anchor of the page -->
+    <!-- Stack layers - visual anchor -->
     ${layers.map((layer, index) => {
       const yPos = contentTop + index * (layerHeight + layerSpacing);
       const isHighlighted = layer.highlight;
       const layerColor = isHighlighted ? palette.accent_primary : palette.surface;
       const transparency = isHighlighted ? 0.2 : 0.06;
-      const strokeColor = isHighlighted ? palette.accent_primary : "rgba(255,255,255,0.75)";
+      const strokeColor = isHighlighted ? palette.accent_primary : "rgba(255,255,255,0.6)";
       const strokeWidth = isHighlighted ? 2 : 1;
       
       return `
-        <rect x="${stackX}" y="${yPos}" width="${stackW}" height="${layerHeight}" rx="16" fill="${withOpacity(layerColor, transparency)}" stroke="${strokeColor}" stroke-width="${strokeWidth}" />
-        <text x="${stackX + 24}" y="${yPos + 36}" fill="${isHighlighted ? palette.accent_primary : palette.text_secondary}" font-family="${theme.typography.font_family}" font-size="24" font-weight="700">${layerCount - index}</text>
-        <text x="${stackX + 72}" y="${yPos + 32}" fill="${palette.text_primary}" font-family="${theme.typography.font_family}" font-size="28" font-weight="700">${escapeHtml(layer.name)}</text>
-        <text x="${stackX + 72}" y="${yPos + 64}" fill="${palette.text_secondary}" font-family="${theme.typography.font_family}" font-size="18">${escapeHtml(layer.description)}</text>
+        <rect x="${stackX}" y="${yPos}" width="${stackW}" height="${layerHeight}" rx="12" fill="${withOpacity(layerColor, transparency)}" stroke="${strokeColor}" stroke-width="${strokeWidth}" />
+        <text x="${stackX + 28}" y="${yPos + 38}" fill="${isHighlighted ? palette.accent_primary : palette.text_secondary}" font-family="${theme.typography.font_family}" font-size="26" font-weight="700">${layerCount - index}</text>
+        <text x="${stackX + 80}" y="${yPos + 34}" fill="${palette.text_primary}" font-family="${theme.typography.font_family}" font-size="28" font-weight="700">${escapeHtml(layer.name)}</text>
+        <text x="${stackX + 80}" y="${yPos + 66}" fill="${palette.text_secondary}" font-family="${theme.typography.font_family}" font-size="17">${escapeHtml(layer.description)}</text>
       `;
     }).join("")}
     
-    <!-- Detail annotations - compact annotation cards aligned to stack edge -->
-    ${crossCutting.length > 0 ? (() => {
-      const pillHeight = 42;
-      const pillSpacing = 24;
-      const startY = contentTop + 20;
-      return `
-      <text x="${detailX}" y="${titleY}" fill="${palette.text_secondary}" font-family="${theme.typography.font_family}" font-size="16">Governance controls</text>
+    <!-- Control Panel - modern dashboard style -->
+    ${crossCutting.length > 0 ? `
+      <!-- Panel background -->
+      <rect x="${panelX}" y="${contentTop - 10}" width="${panelW}" height="${contentBottom - contentTop + 20}" rx="16" fill="${withOpacity(palette.surface_alt, 0.15)}" stroke="${withOpacity(palette.accent_secondary, 0.25)}" stroke-width="1" />
+      
+      <!-- Panel header -->
+      <text x="${panelX + 24}" y="${titleY}" fill="${palette.text_secondary}" font-family="${theme.typography.font_family}" font-size="16">Control Plane</text>
+      
+      <!-- Control items - aligned with layers -->
       ${crossCutting.map((item, index) => {
-        const yPos = startY + index * (pillHeight + pillSpacing);
-        // Connect to corresponding layer center
-        const layerIndex = Math.min(index, layerCount - 1);
-        const targetLayerY = contentTop + layerIndex * (layerHeight + layerSpacing) + layerHeight / 2;
-        const connectorY2 = yPos + pillHeight / 2;
+        const controlY = contentTop + index * (layerHeight + layerSpacing) + layerHeight / 2 - 24;
+        const isActive = index === 0; // First one active as example
         return `
-        <!-- Subtle connector line -->
-        <line x1="${stackX + stackW + 8}" y1="${targetLayerY}" x2="${detailX - 12}" y2="${connectorY2}" stroke="${withOpacity(palette.accent_secondary, 0.35)}" stroke-width="1.5" stroke-dasharray="6,4" />
-        <!-- Status indicator dot -->
-        <circle cx="${detailX + 12}" cy="${connectorY2}" r="5" fill="${palette.accent_primary}" opacity="0.8" />
-        <!-- Annotation pill -->
-        <rect x="${detailX + 28}" y="${yPos}" width="${detailW - 28}" height="${pillHeight}" rx="21" fill="${withOpacity(palette.surface_alt, 0.12)}" stroke="${withOpacity(palette.accent_secondary, 0.3)}" stroke-width="1" />
-        <text x="${detailX + 48}" y="${connectorY2 + 5}" fill="${palette.text_primary}" font-family="${theme.typography.font_family}" font-size="16">${escapeHtml(item)}</text>
+        <!-- Control row background -->
+        <rect x="${panelX + 16}" y="${controlY}" width="${panelW - 32}" height="48" rx="8" fill="${withOpacity(isActive ? palette.accent_primary : palette.surface, isActive ? 0.15 : 0.08)}" />
+        
+        <!-- Status LED -->
+        <circle cx="${panelX + 40}" cy="${controlY + 24}" r="6" fill="${isActive ? '#4ADE80' : palette.accent_secondary}" opacity="0.9" />
+        
+        <!-- Toggle switch -->
+        <rect x="${panelX + panelW - 56}" y="${controlY + 16}" width="36" height="16" rx="8" fill="${isActive ? palette.accent_primary : withOpacity(palette.text_secondary, 0.3)}" />
+        <circle cx="${isActive ? panelX + panelW - 44 : panelX + panelW - 56}" cy="${controlY + 24}" r="7" fill="#FFFFFF" />
+        
+        <!-- Control label -->
+        <text x="${panelX + 64}" y="${controlY + 29}" fill="${palette.text_primary}" font-family="${theme.typography.font_family}" font-size="15" font-weight="${isActive ? '600' : '400'}">${escapeHtml(item)}</text>
+        
+        <!-- Connector to layer -->
+        <line x1="${stackX + stackW}" y1="${contentTop + index * (layerHeight + layerSpacing) + layerHeight / 2}" x2="${panelX + 16}" y2="${controlY + 24}" stroke="${withOpacity(palette.accent_secondary, 0.4)}" stroke-width="2" stroke-dasharray="4,3" />
       `;
       }).join("")}
-    `;
-    })() : ""}
+    ` : ""}
   `;
 }
 
