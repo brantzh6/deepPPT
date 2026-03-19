@@ -345,15 +345,25 @@ function renderLayeredArchitecture(slide: SlideRecord, styleEntry: StyleEntry | 
       `;
     }).join("")}
     
-    <!-- Cross-cutting concerns -->
-    ${crossCutting.length > 0 ? `
+    <!-- Cross-cutting concerns - distributed to fill available space -->
+    ${crossCutting.length > 0 ? (() => {
+      const detailCardHeight = 56;
+      const detailSpacing = (contentBottom - contentTop - detailCardHeight) / Math.max(crossCutting.length - 1, 1);
+      return `
       <text x="${detailX}" y="${titleY}" fill="${palette.text_secondary}" font-family="${theme.typography.font_family}" font-size="18">Cross-cutting concerns</text>
-      ${crossCutting.map((item, index) => `
-        <line x1="${stackX + stackW}" y1="${contentTop + 40 + index * 120}" x2="${detailX - 20}" y2="${contentTop + 60 + index * 80}" stroke="${withOpacity(palette.accent_secondary, 0.5)}" stroke-width="2" stroke-dasharray="8,4" />
-        <rect x="${detailX}" y="${contentTop + 40 + index * 80}" width="${detailW}" height="56" rx="12" fill="${withOpacity(palette.surface_alt, 0.08)}" stroke="${withOpacity(palette.accent_secondary, 0.24)}" stroke-width="1" />
-        <text x="${detailX + 20}" y="${contentTop + 76 + index * 80}" fill="${palette.text_primary}" font-family="${theme.typography.font_family}" font-size="20">${escapeHtml(item)}</text>
-      `).join("")}
-    ` : ""}
+      ${crossCutting.map((item, index) => {
+        const yPos = contentTop + index * detailSpacing;
+        // Align connector with corresponding layer
+        const layerIndex = Math.min(index, layerCount - 1);
+        const targetLayerY = contentTop + layerIndex * (layerHeight + layerSpacing) + layerHeight / 2;
+        return `
+        <line x1="${stackX + stackW}" y1="${targetLayerY}" x2="${detailX - 20}" y2="${yPos + detailCardHeight / 2}" stroke="${withOpacity(palette.accent_secondary, 0.5)}" stroke-width="2" stroke-dasharray="8,4" />
+        <rect x="${detailX}" y="${yPos}" width="${detailW}" height="${detailCardHeight}" rx="12" fill="${withOpacity(palette.surface_alt, 0.08)}" stroke="${withOpacity(palette.accent_secondary, 0.24)}" stroke-width="1" />
+        <text x="${detailX + 20}" y="${yPos + 36}" fill="${palette.text_primary}" font-family="${theme.typography.font_family}" font-size="20">${escapeHtml(item)}</text>
+      `;
+      }).join("")}
+    `;
+    })() : ""}
   `;
 }
 

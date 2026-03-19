@@ -994,15 +994,17 @@ function renderLayeredArchitectureSlide(
       margin: 0
     });
 
-    // Calculate vertical positions to align with layers
-    const detailStartY = contentTop + 0.3;
-    const detailSpacing = (contentBottom - contentTop - 0.5) / Math.max(crossCutting.length, 1);
+    // Distribute cards evenly to fill the available vertical space
+    // alignment_rules: "Right-side details align to the stack's right edge"
+    const detailCardHeight = 0.45;
+    const detailSpacing = (contentBottom - contentTop - detailCardHeight) / Math.max(crossCutting.length - 1, 1);
 
     crossCutting.forEach((item, index) => {
-      // Align detail card with corresponding layer area
+      // Position card to fill space from contentTop to contentBottom
+      const yPos = contentTop + index * detailSpacing;
+      // Align connector with corresponding layer (match layer index to card index)
       const layerIndex = Math.min(index, layerCount - 1);
       const targetLayerY = contentTop + (layerCount - 1 - layerIndex) * (baseLayerHeight + layerSpacing) + baseLayerHeight / 2;
-      const yPos = detailStartY + index * Math.min(detailSpacing, 1.3);
 
       // Connector line from stack middle to detail card
       // Only draw if within reasonable distance
