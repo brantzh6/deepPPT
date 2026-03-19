@@ -1,0 +1,22 @@
+{
+  "deck_title": "OpenClaw Implications: From AI Agent to Digital Employee",
+  "audience": "Enterprise decision makers",
+  "narrative": {
+    "core_question": "Why should enterprises care now, and how should they land safely?",
+    "chapters": [
+      {
+        "id": "ch1",
+        "title": "Trend and Logic",
+        "question": "What changed, and why does it matter?",
+        "slides": [
+          {
+            "id": "ch1_s01",
+            "claim": "OpenClaw became important because it reframed AI from talking to acting.",
+            "role": "definition and trend signal",
+            "page_type_hint": "definition_compare"
+          }
+        ]
+      }
+    ]
+  }
+}

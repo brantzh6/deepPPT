@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "audience_model.schema.json",
+  "title": "Audience Model",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["primary_audience", "decision_context", "tone"],
+  "properties": {
+    "primary_audience": { "type": "string", "minLength": 1 },
+    "secondary_audience": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "decision_context": { "type": "string", "minLength": 1 },
+    "tone": { "type": "string", "minLength": 1 },
+    "prior_knowledge": { "type": "string" },
+    "objections": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "must_address": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}

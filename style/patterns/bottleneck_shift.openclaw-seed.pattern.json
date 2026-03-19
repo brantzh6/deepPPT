@@ -1,0 +1,45 @@
+{
+  "id": "bottleneck_shift_openclaw_seed",
+  "page_type": "bottleneck_shift",
+  "source_references": ["openclaw-executive-seed-02"],
+  "narrative_roles": ["paradigm shift", "thesis page"],
+  "topic_fit": ["AI workflow change", "operating model shift", "organizational transition"],
+  "visual_anchor": "Oversized thesis statement plus lower-left grounding visual.",
+  "weight_center": "left-middle",
+  "layout_rules": [
+    "Give the thesis enough scale to drive the page before support evidence is read.",
+    "Use the right side for aligned support cards rather than equal-width content columns.",
+    "Place a true visual or structural object in the lower-left area to prevent top-heavy composition."
+  ],
+  "alignment_rules": [
+    "Left and right columns must share the same content frame boundaries.",
+    "Support cards align to one vertical grid and consistent widths.",
+    "The bottom visual object must align to the left-column frame, not drift independently."
+  ],
+  "image_usage": {
+    "required": true,
+    "mode": "contextual",
+    "placement_guidance": "Use a lower-left image or abstract SVG panel to ground the page and add impact."
+  },
+  "highlight_grammar": [
+    "Oversized thesis with limited accent emphasis.",
+    "Signal labels on support cards instead of long subtitles.",
+    "Gradient or glow only in the grounding visual area."
+  ],
+  "component_recipe": [
+    "hero statement block",
+    "right support card stack",
+    "grounding image panel",
+    "support label system"
+  ],
+  "editable_target": "hybrid_native_plus_svg",
+  "anti_patterns": [
+    "Leaving an empty lower box.",
+    "Breaking alignment while trying to make the page feel asymmetric.",
+    "Using too many support cards and flattening the hierarchy."
+  ],
+  "reuse_notes": [
+    "Use when the page needs a directional thesis, not a neutral explanation.",
+    "This pattern relies on composition discipline more than color styling."
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "topic": "OpenClaw and enterprise AI agents",
+  "audience": "Enterprise decision makers",
+  "industry": "Life sciences",
+  "objective": "Explain strategic significance, practical boundaries, and enterprise landing path",
+  "facts": [
+    {
+      "id": "fact_001",
+      "statement": "OpenClaw shifted attention from chatbot interaction to action-oriented agent workflows.",
+      "source_ids": ["src_001"],
+      "confidence": "medium"
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "interp_001",
+      "statement": "The practical value comes from controlled execution, not only conversation quality.",
+      "supported_by": ["fact_001"]
+    }
+  ],
+  "risks": [
+    {
+      "id": "risk_001",
+      "statement": "Expanded execution ability increases attack surface and governance burden.",
+      "supported_by": ["fact_001"]
+    }
+  ],
+  "industry_constraints": [
+    "regulated data handling",
+    "auditability",
+    "clear responsibility boundaries"
+  ],
+  "open_questions": [
+    "Which tasks can be automated safely in production?"
+  ],
+  "sources": [
+    {
+      "id": "src_001",
+      "type": "primary",
+      "title": "Example Source",
+      "url": "https://example.com"
+    }
+  ]
+}

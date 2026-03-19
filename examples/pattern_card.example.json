@@ -1,0 +1,53 @@
+{
+  "id": "trust_terminal_v1",
+  "page_type": "trust_terminal",
+  "source_references": [
+    "ref_openclaw_trust_01"
+  ],
+  "narrative_roles": [
+    "trust explanation",
+    "architecture reasoning"
+  ],
+  "topic_fit": [
+    "runtime control",
+    "system trust",
+    "execution transparency"
+  ],
+  "visual_anchor": "terminal_window",
+  "weight_center": "right-middle",
+  "layout_rules": [
+    "Use a left concept block and a right hero object.",
+    "Keep one dominant runtime object, not multiple equal cards.",
+    "Reserve top-left for the main framing statement."
+  ],
+  "alignment_rules": [
+    "Left and right columns should share a top alignment line.",
+    "Right hero object should align to the right column, not float independently.",
+    "Do not mix symmetric outer bounds with asymmetric inner content."
+  ],
+  "image_usage": {
+    "required": true,
+    "mode": "hero",
+    "placement_guidance": "Place the runtime object in the right column and let it dominate the page authority."
+  },
+  "highlight_grammar": [
+    "Use orange for labels or attention cues.",
+    "Use cyan for system or execution emphasis.",
+    "Keep backgrounds low-contrast so the hero object remains dominant."
+  ],
+  "component_recipe": [
+    "concept block",
+    "terminal panel",
+    "small emphasis pills"
+  ],
+  "editable_target": "hybrid_native_plus_svg",
+  "anti_patterns": [
+    "equal-width comparison cards",
+    "text-only dark panels",
+    "hero object with no supporting explanation"
+  ],
+  "reuse_notes": [
+    "The anchor object can become a control plane, console, or runtime map.",
+    "Preserve asymmetry and object dominance when adapting to new topics."
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "render_manifest.schema.json",
+  "title": "Render Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["deck_id", "version", "generated_at", "outputs"],
+  "properties": {
+    "deck_id": { "type": "string", "minLength": 1 },
+    "version": { "type": "string", "minLength": 1 },
+    "generated_at": { "type": "string", "minLength": 1 },
+    "outputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "preview_html": { "type": "string" },
+        "preview_png_dir": { "type": "string" },
+        "preview_svg_dir": { "type": "string" },
+        "editable_pptx": { "type": "string" },
+        "qa_report": { "type": "string" }
+      }
+    },
+    "slide_artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["slide_id"],
+        "properties": {
+          "slide_id": { "type": "string", "minLength": 1 },
+          "preview_png": { "type": "string" },
+          "rerendered": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}

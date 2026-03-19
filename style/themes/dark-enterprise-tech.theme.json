@@ -1,0 +1,54 @@
+{
+  "id": "dark-enterprise-tech",
+  "name": "Dark Enterprise Tech",
+  "palette": {
+    "background": "#08111F",
+    "surface": "#0E1A2B",
+    "surface_alt": "#13233A",
+    "text_primary": "#F3F7FF",
+    "text_secondary": "#AAB7CF",
+    "accent_primary": "#5AC8FA",
+    "accent_secondary": "#FF8A3D",
+    "accent_risk": "#FF5A5F",
+    "grid": "rgba(255,255,255,0.08)"
+  },
+  "typography": {
+    "font_family": "Aptos",
+    "title_size": 28,
+    "subtitle_size": 14,
+    "body_size": 12,
+    "caption_size": 9
+  },
+  "spacing": {
+    "xs": 4,
+    "sm": 8,
+    "md": 16,
+    "lg": 24,
+    "xl": 32
+  },
+  "radius": {
+    "card": 14,
+    "chip": 999
+  },
+  "borders": {
+    "card": {
+      "color": "rgba(255,255,255,0.12)",
+      "width": 1
+    }
+  },
+  "shadows": {
+    "card": {
+      "blur": 18,
+      "color": "rgba(0,0,0,0.28)"
+    },
+    "glow_primary": {
+      "blur": 20,
+      "color": "rgba(90,200,250,0.22)"
+    }
+  },
+  "backgrounds": {
+    "base": "deep navy gradient",
+    "overlay": "subtle grid",
+    "hero": "soft radial highlight"
+  }
+}

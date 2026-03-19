@@ -1,0 +1,16 @@
+{
+  "gallery_id": "openclaw-seed-gallery-v1",
+  "description": "First structured benchmark set reconstructed from the documented OpenClaw deck lessons and validated slide pattern notes.",
+  "deck_id": "openclaw-executive",
+  "extraction_mode": "documented_seed",
+  "references": [
+    "openclaw-executive--seed-01--cover-orbit.json",
+    "openclaw-executive--seed-02--bottleneck-shift.json",
+    "openclaw-executive--seed-03--chapter-summary-signal.json"
+  ],
+  "pattern_cards": [
+    "cover_orbit.openclaw-seed.pattern.json",
+    "bottleneck_shift.openclaw-seed.pattern.json",
+    "chapter_summary_signal.openclaw-seed.pattern.json"
+  ]
+}

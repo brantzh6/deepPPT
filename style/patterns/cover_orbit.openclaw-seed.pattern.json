@@ -1,0 +1,45 @@
+{
+  "id": "cover_orbit_openclaw_seed",
+  "page_type": "cover_orbit",
+  "source_references": ["openclaw-executive-seed-01"],
+  "narrative_roles": ["cover", "strategic framing"],
+  "topic_fit": ["enterprise AI", "platform strategy", "technology transition"],
+  "visual_anchor": "Right-side hero system object balanced by a left headline stack.",
+  "weight_center": "right-middle",
+  "layout_rules": [
+    "Make the hero object a primary zone, not a decorative accessory.",
+    "Reserve the left side for a disciplined headline stack and compact metadata.",
+    "Avoid introducing multiple secondary blocks that compete with the focal anchor."
+  ],
+  "alignment_rules": [
+    "All text elements align to one left grid.",
+    "The hero object sits inside a stable right-side frame with controlled padding.",
+    "Metadata and signal labels should align with the headline grid, not float independently."
+  ],
+  "image_usage": {
+    "required": true,
+    "mode": "hero",
+    "placement_guidance": "Use a large right-side image or SVG anchor that immediately establishes premium visual weight."
+  },
+  "highlight_grammar": [
+    "Keep the headline mostly neutral and high contrast.",
+    "Use accent color for small labels or orbital details.",
+    "Confine glow and gradient energy to the hero anchor zone."
+  ],
+  "component_recipe": [
+    "headline stack",
+    "metadata band",
+    "hero image or SVG frame",
+    "soft glow support layer"
+  ],
+  "editable_target": "hybrid_native_plus_svg",
+  "anti_patterns": [
+    "Tiny hero image with oversized empty space.",
+    "Multiple equal cards on a cover slide.",
+    "Accent colors scattered across unrelated elements."
+  ],
+  "reuse_notes": [
+    "Best used when the deck needs an immediate premium first impression.",
+    "Adapt the hero object to the topic, but preserve the one-anchor composition."
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "reference_id": "openclaw-executive-seed-01",
+  "source": {
+    "deck_id": "openclaw-executive",
+    "slide_number": 1,
+    "extraction_mode": "documented_seed",
+    "title": "Documented seed: cover with orbit/core concept",
+    "file_path": "references/style-lessons-from-openclaw-deck.md",
+    "source_note": "This extraction is reconstructed from the documented OpenClaw style lessons and validated slide patterns, not from the original slide screenshot.",
+    "tags": ["openclaw", "seed", "cover", "executive"]
+  },
+  "narrative_role": "cover",
+  "page_type_candidate": "cover_orbit",
+  "audience_tone": "executive, modern enterprise, control-first",
+  "claim": "Frame the deck as a system transition with a strong technology anchor rather than a title-only opener.",
+  "visual_anchor": "A dominant orbit or core object on the right side creates the premium focal point.",
+  "weight_center": "right-middle",
+  "composition": {
+    "structure": "Large left title block paired with a large right-side system object and a compact metadata band.",
+    "density_level": "medium",
+    "alignment_logic": "All text blocks share one left grid; the orbit object is contained within a right-side frame with stable margins.",
+    "asymmetry": "The slide is intentionally right-heavy because the hero object carries the visual weight.",
+    "image_usage": "Hero visual or SVG object is required to prevent a plain title page.",
+    "highlight_grammar": [
+      "high-contrast headline with limited accent color",
+      "glow or gradient effects only around the hero object",
+      "small signal labels instead of scattered decorative text"
+    ]
+  },
+  "components": [
+    {
+      "id": "headline_stack",
+      "role": "main framing statement",
+      "type": "text_block",
+      "position_note": "Large left-side headline area"
+    },
+    {
+      "id": "orbit_core",
+      "role": "visual anchor",
+      "type": "image_or_svg",
+      "position_note": "Dominant right-side object"
+    },
+    {
+      "id": "signal_band",
+      "role": "secondary context",
+      "type": "label_group",
+      "position_note": "Compact metadata or concept labels near the text grid"
+    }
+  ],
+  "why_it_works": [
+    "The page establishes a premium focal point before the reader scans the title.",
+    "Asymmetry creates energy without breaking alignment discipline.",
+    "The hero object makes the cover feel like a strategic system page, not a generic template."
+  ],
+  "anti_patterns": [
+    "Reducing the hero object to a small icon makes the slide lose impact.",
+    "Adding multiple equal cards turns the cover into an agenda page.",
+    "Letting labels drift away from the headline grid weakens the composition."
+  ],
+  "reuse_notes": {
+    "safe_to_reuse": true,
+    "do_not_copy_blindly": [
+      "The exact orbit illustration",
+      "Source-specific title wording"
+    ],
+    "adaptation_notes": [
+      "Keep the one-large-object principle even if the visual changes from orbit to product or architecture motif.",
+      "Preserve the left text grid and right hero balance."
+    ]
+  }
+}

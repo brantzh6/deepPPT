@@ -1,0 +1,71 @@
+{
+  "reference_id": "openclaw-executive-seed-03",
+  "source": {
+    "deck_id": "openclaw-executive",
+    "slide_number": 3,
+    "extraction_mode": "documented_seed",
+    "title": "Documented seed: chapter summary with decision cue",
+    "file_path": "references/validated-slide-patterns.md",
+    "source_note": "This extraction is reconstructed from the documented OpenClaw slide pattern summaries, not from the original slide screenshot.",
+    "tags": ["openclaw", "seed", "summary", "decision"]
+  },
+  "narrative_role": "summary",
+  "page_type_candidate": "chapter_summary_signal",
+  "audience_tone": "executive, concise, control-first",
+  "claim": "Close the chapter with one dominant takeaway and one explicit decision implication.",
+  "visual_anchor": "A dominant summary block supported by a secondary implication block and a signal cue.",
+  "weight_center": "left-middle",
+  "composition": {
+    "structure": "One large summary zone, one medium implication zone, and one compact signal or decision object.",
+    "density_level": "low",
+    "alignment_logic": "The large and medium blocks share a common grid and baseline while the signal cue aligns to the same frame edge.",
+    "asymmetry": "The composition stays left-led, but the smaller signal object prevents the page from feeling flat.",
+    "image_usage": "Optional abstract texture or accent object; the page should remain strong even without a hero image.",
+    "highlight_grammar": [
+      "Single dominant statement",
+      "accent color reserved for the decision cue",
+      "strong contrast between main takeaway and secondary implication"
+    ]
+  },
+  "components": [
+    {
+      "id": "summary_block",
+      "role": "chapter takeaway",
+      "type": "text_panel",
+      "position_note": "Largest block on the left or upper-left"
+    },
+    {
+      "id": "implication_block",
+      "role": "decision implication",
+      "type": "text_panel",
+      "position_note": "Secondary block aligned inside the same frame"
+    },
+    {
+      "id": "signal_cue",
+      "role": "decision marker",
+      "type": "signal_card",
+      "position_note": "Compact accent object used as a close"
+    }
+  ],
+  "why_it_works": [
+    "The page ends a section with a clear executive takeaway instead of an agenda-style recap.",
+    "A visible decision cue turns the summary into an action-oriented close.",
+    "Low-density structure gives the main takeaway room to feel important."
+  ],
+  "anti_patterns": [
+    "Using three equal summary cards makes the page feel generic.",
+    "Overfilling the page with bullets weakens the close.",
+    "Removing the decision cue makes the page feel like a leftover note page."
+  ],
+  "reuse_notes": {
+    "safe_to_reuse": true,
+    "do_not_copy_blindly": [
+      "The exact chapter wording",
+      "Any source-specific signal labels"
+    ],
+    "adaptation_notes": [
+      "Keep the page sparse and decisive.",
+      "Use an accent object only to sharpen the close, not to decorate it."
+    ]
+  }
+}

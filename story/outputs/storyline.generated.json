@@ -1,0 +1,48 @@
+{
+  "deck_title": "OpenClaw and enterprise AI agents",
+  "audience": "Enterprise decision makers",
+  "narrative": {
+    "core_question": "Explain strategic significance, practical boundaries, and enterprise landing path",
+    "chapters": [
+      {
+        "id": "intro",
+        "title": "Deck Logic",
+        "question": "How should the discussion be staged for executive review?",
+        "slides": [
+          {
+            "id": "agenda",
+            "claim": "The discussion must move from strategic shift to enterprise landing discipline.",
+            "role": "narrative staging",
+            "page_type_hint": "narrative_map"
+          }
+        ]
+      },
+      {
+        "id": "ch1",
+        "title": "Strategic Framing",
+        "question": "Explain strategic significance, practical boundaries, and enterprise landing path",
+        "slides": [
+          {
+            "id": "ch1_s01",
+            "claim": "The practical value comes from controlled execution, not only conversation quality.",
+            "role": "opening strategic claim",
+            "page_type_hint": "bottleneck_shift"
+          }
+        ]
+      },
+      {
+        "id": "summary",
+        "title": "Executive Summary",
+        "question": "What is the decision implication?",
+        "slides": [
+          {
+            "id": "summary_s01",
+            "claim": "Enterprises should treat agents as a control-first execution layer, not unchecked autonomy.",
+            "role": "chapter summary",
+            "page_type_hint": "chapter_summary_signal"
+          }
+        ]
+      }
+    ]
+  }
+}

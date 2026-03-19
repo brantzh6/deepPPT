@@ -1,0 +1,96 @@
+{
+  "deck_title": "OpenClaw and enterprise AI agents",
+  "theme_hint": "dark-enterprise-tech",
+  "slides": [
+    {
+      "id": "cover",
+      "chapter": "intro",
+      "page_type_hint": "cover_orbit",
+      "title": "OpenClaw and enterprise AI agents",
+      "subtitle": "Explain strategic significance, practical boundaries, and enterprise landing path",
+      "claim": "The practical value comes from controlled execution, not only conversation quality.",
+      "blocks": {
+        "story_points": [
+          "Why now",
+          "What changes",
+          "How to land"
+        ]
+      },
+      "notes": {
+        "audience_tone": "executive",
+        "visual_anchor": "orbit_core",
+        "must_emphasize": [
+          "decision relevance",
+          "control-first"
+        ]
+      },
+      "layout_hints": {
+        "weight_center": "right-middle",
+        "density_level": "medium",
+        "avoid_symmetry": true
+      }
+    },
+    {
+      "id": "agenda",
+      "chapter": "intro",
+      "page_type_hint": "narrative_map",
+      "title": "Deck Logic",
+      "subtitle": "Frame the shift, define the landing path, then make the control decision explicit",
+      "claim": "The discussion must move from strategic shift to enterprise landing discipline.",
+      "blocks": {
+        "dominant_chapter": "Why action-oriented agents matter now",
+        "supporting_chapters": [
+          "How enterprise landing differs from consumer automation",
+          "Why control-first architecture is the adoption boundary"
+        ],
+        "decision_cue": "Strategic interest is real, but landing quality depends on controllability."
+      },
+      "layout_hints": {
+        "weight_center": "center-middle",
+        "density_level": "medium",
+        "avoid_symmetry": true
+      }
+    },
+    {
+      "id": "ch1_s01",
+      "chapter": "ch1",
+      "page_type_hint": "bottleneck_shift",
+      "title": "Strategic Framing",
+      "claim": "The practical value comes from controlled execution, not only conversation quality.",
+      "blocks": {
+        "primary_statement": "The practical value comes from controlled execution, not only conversation quality.",
+        "support_points": [
+          "OpenClaw shifted attention from chatbot interaction to action-oriented agent workflows.",
+          "Clarify boundaries and governance requirements",
+          "Controlled execution, not generic conversation quality, is the decision lever."
+        ]
+      },
+      "layout_hints": {
+        "weight_center": "left-middle",
+        "density_level": "medium",
+        "avoid_symmetry": true
+      }
+    },
+    {
+      "id": "summary_s01",
+      "chapter": "summary",
+      "page_type_hint": "chapter_summary_signal",
+      "title": "Executive Summary",
+      "claim": "Enterprises should treat agents as a control-first execution layer, not unchecked autonomy.",
+      "blocks": {
+        "summary": "Agents become valuable when they move from response quality to controlled execution quality.",
+        "implications": [
+          "Research and story must stay structured for repeatable revision.",
+          "Style should reinforce decision clarity, not decorate generic templates.",
+          "Editable delivery is mandatory for enterprise review loops."
+        ],
+        "decision_cue": "Build a narrow, editable, control-first MVP before expanding style families."
+      },
+      "layout_hints": {
+        "weight_center": "left-middle",
+        "density_level": "medium",
+        "avoid_symmetry": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "chapter_summary_signal_openclaw_seed",
+  "page_type": "chapter_summary_signal",
+  "source_references": ["openclaw-executive-seed-03"],
+  "narrative_roles": ["summary", "decision implication"],
+  "topic_fit": ["chapter close", "executive recap", "decision checkpoint"],
+  "visual_anchor": "Dominant summary block supported by a compact decision signal object.",
+  "weight_center": "left-middle",
+  "layout_rules": [
+    "Use one dominant takeaway block instead of multiple equal recap cards.",
+    "Add one secondary implication block and one compact signal cue only.",
+    "Keep the page low-density so the takeaway reads as intentional."
+  ],
+  "alignment_rules": [
+    "Summary and implication blocks align to a shared left grid.",
+    "The signal cue must align to the same outer frame, even if it is visually smaller.",
+    "Do not let the compact cue float outside the established composition bounds."
+  ],
+  "image_usage": {
+    "required": false,
+    "mode": "texture",
+    "placement_guidance": "Optional subtle texture or accent object may be added, but the page should stand without a hero image."
+  },
+  "highlight_grammar": [
+    "Keep the main takeaway dominant and neutral.",
+    "Use accent color on the decision cue only.",
+    "Let contrast and spacing carry most of the hierarchy."
+  ],
+  "component_recipe": [
+    "summary text panel",
+    "implication panel",
+    "signal cue card"
+  ],
+  "editable_target": "native_shapes_plus_text",
+  "anti_patterns": [
+    "Three equal cards posing as a summary page.",
+    "Dense bullet lists in the close.",
+    "Overdecorating a page that should feel conclusive and clear."
+  ],
+  "reuse_notes": [
+    "Use this to close a chapter with an explicit executive implication.",
+    "The page works because it is selective, not because it is visually busy."
+  ]
+}

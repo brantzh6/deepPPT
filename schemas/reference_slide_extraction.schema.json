@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "reference_slide_extraction.schema.json",
+  "title": "Reference Slide Extraction",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "reference_id",
+    "source",
+    "narrative_role",
+    "page_type_candidate",
+    "claim",
+    "visual_anchor",
+    "weight_center",
+    "composition",
+    "why_it_works"
+  ],
+  "properties": {
+    "reference_id": { "type": "string", "minLength": 1 },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["deck_id", "slide_number"],
+      "properties": {
+        "deck_id": { "type": "string", "minLength": 1 },
+        "slide_number": { "type": "integer", "minimum": 1 },
+        "extraction_mode": {
+          "type": "string",
+          "enum": ["direct_slide", "documented_seed"]
+        },
+        "title": { "type": "string" },
+        "file_path": { "type": "string" },
+        "image_path": { "type": "string" },
+        "source_note": { "type": "string" },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "narrative_role": { "type": "string", "minLength": 1 },
+    "page_type_candidate": { "type": "string", "minLength": 1 },
+    "audience_tone": { "type": "string" },
+    "claim": { "type": "string", "minLength": 1 },
+    "visual_anchor": { "type": "string", "minLength": 1 },
+    "weight_center": { "type": "string", "minLength": 1 },
+    "composition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["structure", "density_level", "alignment_logic", "image_usage", "highlight_grammar"],
+      "properties": {
+        "structure": { "type": "string", "minLength": 1 },
+        "density_level": { "type": "string", "enum": ["low", "medium", "high"] },
+        "alignment_logic": { "type": "string", "minLength": 1 },
+        "asymmetry": { "type": "string" },
+        "image_usage": { "type": "string", "minLength": 1 },
+        "highlight_grammar": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "role", "type"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "role": { "type": "string", "minLength": 1 },
+          "type": { "type": "string", "minLength": 1 },
+          "position_note": { "type": "string" }
+        }
+      }
+    },
+    "why_it_works": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "anti_patterns": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "reuse_notes": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "safe_to_reuse": { "type": "boolean" },
+        "do_not_copy_blindly": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "adaptation_notes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

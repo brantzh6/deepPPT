@@ -1,0 +1,30 @@
+{
+  "deck_title": "OpenClaw Implications: From AI Agent to Digital Employee",
+  "theme_hint": "dark-tech-blue-orange",
+  "slides": [
+    {
+      "id": "cover",
+      "chapter": "intro",
+      "page_type": "cover_orbit",
+      "title": "OpenClaw Implications: From AI Agent to Digital Employee",
+      "subtitle": "Strategic trends, landing architecture, and control principles for enterprise adoption",
+      "claim": "This is not another chatbot deck; it is a decision deck about controllable autonomy.",
+      "blocks": {
+        "story_points": [
+          "What changed",
+          "How enterprise landing differs",
+          "Why control-first matters"
+        ],
+        "signal_bars": [
+          { "label": "market attention", "value": 92 },
+          { "label": "enterprise interest", "value": 85 }
+        ]
+      },
+      "notes": {
+        "audience_tone": "executive",
+        "visual_anchor": "orbit_core",
+        "must_emphasize": ["decision relevance", "control-first"]
+      }
+    }
+  ]
+}

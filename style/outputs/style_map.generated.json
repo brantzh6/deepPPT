@@ -1,0 +1,141 @@
+{
+  "theme_family": "dark-enterprise-tech",
+  "slides": [
+    {
+      "slide_id": "cover",
+      "page_type": "cover_orbit",
+      "visual_anchor": "Right-side hero system object balanced by a left headline stack.",
+      "weight_center": "right-middle",
+      "density_level": "medium",
+      "component_bindings": [
+        "orbit_core",
+        "headline stack",
+        "metadata band",
+        "hero image or SVG frame",
+        "soft glow support layer"
+      ],
+      "editable_target": "hybrid_native_plus_svg",
+      "learned_pattern": {
+        "pattern_id": "cover_orbit_openclaw_seed",
+        "source_references": [
+          "openclaw-executive-seed-01"
+        ],
+        "layout_rules": [
+          "Make the hero object a primary zone, not a decorative accessory.",
+          "Reserve the left side for a disciplined headline stack and compact metadata.",
+          "Avoid introducing multiple secondary blocks that compete with the focal anchor."
+        ],
+        "alignment_rules": [
+          "All text elements align to one left grid.",
+          "The hero object sits inside a stable right-side frame with controlled padding.",
+          "Metadata and signal labels should align with the headline grid, not float independently."
+        ],
+        "highlight_grammar": [
+          "Keep the headline mostly neutral and high contrast.",
+          "Use accent color for small labels or orbital details.",
+          "Confine glow and gradient energy to the hero anchor zone."
+        ],
+        "image_usage": {
+          "required": true,
+          "mode": "hero",
+          "placement_guidance": "Use a large right-side image or SVG anchor that immediately establishes premium visual weight."
+        },
+        "editable_target": "hybrid_native_plus_svg"
+      }
+    },
+    {
+      "slide_id": "agenda",
+      "page_type": "narrative_map",
+      "visual_anchor": "chapter_card_stack",
+      "weight_center": "center-middle",
+      "density_level": "medium",
+      "component_bindings": [
+        "chapter_card_stack"
+      ],
+      "editable_target": "native_shapes_plus_text"
+    },
+    {
+      "slide_id": "ch1_s01",
+      "page_type": "bottleneck_shift",
+      "visual_anchor": "Oversized thesis statement plus lower-left grounding visual.",
+      "weight_center": "left-middle",
+      "density_level": "medium",
+      "component_bindings": [
+        "hero_statement",
+        "hero statement block",
+        "right support card stack",
+        "grounding image panel",
+        "support label system"
+      ],
+      "editable_target": "hybrid_native_plus_svg",
+      "learned_pattern": {
+        "pattern_id": "bottleneck_shift_openclaw_seed",
+        "source_references": [
+          "openclaw-executive-seed-02"
+        ],
+        "layout_rules": [
+          "Give the thesis enough scale to drive the page before support evidence is read.",
+          "Use the right side for aligned support cards rather than equal-width content columns.",
+          "Place a true visual or structural object in the lower-left area to prevent top-heavy composition."
+        ],
+        "alignment_rules": [
+          "Left and right columns must share the same content frame boundaries.",
+          "Support cards align to one vertical grid and consistent widths.",
+          "The bottom visual object must align to the left-column frame, not drift independently."
+        ],
+        "highlight_grammar": [
+          "Oversized thesis with limited accent emphasis.",
+          "Signal labels on support cards instead of long subtitles.",
+          "Gradient or glow only in the grounding visual area."
+        ],
+        "image_usage": {
+          "required": true,
+          "mode": "contextual",
+          "placement_guidance": "Use a lower-left image or abstract SVG panel to ground the page and add impact."
+        },
+        "editable_target": "hybrid_native_plus_svg"
+      }
+    },
+    {
+      "slide_id": "summary_s01",
+      "page_type": "chapter_summary_signal",
+      "visual_anchor": "Dominant summary block supported by a compact decision signal object.",
+      "weight_center": "left-middle",
+      "density_level": "medium",
+      "component_bindings": [
+        "signal_block",
+        "summary text panel",
+        "implication panel",
+        "signal cue card"
+      ],
+      "editable_target": "native_shapes_plus_text",
+      "learned_pattern": {
+        "pattern_id": "chapter_summary_signal_openclaw_seed",
+        "source_references": [
+          "openclaw-executive-seed-03"
+        ],
+        "layout_rules": [
+          "Use one dominant takeaway block instead of multiple equal recap cards.",
+          "Add one secondary implication block and one compact signal cue only.",
+          "Keep the page low-density so the takeaway reads as intentional."
+        ],
+        "alignment_rules": [
+          "Summary and implication blocks align to a shared left grid.",
+          "The signal cue must align to the same outer frame, even if it is visually smaller.",
+          "Do not let the compact cue float outside the established composition bounds."
+        ],
+        "highlight_grammar": [
+          "Keep the main takeaway dominant and neutral.",
+          "Use accent color on the decision cue only.",
+          "Let contrast and spacing carry most of the hierarchy."
+        ],
+        "image_usage": {
+          "required": false,
+          "mode": "texture",
+          "placement_guidance": "Optional subtle texture or accent object may be added, but the page should stand without a hero image."
+        },
+        "editable_target": "native_shapes_plus_text"
+      }
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "enterprise-ppt-system-bootstrap",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "validate:contracts": "tsx src/cli.ts validate-contracts",
+    "inspect:style": "tsx src/cli.ts inspect-style",
+    "build:style-map": "tsx src/cli.ts build-style-map",
+    "pipeline:story-to-slides": "tsx src/cli.ts story-to-slides",
+    "render:pptx": "tsx src/cli.ts render-pptx",
+    "rerender:pages": "tsx src/cli.ts rerender-pages"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "pptxgenjs": "^4.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.6.0",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.3"
+  }
+}

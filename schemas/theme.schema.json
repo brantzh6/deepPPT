@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "theme.schema.json",
+  "title": "Theme",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "name", "palette", "typography", "spacing", "backgrounds"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "palette": {
+      "type": "object",
+      "required": ["background", "surface", "text_primary", "accent_primary"],
+      "additionalProperties": true,
+      "properties": {
+        "background": { "type": "string", "minLength": 1 },
+        "surface": { "type": "string", "minLength": 1 },
+        "text_primary": { "type": "string", "minLength": 1 },
+        "accent_primary": { "type": "string", "minLength": 1 }
+      }
+    },
+    "typography": {
+      "type": "object",
+      "required": ["font_family", "title_size", "body_size"],
+      "additionalProperties": true,
+      "properties": {
+        "font_family": { "type": "string", "minLength": 1 },
+        "title_size": { "type": "number" },
+        "body_size": { "type": "number" }
+      }
+    },
+    "spacing": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "radius": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "borders": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "shadows": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "backgrounds": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

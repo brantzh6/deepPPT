@@ -1,0 +1,45 @@
+{
+  "id": "cover_orbit_reference_seed",
+  "page_type": "cover_orbit",
+  "source_references": ["benchmark-deck-a-slide-01"],
+  "narrative_roles": ["cover", "chapter opener"],
+  "topic_fit": ["enterprise AI", "platform strategy", "digital transformation"],
+  "visual_anchor": "Large right-side hero visual balanced by a left headline stack.",
+  "weight_center": "right-heavy visual mass with disciplined left text grid",
+  "layout_rules": [
+    "Reserve one dominant zone for the headline and one dominant zone for the hero visual.",
+    "Keep the hero visual large enough to read as a primary object, not an icon.",
+    "Use one compact metadata band instead of multiple scattered labels."
+  ],
+  "alignment_rules": [
+    "All left-column text aligns to one shared left edge.",
+    "Hero visual sits inside a fixed right-side frame with consistent top and bottom offsets.",
+    "Support labels must align to the same grid used by the headline block."
+  ],
+  "image_usage": {
+    "required": true,
+    "mode": "hero",
+    "placement_guidance": "Use a large right-side image or SVG object that establishes the page focal point."
+  },
+  "highlight_grammar": [
+    "Use a single accent color for small signal text.",
+    "Keep the headline mostly neutral and high contrast.",
+    "Apply glow or gradient effects only around the focal anchor."
+  ],
+  "component_recipe": [
+    "headline stack",
+    "metadata band",
+    "hero image frame",
+    "soft glow layer"
+  ],
+  "editable_target": "hybrid_native_plus_svg",
+  "anti_patterns": [
+    "Shrinking the image until the slide becomes text-first and visually weak.",
+    "Adding multiple competing accent colors.",
+    "Breaking left-grid alignment in pursuit of asymmetry."
+  ],
+  "reuse_notes": [
+    "Adapt image content by topic while keeping the focal hierarchy intact.",
+    "Use this pattern when the deck needs an immediate premium and directional first impression."
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "registry_version": "0.1.0",
+  "theme_family": "dark-enterprise-tech",
+  "page_types": [
+    {
+      "id": "cover_orbit",
+      "narrative_roles": ["cover", "strategic framing"],
+      "visual_anchor": "orbit_core",
+      "weight_center": "right-middle",
+      "density_level": "medium",
+      "mvp_priority": true,
+      "editable_target": "native_shapes_plus_text"
+    },
+    {
+      "id": "narrative_map",
+      "narrative_roles": ["agenda", "chapter framing"],
+      "visual_anchor": "chapter_card_stack",
+      "weight_center": "center-middle",
+      "density_level": "medium",
+      "mvp_priority": true,
+      "editable_target": "native_shapes_plus_text"
+    },
+    {
+      "id": "trust_terminal",
+      "narrative_roles": ["trust explanation", "architecture reasoning"],
+      "visual_anchor": "terminal_window",
+      "weight_center": "right-middle",
+      "density_level": "medium",
+      "mvp_priority": true,
+      "editable_target": "native_shapes_plus_text"
+    },
+    {
+      "id": "closed_loop_flow",
+      "narrative_roles": ["process", "execution loop"],
+      "visual_anchor": "loop_axis",
+      "weight_center": "center-middle",
+      "density_level": "medium",
+      "mvp_priority": false,
+      "editable_target": "native_shapes_plus_text"
+    },
+    {
+      "id": "bottleneck_shift",
+      "narrative_roles": ["paradigm shift", "thesis page"],
+      "visual_anchor": "hero_statement",
+      "weight_center": "left-middle",
+      "density_level": "medium",
+      "mvp_priority": true,
+      "editable_target": "native_shapes_plus_text"
+    },
+    {
+      "id": "evolution_split",
+      "narrative_roles": ["transition", "before after"],
+      "visual_anchor": "direction_arrow",
+      "weight_center": "center-middle",
+      "density_level": "medium",
+      "mvp_priority": false,
+      "editable_target": "native_shapes_plus_text"
+    },
+    {
+      "id": "layered_architecture_stack",
+      "narrative_roles": ["architecture", "stack explanation"],
+      "visual_anchor": "layered_stack",
+      "weight_center": "middle",
+      "density_level": "high",
+      "mvp_priority": true,
+      "editable_target": "native_shapes_plus_text"
+    },
+    {
+      "id": "scenario_flow",
+      "narrative_roles": ["workflow", "scenario"],
+      "visual_anchor": "process_track",
+      "weight_center": "middle",
+      "density_level": "medium",
+      "mvp_priority": true,
+      "editable_target": "native_shapes_plus_text"
+    },
+    {
+      "id": "risk_split",
+      "narrative_roles": ["risk contrast", "control framing"],
+      "visual_anchor": "double_helix_split",
+      "weight_center": "center-middle",
+      "density_level": "medium",
+      "mvp_priority": true,
+      "editable_target": "native_shapes_plus_text"
+    },
+    {
+      "id": "security_control_plane",
+      "narrative_roles": ["security architecture", "governance"],
+      "visual_anchor": "control_towers",
+      "weight_center": "middle",
+      "density_level": "high",
+      "mvp_priority": false,
+      "editable_target": "hybrid_native_plus_svg"
+    },
+    {
+      "id": "chapter_summary_signal",
+      "narrative_roles": ["summary", "decision implication"],
+      "visual_anchor": "signal_block",
+      "weight_center": "left-middle",
+      "density_level": "low",
+      "mvp_priority": true,
+      "editable_target": "native_shapes_plus_text"
+    },
+    {
+      "id": "closing_control_first",
+      "narrative_roles": ["closing", "call to action"],
+      "visual_anchor": "closing_orbit",
+      "weight_center": "right-middle",
+      "density_level": "low",
+      "mvp_priority": false,
+      "editable_target": "native_shapes_plus_text"
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "reference_id": "openclaw-executive-seed-02",
+  "source": {
+    "deck_id": "openclaw-executive",
+    "slide_number": 2,
+    "extraction_mode": "documented_seed",
+    "title": "Documented seed: bottleneck shift page",
+    "file_path": "references/style-lessons-from-openclaw-deck.md",
+    "source_note": "This extraction is reconstructed from the documented OpenClaw style lessons and validated slide patterns, not from the original slide screenshot.",
+    "tags": ["openclaw", "seed", "thesis", "paradigm-shift"]
+  },
+  "narrative_role": "paradigm shift",
+  "page_type_candidate": "bottleneck_shift",
+  "audience_tone": "executive, action-oriented, sharp",
+  "claim": "The delivery bottleneck is shifting from generation speed to controlled execution and review quality.",
+  "visual_anchor": "A dominant left-side thesis block with a bottom visual object grounds the page.",
+  "weight_center": "left-middle",
+  "composition": {
+    "structure": "Large thesis zone on the left, stacked support cards on the right, grounded by a lower visual panel.",
+    "density_level": "medium",
+    "alignment_logic": "Left and right columns share the same top and bottom bounds; support cards align to one right-side grid.",
+    "asymmetry": "The page is not symmetric, but both columns live inside one shared content frame.",
+    "image_usage": "A supporting image or abstract visual in the lower left adds weight and prevents an empty lower half.",
+    "highlight_grammar": [
+      "Oversized thesis statement with selective accent words",
+      "small signal labels on support cards",
+      "gradient or glow confined to the lower visual panel"
+    ]
+  },
+  "components": [
+    {
+      "id": "hero_statement",
+      "role": "primary thesis",
+      "type": "text_block",
+      "position_note": "Large left-side statement block"
+    },
+    {
+      "id": "support_cards",
+      "role": "supporting evidence",
+      "type": "card_stack",
+      "position_note": "Three aligned cards on the right"
+    },
+    {
+      "id": "grounding_visual",
+      "role": "weight anchor",
+      "type": "image_or_svg",
+      "position_note": "Lower-left panel or visual object"
+    }
+  ],
+  "why_it_works": [
+    "One sharp thesis drives the page instead of diffusing attention across equal cards.",
+    "The lower visual object fixes the common top-heavy dark-theme failure mode.",
+    "The support cards provide evidence without weakening the drama of the page."
+  ],
+  "anti_patterns": [
+    "Leaving a large empty lower container makes the page look unfinished.",
+    "Misaligning left and right columns breaks executive polish even when asymmetry is intended.",
+    "Shrinking the thesis until the page reads like a normal content slide removes the strategic feel."
+  ],
+  "reuse_notes": {
+    "safe_to_reuse": true,
+    "do_not_copy_blindly": [
+      "The exact sentence shape of the thesis",
+      "Any source-specific support labels"
+    ],
+    "adaptation_notes": [
+      "Use this pattern only when the page needs one strong directional statement.",
+      "Always design the lower-left area as an actual object, not an empty container."
+    ]
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "reference_id": "benchmark-deck-a-slide-01",
+  "source": {
+    "deck_id": "benchmark-deck-a",
+    "slide_number": 1,
+    "extraction_mode": "direct_slide",
+    "title": "Replace with source slide title",
+    "file_path": "references/benchmark-deck-a/source.pptx",
+    "image_path": "references/benchmark-deck-a/slide-01.png",
+    "tags": ["executive", "cover"]
+  },
+  "narrative_role": "chapter opener",
+  "page_type_candidate": "cover_orbit",
+  "audience_tone": "control-first, modern enterprise",
+  "claim": "State the core page message in one sentence.",
+  "visual_anchor": "Describe the dominant visual object or focal point.",
+  "weight_center": "right-heavy with a strong foreground anchor",
+  "composition": {
+    "structure": "two-zone composition with left headline and right hero visual",
+    "density_level": "medium",
+    "alignment_logic": "headline block and support metadata share a left grid; hero visual stays inside a right frame",
+    "asymmetry": "content is left-aligned while image mass sits on the right",
+    "image_usage": "hero image plus subtle texture layer",
+    "highlight_grammar": [
+      "high-contrast headline",
+      "single accent color for signal labels",
+      "soft glow behind hero image"
+    ]
+  },
+  "components": [
+    {
+      "id": "headline",
+      "role": "main claim",
+      "type": "text_block",
+      "position_note": "top-left dominant headline"
+    },
+    {
+      "id": "hero_visual",
+      "role": "focal anchor",
+      "type": "image_or_svg",
+      "position_note": "right-side large visual object"
+    }
+  ],
+  "why_it_works": [
+    "The page has a clear focal anchor before the reader enters the text.",
+    "Text and image establish asymmetry without breaking alignment discipline.",
+    "The image treatment adds energy without overwhelming the message."
+  ],
+  "anti_patterns": [
+    "Do not flatten the hero visual into a tiny decorative thumbnail.",
+    "Do not let support labels drift off the main text grid."
+  ],
+  "reuse_notes": {
+    "safe_to_reuse": true,
+    "do_not_copy_blindly": [
+      "Source-specific image content",
+      "Exact wording or proprietary labels"
+    ],
+    "adaptation_notes": [
+      "Preserve the focal hierarchy and grid relationship.",
+      "Swap the hero visual according to the page topic, not by style alone."
+    ]
+  }
+}

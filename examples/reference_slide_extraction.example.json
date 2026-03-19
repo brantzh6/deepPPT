@@ -1,0 +1,63 @@
+{
+  "reference_id": "ref_openclaw_trust_01",
+  "source": {
+    "deck_id": "openclaw_exec_deck",
+    "slide_number": 12,
+    "extraction_mode": "direct_slide",
+    "title": "Why the system feels trustworthy",
+    "image_path": "references/openclaw/slide-12.png",
+    "tags": ["trust", "architecture", "dark-tech"]
+  },
+  "narrative_role": "trust explanation",
+  "page_type_candidate": "trust_terminal",
+  "audience_tone": "executive tech",
+  "claim": "Trust comes from visible runtime control, not abstract claims.",
+  "visual_anchor": "terminal_window",
+  "weight_center": "right-middle",
+  "composition": {
+    "structure": "left concept block plus right execution object",
+    "density_level": "medium",
+    "alignment_logic": "two-column layout with shared top line and object-centered right column",
+    "asymmetry": "right-heavy because the runtime object carries the page authority",
+    "image_usage": "object-like terminal panel acts as the hero visual instead of a decorative image",
+    "highlight_grammar": [
+      "orange emphasis labels",
+      "cyan runtime lines",
+      "low-opacity technical frame"
+    ]
+  },
+  "components": [
+    {
+      "id": "concept_block",
+      "role": "left-side explanation",
+      "type": "text cluster",
+      "position_note": "top-left anchored"
+    },
+    {
+      "id": "runtime_terminal",
+      "role": "hero object",
+      "type": "terminal panel",
+      "position_note": "right-middle dominant"
+    }
+  ],
+  "why_it_works": [
+    "The hero object turns an abstract trust claim into a concrete runtime story.",
+    "The page is asymmetric but still aligned, so it feels designed rather than messy.",
+    "Highlight colors are used to stage hierarchy, not to decorate every element."
+  ],
+  "anti_patterns": [
+    "Do not flatten this into two equal cards.",
+    "Do not replace the terminal object with bullets only."
+  ],
+  "reuse_notes": {
+    "safe_to_reuse": true,
+    "do_not_copy_blindly": [
+      "Do not copy exact chrome details from the source screenshot.",
+      "Do not keep dark theme if the target deck needs a lighter board style."
+    ],
+    "adaptation_notes": [
+      "Keep the hero object idea even when the object changes from terminal to control panel.",
+      "Preserve right-side visual authority."
+    ]
+  }
+}
