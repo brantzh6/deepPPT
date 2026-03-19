@@ -72,6 +72,69 @@
       }
     },
     {
+      "id": "ch1_s02",
+      "chapter": "ch1",
+      "page_type_hint": "trust_terminal",
+      "title": "Trust Architecture",
+      "claim": "Enterprise agent deployment requires explicit trust boundaries and verifiable execution contexts.",
+      "blocks": {
+        "trust_claim": "Execution context isolation and audit logging are non-negotiable for production deployment.",
+        "governance_labels": [
+          "Sandboxed execution environment",
+          "Immutable audit trails",
+          "Human-in-the-loop checkpoints"
+        ],
+        "terminal_content": "$ agentctl verify --context production\n✓ Execution sandbox active\n✓ Audit logging enabled\n✓ Policy constraints enforced",
+        "security_indicators": [
+          "End-to-end encrypted",
+          "SOC 2 Type II compliant",
+          "Zero-trust architecture"
+        ]
+      },
+      "layout_hints": {
+        "weight_center": "right-middle",
+        "density_level": "medium",
+        "avoid_symmetry": true
+      }
+    },
+    {
+      "id": "ch2_s01",
+      "chapter": "ch2",
+      "page_type_hint": "layered_architecture_stack",
+      "title": "Control-First Architecture",
+      "claim": "A three-layer architecture separates policy, execution, and observability for enterprise governance.",
+      "blocks": {
+        "architecture_title": "Enterprise Agent Stack",
+        "layers": [
+          {
+            "name": "Policy Layer",
+            "description": "Governance rules, access control, and compliance policies",
+            "highlight": true
+          },
+          {
+            "name": "Execution Layer",
+            "description": "Sandboxed agent runtime with action constraints",
+            "highlight": false
+          },
+          {
+            "name": "Observability Layer",
+            "description": "Audit trails, monitoring, and feedback loops",
+            "highlight": false
+          }
+        ],
+        "cross_cutting": [
+          "End-to-end encryption",
+          "Identity federation",
+          "Audit logging"
+        ]
+      },
+      "layout_hints": {
+        "weight_center": "middle",
+        "density_level": "high",
+        "avoid_symmetry": false
+      }
+    },
+    {
       "id": "summary_s01",
       "chapter": "summary",
       "page_type_hint": "chapter_summary_signal",

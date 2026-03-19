@@ -27,6 +27,25 @@
             "claim": "The practical value comes from controlled execution, not only conversation quality.",
             "role": "opening strategic claim",
             "page_type_hint": "bottleneck_shift"
+          },
+          {
+            "id": "ch1_s02",
+            "claim": "Enterprise agent deployment requires explicit trust boundaries and verifiable execution contexts.",
+            "role": "trust architecture explanation",
+            "page_type_hint": "trust_terminal"
+          }
+        ]
+      },
+      {
+        "id": "ch2",
+        "title": "Control-First Architecture",
+        "question": "How should enterprise agent systems be architected for governance?",
+        "slides": [
+          {
+            "id": "ch2_s01",
+            "claim": "A three-layer architecture separates policy, execution, and observability for enterprise governance.",
+            "role": "architecture explanation",
+            "page_type_hint": "layered_architecture_stack"
           }
         ]
       },

@@ -141,13 +141,19 @@ export async function renderPptxCommand(args: string[]): Promise<void> {
         renderCoverSlide(slide, slideData, styleEntry, theme, safeOuterShadow, visualAssets.coverOrbitBoard);
         break;
       case "narrative_map":
-        renderNarrativeMapSlide(slide, slideData, theme, safeOuterShadow);
+        renderNarrativeMapSlide(slide, slideData, styleEntry, theme, safeOuterShadow);
         break;
       case "bottleneck_shift":
         renderBottleneckSlide(slide, slideData, styleEntry, theme, safeOuterShadow, visualAssets.controlLoopHero);
         break;
       case "chapter_summary_signal":
-        renderSummarySlide(slide, slideData, theme, safeOuterShadow);
+        renderSummarySlide(slide, slideData, styleEntry, theme, safeOuterShadow);
+        break;
+      case "trust_terminal":
+        renderTrustTerminalSlide(slide, slideData, styleEntry, theme, safeOuterShadow);
+        break;
+      case "layered_architecture_stack":
+        renderLayeredArchitectureSlide(slide, slideData, styleEntry, theme, safeOuterShadow);
         break;
       default:
         renderFallbackSlide(slide, slideData, theme, safeOuterShadow);
@@ -362,13 +368,26 @@ function renderCoverSlide(
 
 }
 
-function renderNarrativeMapSlide(slide: PptxSlide, slideData: SlideType, theme: ThemeType, safeOuterShadow: ShadowFactory): void {
+function renderNarrativeMapSlide(
+  slide: PptxSlide,
+  slideData: SlideType,
+  styleEntry: StyleMap["slides"][number],
+  theme: ThemeType,
+  safeOuterShadow: ShadowFactory
+): void {
   const blocks = slideData.blocks as {
     dominant_chapter?: string;
     supporting_chapters?: string[];
     decision_cue?: string;
   };
   const supporting = blocks.supporting_chapters ?? [];
+
+  // Consume learned pattern: layout_rules and alignment_rules
+  const learnedPattern = styleEntry.learned_pattern;
+  const highlightGrammar = learnedPattern?.highlight_grammar ?? [];
+
+  // Layout constants enforcing alignment_rules:
+  // "Left dominant card and right stack must share the same top and bottom boundaries"
   const contentTop = 1.95;
   const contentBottom = 5.42;
   const leftX = 0.75;
@@ -379,6 +398,12 @@ function renderNarrativeMapSlide(slide: PptxSlide, slideData: SlideType, theme: 
   const stackH = contentBottom - contentTop;
   const cardH = (stackH - gutter) / 2;
 
+  // Apply highlight_grammar: "Use accent color for chapter numbers and decision cue band"
+  const chapterNumberColor = highlightGrammar.some((g) => g.includes("accent color for chapter numbers"))
+    ? theme.palette.accent_primary
+    : theme.palette.text_secondary;
+
+  // Dominant chapter card (left) - layout_rules: "Use one dominant chapter card on the left"
   slide.addShape("roundRect", {
     x: leftX,
     y: contentTop,
@@ -396,7 +421,7 @@ function renderNarrativeMapSlide(slide: PptxSlide, slideData: SlideType, theme: 
     h: 0.2,
     fontFace: theme.typography.font_family,
     fontSize: 12,
-    color: theme.palette.accent_primary.replace("#", ""),
+    color: chapterNumberColor.replace("#", ""),
     margin: 0
   });
   slide.addText(blocks.dominant_chapter ?? "Dominant chapter", {
@@ -411,17 +436,23 @@ function renderNarrativeMapSlide(slide: PptxSlide, slideData: SlideType, theme: 
     margin: 0
   });
 
-  addInfoCard(slide, rightX, contentTop, rightW, cardH, "02 Supporting chapter", supporting[0] ?? "Supporting chapter", theme);
-  addInfoCard(slide, rightX, contentTop + cardH + gutter, rightW, cardH, "03 Supporting chapter", supporting[1] ?? "Supporting chapter", theme);
+  // Supporting chapter cards (right stack) - layout_rules: "Stack supporting chapter cards on the right"
+  addInfoCard(slide, rightX, contentTop, rightW, cardH, "02 Supporting chapter", supporting[0] ?? "Supporting chapter", theme, chapterNumberColor);
+  addInfoCard(slide, rightX, contentTop + cardH + gutter, rightW, cardH, "03 Supporting chapter", supporting[1] ?? "Supporting chapter", theme, chapterNumberColor);
 
+  // Decision cue band - layout_rules: "Place a decision cue band at the bottom"
+  // alignment_rules: "Decision cue band must align to the full width of the content frame"
+  const cueBandColor = highlightGrammar.some((g) => g.includes("accent color for chapter numbers"))
+    ? theme.palette.accent_primary
+    : theme.palette.surface_alt;
   slide.addShape("roundRect", {
     x: 0.75,
     y: 5.95,
     w: 11.55,
     h: 0.56,
     rectRadius: 0.16,
-    fill: { color: theme.palette.accent_primary.replace("#", ""), transparency: 82 },
-    line: { color: theme.palette.accent_primary.replace("#", ""), transparency: 70, width: 1 }
+    fill: { color: cueBandColor.replace("#", ""), transparency: 82 },
+    line: { color: cueBandColor.replace("#", ""), transparency: 70, width: 1 }
   });
   slide.addText(blocks.decision_cue ?? "Decision cue", {
     x: 0.98,
@@ -539,9 +570,28 @@ function renderBottleneckSlide(
   });
 }
 
-function renderSummarySlide(slide: PptxSlide, slideData: SlideType, theme: ThemeType, safeOuterShadow: ShadowFactory): void {
+function renderSummarySlide(
+  slide: PptxSlide,
+  slideData: SlideType,
+  styleEntry: StyleMap["slides"][number],
+  theme: ThemeType,
+  safeOuterShadow: ShadowFactory
+): void {
   const blocks = slideData.blocks as { summary?: string; implications?: string[]; decision_cue?: string };
   const implications = blocks.implications ?? [];
+
+  // Consume learned pattern
+  const learnedPattern = styleEntry.learned_pattern;
+  const layoutRules = learnedPattern?.layout_rules ?? [];
+  const alignmentRules = learnedPattern?.alignment_rules ?? [];
+  const highlightGrammar = learnedPattern?.highlight_grammar ?? [];
+
+  // Apply highlight_grammar: "Use accent color on the decision cue only"
+  const decisionCueColor = highlightGrammar.some((g) => g.includes("accent color on the decision cue"))
+    ? theme.palette.accent_secondary
+    : theme.palette.text_secondary;
+
+  // Layout following alignment_rules: "Summary and implication blocks align to a shared left grid"
   const leftX = 0.75;
   const leftW = 6.55;
   const rightX = 7.7;
@@ -549,6 +599,7 @@ function renderSummarySlide(slide: PptxSlide, slideData: SlideType, theme: Theme
   const cardTop = 1.95;
   const cardH = 3.9;
 
+  // Summary block (dominant) - layout_rules: "Use one dominant takeaway block"
   slide.addShape("roundRect", {
     x: leftX,
     y: cardTop,
@@ -601,6 +652,8 @@ function renderSummarySlide(slide: PptxSlide, slideData: SlideType, theme: Theme
     });
   });
 
+  // Decision cue block - layout_rules: "Add one secondary implication block and one compact signal cue"
+  // alignment_rules: "The signal cue must align to the same outer frame"
   slide.addShape("roundRect", {
     x: rightX,
     y: cardTop,
@@ -608,7 +661,7 @@ function renderSummarySlide(slide: PptxSlide, slideData: SlideType, theme: Theme
     h: cardH,
     rectRadius: 0.18,
     fill: { color: theme.palette.surface.replace("#", ""), transparency: 4 },
-    line: { color: theme.palette.accent_secondary.replace("#", ""), transparency: 68, width: 1.1 },
+    line: { color: decisionCueColor.replace("#", ""), transparency: 68, width: 1.1 },
     shadow: safeOuterShadow("000000", 0.18, 45, 4, 1)
   });
   slide.addText("Decision cue", {
@@ -618,7 +671,7 @@ function renderSummarySlide(slide: PptxSlide, slideData: SlideType, theme: Theme
     h: 0.18,
     fontFace: theme.typography.font_family,
     fontSize: 12,
-    color: theme.palette.accent_secondary.replace("#", ""),
+    color: decisionCueColor.replace("#", ""),
     margin: 0
   });
   slide.addText(blocks.decision_cue ?? "Decision cue", {
@@ -642,6 +695,338 @@ function renderSummarySlide(slide: PptxSlide, slideData: SlideType, theme: Theme
     color: theme.palette.text_secondary.replace("#", ""),
     margin: 0
   });
+}
+
+function renderTrustTerminalSlide(
+  slide: PptxSlide,
+  slideData: SlideType,
+  styleEntry: StyleMap["slides"][number],
+  theme: ThemeType,
+  safeOuterShadow: ShadowFactory
+): void {
+  const blocks = slideData.blocks as {
+    trust_claim?: string;
+    governance_labels?: string[];
+    terminal_content?: string;
+    security_indicators?: string[];
+  };
+  const governanceLabels = blocks.governance_labels ?? [];
+  const securityIndicators = blocks.security_indicators ?? [];
+
+  // Consume learned pattern
+  const learnedPattern = styleEntry.learned_pattern;
+  const layoutRules = learnedPattern?.layout_rules ?? [];
+  const alignmentRules = learnedPattern?.alignment_rules ?? [];
+  const highlightGrammar = learnedPattern?.highlight_grammar ?? [];
+
+  // Apply highlight_grammar: "Use accent color for security indicators and trust badges"
+  const indicatorColor = highlightGrammar.some((g) => g.includes("accent color for security indicators"))
+    ? theme.palette.accent_primary
+    : theme.palette.text_secondary;
+
+  // Layout following alignment_rules: "Terminal window must sit within a consistent right-side frame"
+  // CRITICAL: Left and right must share same content frame boundaries for proper alignment
+  const contentTop = 1.95;
+  const contentBottom = 6.15; // Shared bottom boundary for both sides
+  const leftX = 0.75;
+  const leftW = 5.6;
+  const terminalX = 6.8;
+  const terminalW = 5.5;
+  const terminalH = contentBottom - contentTop; // Same height as left content area
+
+  // Left side: Trust claim and governance labels
+  // layout_rules: "Use the left side for trust claims and governance labels, not dense text"
+  // alignment_rules: "Left-side trust claims align to a shared vertical grid"
+  slide.addText("TRUST ARCHITECTURE", {
+    x: leftX,
+    y: contentTop + 0.05,
+    w: 3.0,
+    h: 0.2,
+    fontFace: theme.typography.font_family,
+    fontSize: 11,
+    color: indicatorColor.replace("#", ""),
+    margin: 0
+  });
+
+  slide.addText(blocks.trust_claim ?? slideData.claim, {
+    x: leftX,
+    y: contentTop + 0.45,
+    w: leftW,
+    h: 1.0,
+    fontFace: theme.typography.font_family,
+    fontSize: 20,
+    bold: true,
+    color: theme.palette.text_primary.replace("#", ""),
+    margin: 0
+  });
+
+  // Governance labels as pills - aligned within left content frame
+  const labelStartY = contentTop + 1.75;
+  const labelSpacing = (contentBottom - labelStartY - 0.5) / Math.max(governanceLabels.length, 1);
+  governanceLabels.forEach((label, index) => {
+    const yPos = labelStartY + index * Math.min(labelSpacing, 0.55);
+    slide.addShape("roundRect", {
+      x: leftX,
+      y: yPos,
+      w: 3.8,
+      h: 0.42,
+      rectRadius: 0.21,
+      fill: { color: theme.palette.surface.replace("#", ""), transparency: 6 },
+      line: { color: theme.palette.text_secondary.replace("#", ""), transparency: 70, width: 1 }
+    });
+    slide.addText(label, {
+      x: leftX + 0.2,
+      y: yPos + 0.1,
+      w: 3.4,
+      h: 0.22,
+      fontFace: theme.typography.font_family,
+      fontSize: 12,
+      color: theme.palette.text_secondary.replace("#", ""),
+      margin: 0
+    });
+  });
+
+  // Terminal window frame - layout_rules: "Place the terminal window as the dominant visual anchor on the right side"
+  // alignment_rules: "Terminal window must sit within a consistent right-side frame with controlled padding"
+  slide.addShape("roundRect", {
+    x: terminalX,
+    y: contentTop,
+    w: terminalW,
+    h: terminalH,
+    rectRadius: 0.16,
+    fill: { color: "1a1a2e", transparency: 0 },
+    line: { color: theme.palette.accent_primary.replace("#", ""), transparency: 50, width: 1.5 },
+    shadow: safeOuterShadow("000000", 0.25, 45, 8, 3)
+  });
+
+  // Terminal header bar
+  slide.addShape("roundRect", {
+    x: terminalX,
+    y: contentTop,
+    w: terminalW,
+    h: 0.4,
+    rectRadius: 0.16,
+    fill: { color: "2d2d44", transparency: 0 },
+    line: { color: theme.palette.accent_primary.replace("#", ""), transparency: 50, width: 1.5 }
+  });
+
+  // Terminal window controls (dots)
+  const dotColors = ["ff5f56", "ffbd2e", "27c93f"];
+  dotColors.forEach((color, index) => {
+    slide.addShape("ellipse", {
+      x: terminalX + 0.25 + index * 0.35,
+      y: contentTop + 0.13,
+      w: 0.14,
+      h: 0.14,
+      fill: { color, transparency: 0 },
+      line: { color, transparency: 100 }
+    });
+  });
+
+  // Terminal content
+  const terminalText = blocks.terminal_content ?? "$ agentctl status\n✓ System operational";
+  slide.addText(terminalText, {
+    x: terminalX + 0.25,
+    y: contentTop + 0.65,
+    w: terminalW - 0.5,
+    h: terminalH - 1.0,
+    fontFace: "Courier New",
+    fontSize: 11,
+    color: "00ff88",
+    margin: 0,
+    valign: "top"
+  });
+
+  // Security indicators at bottom of terminal
+  // highlight_grammar: "Use accent color for security indicators and trust badges"
+  securityIndicators.forEach((indicator, index) => {
+    const xPos = terminalX + 0.25 + index * 1.7;
+    const yPos = contentTop + terminalH + 0.15;
+    slide.addShape("roundRect", {
+      x: xPos,
+      y: yPos,
+      w: 1.55,
+      h: 0.32,
+      rectRadius: 0.16,
+      fill: { color: indicatorColor.replace("#", ""), transparency: 85 },
+      line: { color: indicatorColor.replace("#", ""), transparency: 70, width: 1 }
+    });
+    slide.addText("✓ " + indicator, {
+      x: xPos + 0.1,
+      y: yPos + 0.07,
+      w: 1.35,
+      h: 0.18,
+      fontFace: theme.typography.font_family,
+      fontSize: 9,
+      color: theme.palette.text_primary.replace("#", ""),
+      margin: 0,
+      align: "center"
+    });
+  });
+}
+
+function renderLayeredArchitectureSlide(
+  slide: PptxSlide,
+  slideData: SlideType,
+  styleEntry: StyleMap["slides"][number],
+  theme: ThemeType,
+  safeOuterShadow: ShadowFactory
+): void {
+  const blocks = slideData.blocks as {
+    architecture_title?: string;
+    layers?: Array<{ name: string; description: string; highlight?: boolean }>;
+    cross_cutting?: string[];
+  };
+  const layers = blocks.layers ?? [];
+  const crossCutting = blocks.cross_cutting ?? [];
+
+  // Consume learned pattern
+  const learnedPattern = styleEntry.learned_pattern;
+  const layoutRules = learnedPattern?.layout_rules ?? [];
+  const alignmentRules = learnedPattern?.alignment_rules ?? [];
+  const highlightGrammar = learnedPattern?.highlight_grammar ?? [];
+
+  // Apply highlight_grammar: "Use accent color for the most critical layer"
+  const useAccentForHighlight = highlightGrammar.some((g) => g.includes("accent color for the most critical layer"));
+
+  // Layout following alignment_rules: "All stack layers must share the same left and right boundaries"
+  // Note: Header (addHeader) uses y=1.02 for title, y=1.62 for subtitle
+  // We must start our content below that
+  const contentTop = 2.35; // Start well below header area (subtitle ends ~1.9)
+  const contentBottom = 6.2;
+  const stackX = 0.75;
+  const stackW = 7.5;
+  const detailX = 8.6;
+  const detailW = 4.0;
+
+  // Architecture title - positioned below subtitle, above stack
+  slide.addText(blocks.architecture_title ?? "Architecture", {
+    x: stackX,
+    y: 2.05,
+    w: stackW,
+    h: 0.22,
+    fontFace: theme.typography.font_family,
+    fontSize: 11,
+    color: theme.palette.text_secondary.replace("#", ""),
+    margin: 0
+  });
+
+  // Calculate layer heights - fixed height per layer to ensure proper spacing
+  const layerCount = Math.max(layers.length, 1);
+  const layerSpacing = 0.12;
+  const baseLayerHeight = 1.15; // Fixed height for each layer
+
+  // Render layers from top to bottom (reverse order for visual stack)
+  [...layers].reverse().forEach((layer, index) => {
+    const reversedIndex = layerCount - 1 - index;
+    const yPos = contentTop + index * (baseLayerHeight + layerSpacing);
+    const isHighlighted = layer.highlight;
+
+    // Layer background
+    const layerColor = isHighlighted && useAccentForHighlight
+      ? theme.palette.accent_primary
+      : theme.palette.surface;
+    const transparency = isHighlighted ? 20 : 6;
+
+    slide.addShape("roundRect", {
+      x: stackX,
+      y: yPos,
+      w: stackW,
+      h: baseLayerHeight,
+      rectRadius: 0.12,
+      fill: { color: layerColor.replace("#", ""), transparency },
+      line: { color: isHighlighted ? theme.palette.accent_primary.replace("#", "") : "FFFFFF", transparency: isHighlighted ? 40 : 75, width: isHighlighted ? 1.5 : 1 },
+      shadow: isHighlighted ? safeOuterShadow(theme.palette.accent_primary.replace("#", ""), 0.15, 45, 4, 2) : undefined
+    });
+
+    // Layer number
+    slide.addText(String(reversedIndex + 1), {
+      x: stackX + 0.2,
+      y: yPos + 0.15,
+      w: 0.4,
+      h: 0.3,
+      fontFace: theme.typography.font_family,
+      fontSize: 14,
+      bold: true,
+      color: isHighlighted ? theme.palette.accent_primary.replace("#", "") : theme.palette.text_secondary.replace("#", ""),
+      margin: 0,
+      align: "center"
+    });
+
+    // Layer name
+    slide.addText(layer.name, {
+      x: stackX + 0.7,
+      y: yPos + 0.12,
+      w: 3.5,
+      h: 0.35,
+      fontFace: theme.typography.font_family,
+      fontSize: 16,
+      bold: true,
+      color: theme.palette.text_primary.replace("#", ""),
+      margin: 0
+    });
+
+    // Layer description
+    slide.addText(layer.description, {
+      x: stackX + 0.7,
+      y: yPos + 0.5,
+      w: stackW - 1.0,
+      h: baseLayerHeight - 0.65,
+      fontFace: theme.typography.font_family,
+      fontSize: 11,
+      color: theme.palette.text_secondary.replace("#", ""),
+      margin: 0
+    });
+  });
+
+  // Cross-cutting concerns on the right side
+  if (crossCutting.length > 0) {
+    slide.addText("Cross-cutting concerns", {
+      x: detailX,
+      y: contentTop,
+      w: detailW,
+      h: 0.2,
+      fontFace: theme.typography.font_family,
+      fontSize: 11,
+      color: theme.palette.text_secondary.replace("#", ""),
+      margin: 0
+    });
+
+    crossCutting.forEach((item, index) => {
+      const yPos = contentTop + 0.4 + index * 0.6;
+
+      // Connector line from stack to detail
+      slide.addShape("line", {
+        x1: stackX + stackW,
+        y1: contentTop + 0.5 + index * 1.5,
+        x2: detailX - 0.15,
+        y2: yPos + 0.15,
+        line: { color: theme.palette.accent_secondary.replace("#", ""), transparency: 50, width: 1, dashType: "dash" }
+      });
+
+      // Detail card
+      slide.addShape("roundRect", {
+        x: detailX,
+        y: yPos,
+        w: detailW,
+        h: 0.45,
+        rectRadius: 0.1,
+        fill: { color: theme.palette.surface_alt.replace("#", ""), transparency: 8 },
+        line: { color: theme.palette.accent_secondary.replace("#", ""), transparency: 60, width: 1 }
+      });
+
+      slide.addText(item, {
+        x: detailX + 0.15,
+        y: yPos + 0.12,
+        w: detailW - 0.3,
+        h: 0.22,
+        fontFace: theme.typography.font_family,
+        fontSize: 11,
+        color: theme.palette.text_primary.replace("#", ""),
+        margin: 0
+      });
+    });
+  }
 }
 
 function renderFallbackSlide(slide: PptxSlide, slideData: SlideType, theme: ThemeType, safeOuterShadow: ShadowFactory): void {
@@ -690,7 +1075,7 @@ function addPill(slide: PptxSlide, x: number, y: number, w: number, label: strin
   });
 }
 
-function addInfoCard(slide: PptxSlide, x: number, y: number, w: number, h: number, label: string, text: string, theme: ThemeType): void {
+function addInfoCard(slide: PptxSlide, x: number, y: number, w: number, h: number, label: string, text: string, theme: ThemeType, labelColor?: string): void {
   slide.addShape("roundRect", {
     x,
     y,
@@ -707,7 +1092,7 @@ function addInfoCard(slide: PptxSlide, x: number, y: number, w: number, h: numbe
     h: 0.18,
     fontFace: theme.typography.font_family,
     fontSize: 11,
-    color: theme.palette.accent_secondary.replace("#", ""),
+    color: (labelColor ?? theme.palette.accent_secondary).replace("#", ""),
     margin: 0
   });
   slide.addText(text, {

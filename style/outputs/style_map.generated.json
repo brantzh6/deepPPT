@@ -46,13 +46,44 @@
     {
       "slide_id": "agenda",
       "page_type": "narrative_map",
-      "visual_anchor": "chapter_card_stack",
+      "visual_anchor": "Chapter card stack with dominant chapter emphasized.",
       "weight_center": "center-middle",
       "density_level": "medium",
       "component_bindings": [
-        "chapter_card_stack"
+        "dominant chapter card",
+        "supporting chapter card stack",
+        "chapter number label",
+        "decision cue band"
       ],
-      "editable_target": "native_shapes_plus_text"
+      "editable_target": "native_shapes_plus_text",
+      "learned_pattern": {
+        "pattern_id": "narrative_map_openclaw_seed",
+        "source_references": ["openclaw-executive-seed-agenda"],
+        "layout_rules": [
+          "Use one dominant chapter card on the left to establish narrative priority.",
+          "Stack supporting chapter cards on the right with consistent sizing.",
+          "Place a decision cue band at the bottom to frame the discussion outcome.",
+          "Maintain clear vertical rhythm between left dominant and right stack."
+        ],
+        "alignment_rules": [
+          "Left dominant card and right stack must share the same top and bottom boundaries.",
+          "Right stack cards must have equal height and consistent internal padding.",
+          "Decision cue band must align to the full width of the content frame.",
+          "Chapter number labels align to a consistent left edge within each card."
+        ],
+        "highlight_grammar": [
+          "Use accent color for chapter numbers and decision cue band.",
+          "Keep chapter titles in primary text color for readability.",
+          "Use secondary text color for subtitles or supporting descriptions.",
+          "Let card borders and shadows carry visual weight instead of color fills."
+        ],
+        "image_usage": {
+          "required": false,
+          "mode": "none",
+          "placement_guidance": "Narrative map pages should rely on typography and card structure, not hero images."
+        },
+        "editable_target": "native_shapes_plus_text"
+      }
     },
     {
       "slide_id": "ch1_s01",
@@ -94,6 +125,94 @@
           "placement_guidance": "Use a lower-left image or abstract SVG panel to ground the page and add impact."
         },
         "editable_target": "hybrid_native_plus_svg"
+      }
+    },
+    {
+      "slide_id": "ch1_s02",
+      "page_type": "trust_terminal",
+      "visual_anchor": "Terminal window as the central trust object with layered security context.",
+      "weight_center": "right-middle",
+      "density_level": "medium",
+      "component_bindings": [
+        "terminal window frame",
+        "command prompt content",
+        "trust badge indicators",
+        "governance label stack",
+        "security context layer"
+      ],
+      "editable_target": "native_shapes_plus_text",
+      "learned_pattern": {
+        "pattern_id": "trust_terminal_openclaw_seed",
+        "source_references": ["openclaw-executive-seed-trust"],
+        "layout_rules": [
+          "Place the terminal window as the dominant visual anchor on the right side.",
+          "Use the left side for trust claims and governance labels, not dense text.",
+          "Layer subtle security indicators around the terminal without cluttering it.",
+          "Maintain clear separation between the terminal object and explanatory text."
+        ],
+        "alignment_rules": [
+          "Terminal window must sit within a consistent right-side frame with controlled padding.",
+          "Left-side trust claims align to a shared vertical grid.",
+          "Security indicator layers must not overlap with terminal content area.",
+          "Governance labels align to the left edge of the terminal frame."
+        ],
+        "highlight_grammar": [
+          "Use accent color for security indicators and trust badges.",
+          "Keep terminal content in monospace with syntax highlighting if applicable.",
+          "Use neutral colors for governance labels to avoid visual competition.",
+          "Apply subtle glow or border emphasis to the terminal frame only."
+        ],
+        "image_usage": {
+          "required": true,
+          "mode": "hero",
+          "placement_guidance": "Use a terminal window SVG or screenshot as the right-side hero object. The terminal should show realistic command output or code that reinforces trust."
+        },
+        "editable_target": "native_shapes_plus_text"
+      }
+    },
+    {
+      "slide_id": "ch2_s01",
+      "page_type": "layered_architecture_stack",
+      "visual_anchor": "Layered stack with distinct visual separation between architectural layers.",
+      "weight_center": "middle",
+      "density_level": "high",
+      "component_bindings": [
+        "layer container blocks",
+        "layer label system",
+        "layer description text",
+        "cross-layer connector lines",
+        "detail annotation cards"
+      ],
+      "editable_target": "native_shapes_plus_text",
+      "learned_pattern": {
+        "pattern_id": "layered_architecture_stack_openclaw_seed",
+        "source_references": ["openclaw-executive-seed-architecture"],
+        "layout_rules": [
+          "Stack layers vertically with consistent spacing to show architectural hierarchy.",
+          "Use distinct visual treatment for each layer while maintaining cohesive stack appearance.",
+          "Place layer labels on the left with clear typography hierarchy.",
+          "Add connecting lines or subtle indicators to show layer relationships.",
+          "Reserve right side for layer details or cross-cutting concerns."
+        ],
+        "alignment_rules": [
+          "All stack layers must share the same left and right boundaries.",
+          "Layer labels align to a consistent left grid.",
+          "Layer heights should be proportional to their architectural significance.",
+          "Spacing between layers must be uniform.",
+          "Right-side details align to the stack's right edge."
+        ],
+        "highlight_grammar": [
+          "Use accent color for the most critical layer or active component.",
+          "Apply gradient or glow effects sparingly to emphasize layer boundaries.",
+          "Keep layer labels in high-contrast colors for readability.",
+          "Use subtle background variations to distinguish adjacent layers."
+        ],
+        "image_usage": {
+          "required": false,
+          "mode": "none",
+          "placement_guidance": "Architecture stack pages should rely on geometric shapes and typography rather than images."
+        },
+        "editable_target": "native_shapes_plus_text"
       }
     },
     {

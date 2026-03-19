@@ -97,6 +97,10 @@ function renderSlideSvg(slide: SlideRecord, styleEntry: StyleEntry | undefined, 
         return renderBottleneck(slide, styleEntry, theme);
       case "chapter_summary_signal":
         return renderSummary(slide, theme);
+      case "trust_terminal":
+        return renderTrustTerminal(slide, styleEntry, theme);
+      case "layered_architecture_stack":
+        return renderLayeredArchitecture(slide, styleEntry, theme);
       default:
         return renderFallback(slide, theme);
     }
@@ -241,6 +245,112 @@ function renderSummary(slide: SlideRecord, theme: ThemeDefinition): string {
     <text x="964" y="318" fill="${palette.accent_secondary}" font-family="${theme.typography.font_family}" font-size="18">Decision cue</text>
     <text x="964" y="404" fill="${palette.text_primary}" font-family="${theme.typography.font_family}" font-size="30" font-weight="700">${escapeHtml(blocks.decision_cue ?? "Decision cue")}</text>
     <text x="964" y="520" fill="${palette.text_secondary}" font-family="${theme.typography.font_family}" font-size="22">The decision is not whether agent execution is interesting. The decision is whether it is governable, editable, and reviewable inside enterprise constraints.</text>
+  `;
+}
+
+function renderTrustTerminal(slide: SlideRecord, styleEntry: StyleEntry | undefined, theme: ThemeDefinition): string {
+  const palette = theme.palette;
+  const blocks = slide.blocks as {
+    trust_claim?: string;
+    governance_labels?: string[];
+    terminal_content?: string;
+    security_indicators?: string[];
+  };
+  const governanceLabels = blocks.governance_labels ?? [];
+  const securityIndicators = blocks.security_indicators ?? [];
+  const indicatorColor = palette.accent_primary;
+
+  // Layout
+  const contentTop = 236;
+  const leftX = 90;
+  const leftW = 700;
+  const terminalX = 816;
+  const terminalW = 694;
+  const terminalH = 420;
+
+  return `
+    <!-- Left side: Trust claim -->
+    <text x="${leftX}" y="260" fill="${indicatorColor}" font-family="${theme.typography.font_family}" font-size="18" font-weight="700">TRUST ARCHITECTURE</text>
+    <text x="${leftX}" y="320" fill="${palette.text_primary}" font-family="${theme.typography.font_family}" font-size="36" font-weight="700">${escapeHtml(blocks.trust_claim ?? slide.claim)}</text>
+    
+    <!-- Governance labels -->
+    ${governanceLabels.map((label, index) => `
+      <rect x="${leftX}" y="${400 + index * 60}" width="420" height="46" rx="23" fill="${withOpacity(palette.surface, 0.94)}" stroke="${withOpacity(palette.text_secondary, 0.2)}" />
+      <text x="${leftX + 24}" y="${430 + index * 60}" fill="${palette.text_secondary}" font-family="${theme.typography.font_family}" font-size="20">${escapeHtml(label)}</text>
+    `).join("")}
+    
+    <!-- Terminal window -->
+    <rect x="${terminalX}" y="${contentTop}" width="${terminalW}" height="${terminalH}" rx="24" fill="#1a1a2e" stroke="${withOpacity(palette.accent_primary, 0.5)}" stroke-width="2" />
+    <rect x="${terminalX}" y="${contentTop}" width="${terminalW}" height="48" rx="24" fill="#2d2d44" stroke="${withOpacity(palette.accent_primary, 0.5)}" stroke-width="2" />
+    
+    <!-- Terminal controls -->
+    <circle cx="${terminalX + 28}" cy="${contentTop + 24}" r="8" fill="#ff5f56" />
+    <circle cx="${terminalX + 52}" cy="${contentTop + 24}" r="8" fill="#ffbd2e" />
+    <circle cx="${terminalX + 76}" cy="${contentTop + 24}" r="8" fill="#27c93f" />
+    
+    <!-- Terminal content -->
+    <text x="${terminalX + 32}" y="${contentTop + 100}" fill="#00ff88" font-family="Courier New, monospace" font-size="16">${escapeHtml(blocks.terminal_content ?? "$ agentctl status")}</text>
+    
+    <!-- Security indicators -->
+    ${securityIndicators.map((indicator, index) => `
+      <rect x="${terminalX + 32 + index * 220}" y="${contentTop + terminalH + 20}" width="200" height="36" rx="18" fill="${withOpacity(indicatorColor, 0.15)}" stroke="${withOpacity(indicatorColor, 0.3)}" />
+      <text x="${terminalX + 52 + index * 220}" y="${contentTop + terminalH + 44}" fill="${palette.text_primary}" font-family="${theme.typography.font_family}" font-size="14">✓ ${escapeHtml(indicator)}</text>
+    `).join("")}
+  `;
+}
+
+function renderLayeredArchitecture(slide: SlideRecord, styleEntry: StyleEntry | undefined, theme: ThemeDefinition): string {
+  const palette = theme.palette;
+  const blocks = slide.blocks as {
+    architecture_title?: string;
+    layers?: Array<{ name: string; description: string; highlight?: boolean }>;
+    cross_cutting?: string[];
+  };
+  const layers = blocks.layers ?? [];
+  const crossCutting = blocks.cross_cutting ?? [];
+  
+  // Layout
+  const contentTop = 280;
+  const contentBottom = 780;
+  const stackX = 90;
+  const stackW = 900;
+  const detailX = 1020;
+  const detailW = 490;
+  
+  const layerCount = Math.max(layers.length, 1);
+  const layerSpacing = 16;
+  const layerHeight = (contentBottom - contentTop - (layerCount - 1) * layerSpacing) / layerCount;
+
+  return `
+    <!-- Architecture title -->
+    <text x="${stackX}" y="${contentTop - 20}" fill="${palette.text_secondary}" font-family="${theme.typography.font_family}" font-size="18">${escapeHtml(blocks.architecture_title ?? "Architecture")}</text>
+    
+    <!-- Stack layers -->
+    ${layers.map((layer, index) => {
+      const yPos = contentTop + index * (layerHeight + layerSpacing);
+      const isHighlighted = layer.highlight;
+      const layerColor = isHighlighted ? palette.accent_primary : palette.surface;
+      const transparency = isHighlighted ? 0.2 : 0.06;
+      const strokeColor = isHighlighted ? palette.accent_primary : "rgba(255,255,255,0.75)";
+      const strokeWidth = isHighlighted ? 2 : 1;
+      
+      return `
+        <rect x="${stackX}" y="${yPos}" width="${stackW}" height="${layerHeight}" rx="16" fill="${withOpacity(layerColor, transparency)}" stroke="${strokeColor}" stroke-width="${strokeWidth}" />
+        <text x="${stackX + 24}" y="${yPos + 36}" fill="${isHighlighted ? palette.accent_primary : palette.text_secondary}" font-family="${theme.typography.font_family}" font-size="24" font-weight="700">${layerCount - index}</text>
+        <text x="${stackX + 72}" y="${yPos + 32}" fill="${palette.text_primary}" font-family="${theme.typography.font_family}" font-size="28" font-weight="700">${escapeHtml(layer.name)}</text>
+        <text x="${stackX + 72}" y="${yPos + 64}" fill="${palette.text_secondary}" font-family="${theme.typography.font_family}" font-size="18">${escapeHtml(layer.description)}</text>
+      `;
+    }).join("")}
+    
+    <!-- Cross-cutting concerns -->
+    ${crossCutting.length > 0 ? `
+      <text x="${detailX}" y="${contentTop}" fill="${palette.text_secondary}" font-family="${theme.typography.font_family}" font-size="18">Cross-cutting concerns</text>
+      ${crossCutting.map((item, index) => `
+        <line x1="${stackX + stackW}" y1="${contentTop + 40 + index * 120}" x2="${detailX - 20}" y2="${contentTop + 60 + index * 80}" stroke="${withOpacity(palette.accent_secondary, 0.5)}" stroke-width="2" stroke-dasharray="8,4" />
+        <rect x="${detailX}" y="${contentTop + 40 + index * 80}" width="${detailW}" height="56" rx="12" fill="${withOpacity(palette.surface_alt, 0.08)}" stroke="${withOpacity(palette.accent_secondary, 0.24)}" stroke-width="1" />
+        <text x="${detailX + 20}" y="${contentTop + 76 + index * 80}" fill="${palette.text_primary}" font-family="${theme.typography.font_family}" font-size="20">${escapeHtml(item)}</text>
+      `).join("")}
+    ` : ""}
   `;
 }
 

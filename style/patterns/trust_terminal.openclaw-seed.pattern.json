@@ -1,0 +1,52 @@
+{
+  "id": "trust_terminal_openclaw_seed",
+  "page_type": "trust_terminal",
+  "source_references": ["openclaw-executive-seed-trust"],
+  "narrative_roles": ["trust explanation", "architecture reasoning", "governance framing"],
+  "topic_fit": ["security architecture", "trust boundaries", "control planes", "enterprise governance"],
+  "visual_anchor": "Terminal window as the central trust object with layered security context.",
+  "weight_center": "right-middle",
+  "density_level": "medium",
+  "layout_rules": [
+    "Place the terminal window as the dominant visual anchor on the right side.",
+    "Use the left side for trust claims and governance labels, not dense text.",
+    "Layer subtle security indicators around the terminal without cluttering it.",
+    "Maintain clear separation between the terminal object and explanatory text."
+  ],
+  "alignment_rules": [
+    "Terminal window must sit within a consistent right-side frame with controlled padding.",
+    "Left-side trust claims align to a shared vertical grid.",
+    "Security indicator layers must not overlap with terminal content area.",
+    "Governance labels align to the left edge of the terminal frame."
+  ],
+  "image_usage": {
+    "required": true,
+    "mode": "hero",
+    "placement_guidance": "Use a terminal window SVG or screenshot as the right-side hero object. The terminal should show realistic command output or code that reinforces trust."
+  },
+  "highlight_grammar": [
+    "Use accent color for security indicators and trust badges.",
+    "Keep terminal content in monospace with syntax highlighting if applicable.",
+    "Use neutral colors for governance labels to avoid visual competition.",
+    "Apply subtle glow or border emphasis to the terminal frame only."
+  ],
+  "component_recipe": [
+    "terminal window frame",
+    "command prompt content",
+    "trust badge indicators",
+    "governance label stack",
+    "security context layer"
+  ],
+  "editable_target": "native_shapes_plus_text",
+  "anti_patterns": [
+    "Terminal window too small to be the visual anchor.",
+    "Dense text competing with the terminal for attention.",
+    "Multiple competing visual elements around the terminal.",
+    "Security indicators that obscure terminal content."
+  ],
+  "reuse_notes": [
+    "Use this pattern when explaining security architecture or trust boundaries.",
+    "The terminal content should be realistic and relevant to the trust claim.",
+    "Adapt the terminal styling to match the overall theme while maintaining recognizability."
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "id": "narrative_map_openclaw_seed",
+  "page_type": "narrative_map",
+  "source_references": ["openclaw-executive-seed-agenda"],
+  "narrative_roles": ["agenda", "chapter framing"],
+  "topic_fit": ["deck overview", "chapter preview", "narrative staging"],
+  "visual_anchor": "Chapter card stack with dominant chapter emphasized.",
+  "weight_center": "center-middle",
+  "density_level": "medium",
+  "layout_rules": [
+    "Use one dominant chapter card on the left to establish narrative priority.",
+    "Stack supporting chapter cards on the right with consistent sizing.",
+    "Place a decision cue band at the bottom to frame the discussion outcome.",
+    "Maintain clear vertical rhythm between left dominant and right stack."
+  ],
+  "alignment_rules": [
+    "Left dominant card and right stack must share the same top and bottom boundaries.",
+    "Right stack cards must have equal height and consistent internal padding.",
+    "Decision cue band must align to the full width of the content frame.",
+    "Chapter number labels align to a consistent left edge within each card."
+  ],
+  "image_usage": {
+    "required": false,
+    "mode": "none",
+    "placement_guidance": "Narrative map pages should rely on typography and card structure, not hero images."
+  },
+  "highlight_grammar": [
+    "Use accent color for chapter numbers and decision cue band.",
+    "Keep chapter titles in primary text color for readability.",
+    "Use secondary text color for subtitles or supporting descriptions.",
+    "Let card borders and shadows carry visual weight instead of color fills."
+  ],
+  "component_recipe": [
+    "dominant chapter card",
+    "supporting chapter card stack",
+    "chapter number label",
+    "decision cue band"
+  ],
+  "editable_target": "native_shapes_plus_text",
+  "anti_patterns": [
+    "Equal-sized cards that fail to show narrative priority.",
+    "Too many chapters crammed into small cards.",
+    "Floating decision cue without clear connection to chapter content.",
+    "Inconsistent alignment between left and right columns."
+  ],
+  "reuse_notes": [
+    "Use this pattern to set up the deck structure at the beginning.",
+    "The dominant chapter should be the one with the strongest strategic claim.",
+    "Keep supporting chapters to 2-3 items to avoid cognitive overload."
+  ]
+}

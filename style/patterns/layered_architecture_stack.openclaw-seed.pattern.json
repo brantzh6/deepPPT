@@ -1,0 +1,54 @@
+{
+  "id": "layered_architecture_stack_openclaw_seed",
+  "page_type": "layered_architecture_stack",
+  "source_references": ["openclaw-executive-seed-architecture"],
+  "narrative_roles": ["architecture explanation", "stack visualization", "layered system"],
+  "topic_fit": ["system architecture", "platform layers", "infrastructure stack", "enterprise systems"],
+  "visual_anchor": "Layered stack with distinct visual separation between architectural layers.",
+  "weight_center": "middle",
+  "density_level": "high",
+  "layout_rules": [
+    "Stack layers vertically with consistent spacing to show architectural hierarchy.",
+    "Use distinct visual treatment for each layer while maintaining cohesive stack appearance.",
+    "Place layer labels on the left with clear typography hierarchy.",
+    "Add connecting lines or subtle indicators to show layer relationships.",
+    "Reserve right side for layer details or cross-cutting concerns."
+  ],
+  "alignment_rules": [
+    "All stack layers must share the same left and right boundaries.",
+    "Layer labels align to a consistent left grid.",
+    "Layer heights should be proportional to their architectural significance.",
+    "Spacing between layers must be uniform.",
+    "Right-side details align to the stack's right edge."
+  ],
+  "image_usage": {
+    "required": false,
+    "mode": "none",
+    "placement_guidance": "Architecture stack pages should rely on geometric shapes and typography rather than images."
+  },
+  "highlight_grammar": [
+    "Use accent color for the most critical layer or active component.",
+    "Apply gradient or glow effects sparingly to emphasize layer boundaries.",
+    "Keep layer labels in high-contrast colors for readability.",
+    "Use subtle background variations to distinguish adjacent layers."
+  ],
+  "component_recipe": [
+    "layer container blocks",
+    "layer label system",
+    "layer description text",
+    "cross-layer connector lines",
+    "detail annotation cards"
+  ],
+  "editable_target": "native_shapes_plus_text",
+  "anti_patterns": [
+    "Uneven layer heights that distort architectural proportions.",
+    "Too many layers causing visual clutter.",
+    "Inconsistent spacing between layers.",
+    "Over-decoration that distracts from the architecture message."
+  ],
+  "reuse_notes": [
+    "Use this pattern for explaining multi-layer system architectures.",
+    "Adapt the number of layers to match the actual architecture being described.",
+    "Consider animating layer reveals for presentation flow."
+  ]
+}
