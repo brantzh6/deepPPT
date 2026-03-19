@@ -1011,11 +1011,14 @@ function renderLayeredArchitectureSlide(
       
       // Only draw connector if it makes visual sense (not too long)
       if (Math.abs(lineY2 - lineY1) < 2.0) {
+        const lineX = stackX + stackW;
+        const lineW = detailX - 0.1 - lineX;
+        const lineH = lineY2 - lineY1;
         slide.addShape("line", {
-          x1: stackX + stackW,
-          y1: lineY1,
-          x2: detailX - 0.1,
-          y2: lineY2,
+          x: lineX,
+          y: Math.min(lineY1, lineY2),
+          w: lineW,
+          h: Math.abs(lineH),
           line: { color: theme.palette.accent_secondary.replace("#", ""), transparency: 50, width: 1, dashType: "dash" }
         });
       }

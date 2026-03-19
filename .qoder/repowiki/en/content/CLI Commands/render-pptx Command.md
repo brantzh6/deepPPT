@@ -12,8 +12,19 @@
 - [dark-enterprise-tech.theme.json](file://style/themes/dark-enterprise-tech.theme.json)
 - [style_map.generated.json](file://style/outputs/style_map.generated.json)
 - [template.pattern-card.json](file://style/patterns/template.pattern-card.json)
+- [trust_terminal.openclaw-seed.pattern.json](file://style/patterns/trust_terminal.openclaw-seed.pattern.json)
+- [layered_architecture_stack.openclaw-seed.pattern.json](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json)
+- [page-type-registry.json](file://style/patterns/page-type-registry.json)
 - [README.md](file://README.md)
 </cite>
+
+## Update Summary
+**Changes Made**
+- Added documentation for two new page types: trust_terminal and layered_architecture_stack
+- Updated function signatures to reflect enhanced pattern-driven rendering with styleEntry parameters
+- Enhanced page type rendering documentation with new patterns and learned behaviors
+- Updated architecture diagrams to include new page types
+- Added examples and configuration details for the new page types
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -29,6 +40,8 @@
 
 ## Introduction
 The render-pptx CLI command generates editable PowerPoint presentations from structured slide content and a style map. It integrates with PptxGenJS to produce native PPTX objects, applies theme-driven styling, validates layout correctness, and produces an SVG preview gallery and a render manifest for traceability. The command supports optional theme customization and outputs both the editable PPTX and a preview directory containing SVG slide previews and an HTML index.
+
+**Updated** Enhanced with support for three new page types (trust_terminal, layered_architecture_stack) and improved pattern-driven rendering capabilities through enhanced function signatures that accept styleEntry parameters for more sophisticated layout and styling decisions.
 
 ## Project Structure
 The render-pptx command is part of a modular CLI that orchestrates rendering, preview generation, and manifest creation. The command consumes:
@@ -71,6 +84,8 @@ Cmd --> Manifest["Write Render Manifest<br/>schemas/render_manifest.schema.json"
 - SVG previews: Produces a grid of SVG slide previews and an HTML index.
 - Render manifest: Captures outputs and slide artifacts for traceability.
 
+**Updated** Enhanced function signatures now accept styleEntry parameters to enable pattern-driven rendering with learned layout rules, alignment rules, and highlight grammar.
+
 **Section sources**
 - [cli.ts:10-17](file://src/cli.ts#L10-L17)
 - [cli.ts:39-50](file://src/cli.ts#L39-L50)
@@ -112,7 +127,7 @@ Cmd->>Pptx : new PptxGenJS(); configure layout/theme/metadata
 loop For each slide
 Cmd->>Pptx : addSlide()
 Cmd->>Pptx : addSlideFrame(), addHeader()
-Cmd->>Pptx : render*Slide() based on page_type
+Cmd->>Pptx : render*Slide() based on page_type with styleEntry parameters
 Cmd->>Helpers : warnIfSlideHasOverlaps(), warnIfSlideElementsOutOfBounds()
 end
 Cmd->>Pptx : writeFile(out-pptx-path)
@@ -174,8 +189,9 @@ CLI-->>User : Done
   - Metadata: author, company, subject, title, lang
   - Theme: head/body fonts and language from theme
 - Adds a slide frame and header for each slide
-- Renders per page type:
-  - cover_orbit, narrative_map, bottleneck_shift, chapter_summary_signal, trust_terminal
+- Renders per page type with enhanced pattern-driven capabilities:
+  - cover_orbit, narrative_map, bottleneck_shift, chapter_summary_signal
+  - **Updated** trust_terminal, layered_architecture_stack
   - Fallback for unknown page types
 - Quality checks:
   - Overlap detection and out-of-bounds warnings
@@ -204,12 +220,13 @@ class RenderPptxCommand {
 +renderPptxCommand(args) Promise~void~
 -addSlideFrame(slide, theme) void
 -addHeader(slide, slideData, theme) void
--renderCoverSlide(...)
--renderNarrativeMapSlide(...)
--renderBottleneckSlide(...)
--renderSummarySlide(...)
--renderTrustTerminalSlide(...)
--renderFallbackSlide(...)
+-renderCoverSlide(slide, slideData, styleEntry, theme, safeOuterShadow, coverOrbitBoardPath)
+-renderNarrativeMapSlide(slide, slideData, styleEntry, theme, safeOuterShadow)
+-renderBottleneckSlide(slide, slideData, styleEntry, theme, safeOuterShadow, controlLoopHeroPath)
+-renderSummarySlide(slide, slideData, styleEntry, theme, safeOuterShadow)
+-renderTrustTerminalSlide(slide, slideData, styleEntry, theme, safeOuterShadow)
+-renderLayeredArchitectureSlide(slide, slideData, styleEntry, theme, safeOuterShadow)
+-renderFallbackSlide(slide, slideData, theme, safeOuterShadow)
 }
 RenderPptxCommand --> PptxGenJS_Instance : "creates"
 PptxGenJS_Instance --> PptxSlide : "adds"
@@ -228,28 +245,52 @@ PptxGenJS_Instance --> PptxSlide : "adds"
   - Enforce layout_rules and alignment_rules
   - Apply highlight_grammar for color accents
   - Select image_usage modes (hero, contextual, texture, none)
-- Examples:
-  - Cover orbit: hero visual frame, claim card, orbit circles, story points
-  - Narrative map: dominant left card, stacked right cards, decision cue band
-  - Bottleneck shift: oversized statement, grounding visual, support cards
-  - Chapter summary signal: dominant summary block, implication panel, decision cue
-  - Trust terminal: terminal window frame, header controls, security indicators, governance labels
-  - Fallback: neutral card with claim text
+- **Updated** Enhanced function signatures now accept styleEntry parameters for sophisticated pattern-driven rendering:
+
+#### Core Page Types (Enhanced with styleEntry Parameters):
+- **cover_orbit**: hero visual frame, claim card, orbit circles, story points
+- **narrative_map**: dominant left card, stacked right cards, decision cue band
+- **bottleneck_shift**: oversized statement, grounding visual, support cards
+- **chapter_summary_signal**: dominant summary block, implication panel, decision cue
+- **fallback**: neutral card with claim text
+
+#### New Page Types:
+- **trust_terminal**:
+  - Terminal window frame with header controls and security indicators
+  - Left-side trust claims and governance labels
+  - Right-side terminal content with monospace font styling
+  - Security badges and trust indicators integrated into the terminal interface
+  - Layout rules: "Place the terminal window as the dominant visual anchor on the right side"
+  - Alignment rules: "Terminal window must sit within a consistent right-side frame"
+  - Highlight grammar: "Use accent color for security indicators and trust badges"
+
+- **layered_architecture_stack**:
+  - Vertical stack of architectural layers with consistent spacing
+  - Layer containers with distinct visual treatment based on importance
+  - Cross-cutting concerns with connecting lines to relevant layers
+  - Typography hierarchy for layer names and descriptions
+  - Layout rules: "Stack layers vertically with consistent spacing"
+  - Alignment rules: "All stack layers must share the same left and right boundaries"
+  - Highlight grammar: "Use accent color for the most critical layer"
 
 **Section sources**
 - [renderPptx.ts:249-366](file://src/commands/renderPptx.ts#L249-L366)
 - [renderPptx.ts:368-464](file://src/commands/renderPptx.ts#L368-L464)
 - [renderPptx.ts:466-568](file://src/commands/renderPptx.ts#L466-L568)
 - [renderPptx.ts:570-695](file://src/commands/renderPptx.ts#L570-L695)
-- [renderPptx.ts:697-863](file://src/commands/renderPptx.ts#L697-L863)
-- [renderPptx.ts:865-886](file://src/commands/renderPptx.ts#L865-L886)
+- [renderPptx.ts:700-866](file://src/commands/renderPptx.ts#L700-L866)
+- [renderPptx.ts:868-1046](file://src/commands/renderPptx.ts#L868-L1046)
+- [renderPptx.ts:1048-1069](file://src/commands/renderPptx.ts#L1048-L1069)
 - [style_map.generated.json:18-44](file://style/outputs/style_map.generated.json#L18-L44)
 - [template.pattern-card.json:9-28](file://style/patterns/template.pattern-card.json#L9-L28)
+- [trust_terminal.openclaw-seed.pattern.json:10-32](file://style/patterns/trust_terminal.openclaw-seed.pattern.json#L10-L32)
+- [layered_architecture_stack.openclaw-seed.pattern.json:10-34](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json#L10-L34)
 
 ### SVG Previews and Editable Strategy
 - SVG previews:
   - Writes individual slide SVGs and an index.html grid
   - Uses theme palette and typography for consistent visuals
+  - **Updated** Enhanced SVG preview functions now accept styleEntry parameters for pattern-driven rendering
 - Editable strategy:
   - Native PPTX objects (shapes, text, images) remain editable in PowerPoint
   - Hero visuals are embedded as SVGs and also rendered as images on slides for robustness
@@ -327,6 +368,9 @@ B --> H["schemas/render_manifest.schema.json"]
   - Prefer native shapes and minimal image usage for large decks to reduce rendering cost.
 - Preview generation:
   - SVG previews are lightweight and useful for quick reviews; disable if not needed in CI.
+- **Updated** Pattern-driven rendering optimization:
+  - StyleEntry parameters enable more efficient pattern application by avoiding repeated pattern lookups.
+  - Learned patterns are cached in the style map for faster rendering.
 
 ## Troubleshooting Guide
 Common issues and resolutions:
@@ -340,6 +384,9 @@ Common issues and resolutions:
   - Re-position elements to fit within slide width/height.
 - Existing PPTX path:
   - If the target file exists, the command auto-appends a timestamped suffix; confirm the written path.
+- **Updated** New page type issues:
+  - Trust terminal rendering failures: verify terminal content and security indicator arrays are properly formatted in slide blocks.
+  - Layered architecture stack issues: ensure layer arrays contain proper name/description/highlight properties.
 
 **Section sources**
 - [renderPptx.ts:97-113](file://src/commands/renderPptx.ts#L97-L113)
@@ -348,7 +395,7 @@ Common issues and resolutions:
 - [renderPptx.ts:1009-1018](file://src/commands/renderPptx.ts#L1009-L1018)
 
 ## Conclusion
-The render-pptx command provides a robust, theme-driven pipeline to produce editable PowerPoint decks from structured content and style maps. It leverages PptxGenJS for native editability, ensures layout quality via built-in checks, and delivers previews and a render manifest for traceability. By following the learned patterns and guidelines, teams can consistently generate high-quality, enterprise-ready presentations.
+The render-pptx command provides a robust, theme-driven pipeline to produce editable PowerPoint decks from structured content and style maps. It leverages PptxGenJS for native editability, ensures layout quality via built-in checks, and delivers previews and a render manifest for traceability. **Updated** With enhanced pattern-driven rendering capabilities and support for new page types (trust_terminal, layered_architecture_stack), the command now offers more sophisticated layout control and visual storytelling options while maintaining consistency with learned patterns and guidelines.
 
 ## Appendices
 
@@ -374,8 +421,59 @@ The render-pptx command provides a robust, theme-driven pipeline to produce edit
   - Defines theme_family and per-slide page_type, learned_pattern, and editable_target
 - Pattern card:
   - Documents layout_rules, alignment_rules, highlight_grammar, and image_usage guidance
+- **Updated** New page types:
+  - Trust terminal pattern: "Terminal window as the central trust object with layered security context"
+  - Layered architecture stack pattern: "Layered stack with distinct visual separation between architectural layers"
 
 **Section sources**
 - [dark-enterprise-tech.theme.json:1-55](file://style/themes/dark-enterprise-tech.theme.json#L1-L55)
 - [style_map.generated.json:18-44](file://style/outputs/style_map.generated.json#L18-L44)
 - [template.pattern-card.json:9-28](file://style/patterns/template.pattern-card.json#L9-L28)
+- [trust_terminal.openclaw-seed.pattern.json:7](file://style/patterns/trust_terminal.openclaw-seed.pattern.json#L7)
+- [layered_architecture_stack.openclaw-seed.pattern.json:7](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json#L7)
+
+### New Page Types Configuration Examples
+
+#### Trust Terminal Configuration
+```json
+{
+  "page_type": "trust_terminal",
+  "learned_pattern": {
+    "layout_rules": [
+      "Place the terminal window as the dominant visual anchor on the right side.",
+      "Use the left side for trust claims and governance labels, not dense text."
+    ],
+    "alignment_rules": [
+      "Terminal window must sit within a consistent right-side frame with controlled padding.",
+      "Left-side trust claims align to a shared vertical grid."
+    ],
+    "highlight_grammar": [
+      "Use accent color for security indicators and trust badges."
+    ]
+  }
+}
+```
+
+#### Layered Architecture Stack Configuration
+```json
+{
+  "page_type": "layered_architecture_stack",
+  "learned_pattern": {
+    "layout_rules": [
+      "Stack layers vertically with consistent spacing to show architectural hierarchy.",
+      "Use distinct visual treatment for each layer while maintaining cohesive stack appearance."
+    ],
+    "alignment_rules": [
+      "All stack layers must share the same left and right boundaries.",
+      "Layer labels align to a consistent left grid."
+    ],
+    "highlight_grammar": [
+      "Use accent color for the most critical layer or active component."
+    ]
+  }
+}
+```
+
+**Section sources**
+- [trust_terminal.openclaw-seed.pattern.json:10-32](file://style/patterns/trust_terminal.openclaw-seed.pattern.json#L10-L32)
+- [layered_architecture_stack.openclaw-seed.pattern.json:10-34](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json#L10-L34)

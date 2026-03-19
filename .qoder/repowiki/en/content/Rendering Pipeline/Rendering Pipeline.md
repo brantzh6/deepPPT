@@ -14,6 +14,9 @@
 - [loadPatternCards.ts](file://src/lib/style/loadPatternCards.ts)
 - [page-type-registry.json](file://style/patterns/page-type-registry.json)
 - [template.pattern-card.json](file://style/patterns/template.pattern-card.json)
+- [trust_terminal.openclaw-seed.pattern.json](file://style/patterns/trust_terminal.openclaw-seed.pattern.json)
+- [layered_architecture_stack.openclaw-seed.pattern.json](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json)
+- [narrative_map.openclaw-seed.pattern.json](file://style/patterns/narrative_map.openclaw-seed.pattern.json)
 - [style_map.generated.json](file://style/outputs/style_map.generated.json)
 - [slides.generated.json](file://story/outputs/slides.generated.json)
 - [storyline.generated.json](file://story/outputs/storyline.generated.json)
@@ -21,6 +24,14 @@
 - [render-manifest.json](file://output/delivery/render-manifest.json)
 - [index.html](file://output/preview/index.html)
 </cite>
+
+## Update Summary
+**Changes Made**
+- Enhanced layered architecture rendering with improved cross-cutting concerns alignment and connector line positioning algorithms
+- Improved visual coherence in renderPptx.ts with sophisticated layer positioning and alignment logic
+- Enhanced narrative_map layout algorithms with better visual hierarchy enforcement
+- Updated trust_terminal page type with comprehensive security architecture visualization
+- Strengthened layout validation with advanced overlap detection and positioning algorithms
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -36,6 +47,8 @@
 
 ## Introduction
 This document explains the Enterprise PPT System's rendering pipeline that transforms structured slide data and style maps into editable PowerPoint presentations using PptxGenJS. It documents the preview rendering system for HTML/SVG visualization, the delivery pipeline for native PPTX export, and asset management strategies. The pipeline emphasizes an editable delivery strategy that preserves PowerPoint object structure for content modification, along with layout algorithms, utility functions, page-type handlers, formatting specifications, performance considerations, memory management, scalability, external tool integrations, and quality assurance processes.
+
+**Updated** Enhanced with sophisticated layered architecture rendering featuring improved cross-cutting concerns alignment, connector line positioning algorithms, and visual coherence improvements that ensure precise layer relationships and professional presentation quality.
 
 ## Project Structure
 The rendering pipeline spans several areas:
@@ -66,6 +79,9 @@ end
 subgraph "Styles & Patterns"
 PTR["page-type-registry.json"]
 PC["template.pattern-card.json"]
+TT["trust_terminal.openclaw-seed.pattern.json"]
+LAS["layered_architecture_stack.openclaw-seed.pattern.json"]
+NM["narrative_map.openclaw-seed.pattern.json"]
 end
 subgraph "Outputs"
 PPTX["mvp-preview-deck.pptx"]
@@ -83,6 +99,9 @@ BSM --> PC
 BSM --> LTM
 BSM --> LPTR
 BSM --> LPC
+BSM --> TT
+BSM --> LAS
+BSM --> NM
 RPTX --> PPTX
 RPTX --> PREV
 RPTX --> MAN
@@ -91,6 +110,9 @@ RPTX --> UTL
 RPTX --> SVP
 RPTX --> VAS
 RPTX --> LTM
+RPTX --> TT
+RPTX --> LAS
+RPTX --> NM
 ```
 
 **Diagram sources**
@@ -106,6 +128,9 @@ RPTX --> LTM
 - [loadPatternCards.ts](file://src/lib/style/loadPatternCards.ts)
 - [page-type-registry.json](file://style/patterns/page-type-registry.json)
 - [template.pattern-card.json](file://style/patterns/template.pattern-card.json)
+- [trust_terminal.openclaw-seed.pattern.json](file://style/patterns/trust_terminal.openclaw-seed.pattern.json)
+- [layered_architecture_stack.openclaw-seed.pattern.json](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json)
+- [narrative_map.openclaw-seed.pattern.json](file://style/patterns/narrative_map.openclaw-seed.pattern.json)
 
 **Section sources**
 - [renderPptx.ts:1-187](file://src/commands/renderPptx.ts#L1-L187)
@@ -211,6 +236,8 @@ RPTX-->>CLI : PPTX + previews + manifest
   - Applies layout validation helpers after each slide.
   - Writes PPTX, SVG previews, and a render manifest.
 
+**Updated** Enhanced with sophisticated layered architecture rendering featuring improved cross-cutting concerns alignment, connector line positioning algorithms, and visual coherence improvements that ensure precise layer relationships and professional presentation quality.
+
 ```mermaid
 flowchart TD
 Start(["Start renderPptx"]) --> LoadInputs["Load slides.json + style_map.json + theme"]
@@ -223,11 +250,15 @@ DispatchHandler --> Cover["renderCoverSlide()"]
 DispatchHandler --> Narrative["renderNarrativeMapSlide()"]
 DispatchHandler --> Bottleneck["renderBottleneckSlide()"]
 DispatchHandler --> Summary["renderSummarySlide()"]
+DispatchHandler --> Trust["renderTrustTerminalSlide()"]
+DispatchHandler --> Architecture["renderLayeredArchitectureSlide()"]
 DispatchHandler --> Fallback["renderFallbackSlide()"]
 Cover --> Validate["warnIfSlideHasOverlaps()<br/>warnIfSlideElementsOutOfBounds()"]
 Narrative --> Validate
 Bottleneck --> Validate
 Summary --> Validate
+Trust --> Validate
+Architecture --> Validate
 Fallback --> Validate
 Validate --> NextSlide{"More slides?"}
 NextSlide --> |Yes| ForEachSlide
@@ -247,7 +278,15 @@ WriteOut --> End(["Done"])
 - Narrative Map: Places dominant and supporting chapters in stacked info cards with a decision cue footer.
 - Bottleneck Shift: Presents a primary statement, contextual visuals, and up to three impact cards.
 - Chapter Summary Signal: Summarizes key signals and implications with a decision cue panel.
+- Trust Terminal: Implements comprehensive security architecture explanation with terminal window visualization, governance labels, and security indicators.
+- Layered Architecture Stack: Creates multi-layer system architecture visualization with distinct layer containers, labels, and cross-cutting concerns.
 - Fallback: Provides a robust default layout for unknown page types.
+
+**Updated** Enhanced with sophisticated layered architecture rendering featuring:
+- Precise layer positioning with fixed heights and uniform spacing
+- Advanced connector line algorithms that position lines between stack and cross-cutting concerns
+- Visual coherence improvements ensuring proper alignment and relationship visualization
+- Enhanced cross-cutting concerns alignment with intelligent positioning algorithms
 
 ```mermaid
 classDiagram
@@ -259,12 +298,14 @@ class RenderPptx {
 +renderNarrativeMapSlide(slide, slideData, theme, shadow)
 +renderBottleneckSlide(slide, slideData, styleEntry, theme, shadow, asset)
 +renderSummarySlide(slide, slideData, theme, shadow)
++renderTrustTerminalSlide(slide, slideData, styleEntry, theme, shadow)
++renderLayeredArchitectureSlide(slide, slideData, theme, shadow)
 +renderFallbackSlide(slide, slideData, theme, shadow)
 }
 ```
 
 **Diagram sources**
-- [renderPptx.ts:189-787](file://src/commands/renderPptx.ts#L189-L787)
+- [renderPptx.ts:189-1202](file://src/commands/renderPptx.ts#L189-L1202)
 
 **Section sources**
 - [renderPptx.ts:246-363](file://src/commands/renderPptx.ts#L246-L363)
@@ -272,6 +313,8 @@ class RenderPptx {
 - [renderPptx.ts:438-540](file://src/commands/renderPptx.ts#L438-L540)
 - [renderPptx.ts:542-645](file://src/commands/renderPptx.ts#L542-L645)
 - [renderPptx.ts:647-668](file://src/commands/renderPptx.ts#L647-L668)
+- [renderPptx.ts:700-866](file://src/commands/renderPptx.ts#L700-L866)
+- [renderPptx.ts:868-1046](file://src/commands/renderPptx.ts#L868-L1046)
 
 ### Layout Algorithms and Utilities
 - Element Type Inference: Determines object types (text, image, chart, shape, media, table, smartart, line) from data/options.
@@ -279,6 +322,12 @@ class RenderPptx {
 - Bounds Checking: Warns when elements exceed slide dimensions, converting EMU values to inches when necessary.
 - Alignment and Distribution: Aligns selected elements to edges or centers; distributes elements along horizontal or vertical axes with computed gaps.
 - Shadow Factory: Provides a safe outer shadow configuration to avoid XML pitfalls.
+
+**Updated** Enhanced with sophisticated layered architecture positioning algorithms:
+- Fixed-height layer calculation ensuring consistent visual hierarchy
+- Intelligent connector line positioning with distance-based validation
+- Cross-cutting concerns alignment with target layer mapping
+- Advanced overlap detection with diagonal line false-positive filtering
 
 ```mermaid
 flowchart TD
@@ -290,6 +339,9 @@ M --> D["getSlideDimensions()"]
 O --> E["warnIfSlideElementsOutOfBounds()"]
 D --> F["alignSlideElements()"]
 F --> G["distributeSlideElements()"]
+H["Layered Architecture Positioning"] --> I["Fixed-height layer calculation"]
+I --> J["Connector line positioning"]
+J --> K["Cross-cutting concern alignment"]
 ```
 
 **Diagram sources**
@@ -308,6 +360,8 @@ F --> G["distributeSlideElements()"]
 ### Preview Rendering System
 - SVG Previews: Generates SVG previews for slides and writes an index.html for easy visualization.
 - Asset Management: Ensures visual assets are available under the preview directory using theme-provided assets.
+
+**Updated** Enhanced with comprehensive SVG preview support for new page types including trust_terminal and layered_architecture_stack with detailed terminal window visualization and architecture stack rendering.
 
 **Section sources**
 - [renderPptx.ts:165-166](file://src/commands/renderPptx.ts#L165-L166)
@@ -345,6 +399,8 @@ F --> G["distributeSlideElements()"]
 - Output Dependencies:
   - render-manifest.json links editable PPTX and preview assets.
 
+**Updated** Enhanced with dependencies on new pattern files for trust_terminal, layered_architecture_stack, and narrative_map page types.
+
 ```mermaid
 graph LR
 RPTX["renderPptx.ts"] --> LYT["layout.js"]
@@ -354,6 +410,9 @@ RPTX --> VAS["visualAssets.ts"]
 RPTX --> LTM["loadTheme.ts"]
 BSM["buildStyleMap.ts"] --> LPTR["loadPageTypeRegistry.ts"]
 BSM --> LPC["loadPatternCards.ts"]
+BSM --> TT["trust_terminal.pattern.json"]
+BSM --> LAS["layered_architecture_stack.pattern.json"]
+BSM --> NM["narrative_map.pattern.json"]
 ```
 
 **Diagram sources**
@@ -366,6 +425,9 @@ BSM --> LPC["loadPatternCards.ts"]
 - [buildStyleMap.ts:50-109](file://src/commands/buildStyleMap.ts#L50-L109)
 - [loadPageTypeRegistry.ts](file://src/lib/style/loadPageTypeRegistry.ts)
 - [loadPatternCards.ts](file://src/lib/style/loadPatternCards.ts)
+- [trust_terminal.openclaw-seed.pattern.json](file://style/patterns/trust_terminal.openclaw-seed.pattern.json)
+- [layered_architecture_stack.openclaw-seed.pattern.json](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json)
+- [narrative_map.openclaw-seed.pattern.json](file://style/patterns/narrative_map.openclaw-seed.pattern.json)
 
 **Section sources**
 - [renderPptx.ts:83-187](file://src/commands/renderPptx.ts#L83-L187)
@@ -385,6 +447,8 @@ BSM --> LPC["loadPatternCards.ts"]
 - Rendering Cost:
   - Prefer vector assets for scalability; limit heavy shadows and gradients where unnecessary.
 
+**Updated** Performance considerations now include handling of complex SVG rendering for new page types with multiple layers and terminal windows, with optimized connector line positioning algorithms that minimize computational overhead.
+
 ## Troubleshooting Guide
 - Missing Arguments:
   - Ensure required arguments are provided for each command (e.g., --research, --slides, --style-map).
@@ -396,6 +460,14 @@ BSM --> LPC["loadPatternCards.ts"]
   - Review warnings from overlap/bounds validators and adjust layout coordinates or sizes.
 - Asset Resolution Failures:
   - Confirm theme and pattern assets are present and accessible.
+- New Page Type Issues:
+  - Verify trust_terminal, layered_architecture_stack, and enhanced narrative_map patterns are properly loaded.
+  - Check that learned patterns contain required layout_rules and alignment_rules.
+- Layered Architecture Issues:
+  - Verify layer positioning calculations are within slide boundaries.
+  - Check connector line distance validation to ensure proper visual relationships.
+
+**Updated** Added troubleshooting guidance for new page types including trust_terminal rendering issues and layered architecture stack layout problems, with specific attention to connector line positioning and cross-cutting concerns alignment.
 
 **Section sources**
 - [renderPptx.ts:94-99](file://src/commands/renderPptx.ts#L94-L99)
@@ -404,7 +476,9 @@ BSM --> LPC["loadPatternCards.ts"]
 - [layout.js:23-232](file://render/pptxgenjs_helpers/layout.js#L23-L232)
 
 ## Conclusion
-The Enterprise PPT System’s rendering pipeline integrates story scaffolding, style mapping, and PptxGenJS-driven rendering to produce editable PowerPoint decks with robust preview and asset management. Layout algorithms and utilities ensure visual quality, while the editable delivery strategy preserves PowerPoint object structure for enterprise review and revision. With careful attention to performance, memory, and scalability, the pipeline supports iterative development and QA processes for large presentations.
+The Enterprise PPT System's rendering pipeline integrates story scaffolding, style mapping, and PptxGenJS-driven rendering to produce editable PowerPoint decks with robust preview and asset management. Layout algorithms and utilities ensure visual quality, while the editable delivery strategy preserves PowerPoint object structure for enterprise review and revision. With careful attention to performance, memory, and scalability, the pipeline supports iterative development and QA processes for large presentations.
+
+**Updated** The pipeline now supports sophisticated layered architecture rendering with enhanced cross-cutting concerns alignment, connector line positioning algorithms, and visual coherence improvements that ensure precise layer relationships and professional presentation quality. These enhancements enable complex system architecture explanations and security architecture visualizations with improved clarity and visual hierarchy.
 
 ## Appendices
 
@@ -425,3 +499,13 @@ The Enterprise PPT System’s rendering pipeline integrates story scaffolding, s
 - Style Map: [style_map.generated.json](file://style/outputs/style_map.generated.json)
 - Slides JSON: [slides.generated.json](file://story/outputs/slides.generated.json)
 - Storyline JSON: [storyline.generated.json](file://story/outputs/storyline.generated.json)
+
+### New Page Types Reference
+- Trust Terminal: Security architecture explanation with terminal window visualization, governance labels, and security indicators
+- Layered Architecture Stack: Multi-layer system architecture with distinct layer containers, cross-cutting concerns, and intelligent connector line positioning
+- Enhanced Narrative Map: Improved agenda setting with better layout algorithms, visual hierarchy enforcement, and alignment rules
+
+**Section sources**
+- [trust_terminal.openclaw-seed.pattern.json:1-53](file://style/patterns/trust_terminal.openclaw-seed.pattern.json#L1-L53)
+- [layered_architecture_stack.openclaw-seed.pattern.json:1-55](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json#L1-L55)
+- [narrative_map.openclaw-seed.pattern.json:1-52](file://style/patterns/narrative_map.openclaw-seed.pattern.json#L1-L52)
