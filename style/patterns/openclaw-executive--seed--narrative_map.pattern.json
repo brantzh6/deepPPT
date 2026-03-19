@@ -1,7 +1,7 @@
 {
   "id": "narrative_map_openclaw_seed",
   "page_type": "narrative_map",
-  "source_references": ["openclaw-executive-seed-agenda"],
+  "source_references": ["openclaw-executive-seed-04"],
   "narrative_roles": ["agenda", "chapter framing"],
   "topic_fit": ["deck overview", "chapter preview", "narrative staging"],
   "visual_anchor": "Chapter card stack with dominant chapter emphasized.",

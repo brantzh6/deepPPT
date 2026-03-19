@@ -1,7 +1,7 @@
 {
   "id": "trust_terminal_openclaw_seed",
   "page_type": "trust_terminal",
-  "source_references": ["openclaw-executive-seed-trust"],
+  "source_references": ["openclaw-executive-seed-05"],
   "narrative_roles": ["trust explanation", "architecture reasoning", "governance framing"],
   "topic_fit": ["security architecture", "trust boundaries", "control planes", "enterprise governance"],
   "visual_anchor": "Terminal window as the central trust object with layered security context.",

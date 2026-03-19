@@ -6,11 +6,17 @@
   "references": [
     "openclaw-executive--seed-01--cover-orbit.json",
     "openclaw-executive--seed-02--bottleneck-shift.json",
-    "openclaw-executive--seed-03--chapter-summary-signal.json"
+    "openclaw-executive--seed-03--chapter-summary-signal.json",
+    "openclaw-executive--seed-04--narrative-map.json",
+    "openclaw-executive--seed-05--trust-terminal.json",
+    "openclaw-executive--seed-06--layered-architecture-stack.json"
   ],
   "pattern_cards": [
-    "cover_orbit.openclaw-seed.pattern.json",
-    "bottleneck_shift.openclaw-seed.pattern.json",
-    "chapter_summary_signal.openclaw-seed.pattern.json"
+    "openclaw-executive--seed--cover_orbit.pattern.json",
+    "openclaw-executive--seed--bottleneck_shift.pattern.json",
+    "openclaw-executive--seed--chapter_summary_signal.pattern.json",
+    "openclaw-executive--seed--narrative_map.pattern.json",
+    "openclaw-executive--seed--trust_terminal.pattern.json",
+    "openclaw-executive--seed--layered_architecture_stack.pattern.json"
   ]
 }

@@ -1,0 +1,71 @@
+{
+  "reference_id": "openclaw-executive-seed-05",
+  "source": {
+    "deck_id": "openclaw-executive",
+    "slide_number": 5,
+    "extraction_mode": "documented_seed",
+    "title": "Documented seed: trust terminal page",
+    "file_path": "references/style-lessons-from-openclaw-deck.md",
+    "source_note": "This extraction is reconstructed from the documented OpenClaw style lessons and validated slide patterns, not from the original slide screenshot.",
+    "tags": ["openclaw", "seed", "trust", "terminal"]
+  },
+  "narrative_role": "trust explanation",
+  "page_type_candidate": "trust_terminal",
+  "audience_tone": "executive tech, governed, trustworthy",
+  "claim": "Trust should feel concrete through visible runtime control, not abstract reassurance.",
+  "visual_anchor": "A right-side terminal or control panel acts as the primary trust object.",
+  "weight_center": "right-middle",
+  "composition": {
+    "structure": "Left-side trust claims and governance labels paired with a right-side terminal hero object.",
+    "density_level": "medium",
+    "alignment_logic": "Terminal object sits inside a fixed right frame; trust claims on the left share one vertical grid.",
+    "asymmetry": "The page is intentionally right-heavy because the terminal carries the authority of the argument.",
+    "image_usage": "A terminal window or control panel hero visual is required to make trust tangible.",
+    "highlight_grammar": [
+      "accent color on trust badges and runtime indicators",
+      "monospace treatment inside the terminal object",
+      "subtle glow or frame emphasis only around the terminal"
+    ]
+  },
+  "components": [
+    {
+      "id": "trust_claim_stack",
+      "role": "conceptual explanation",
+      "type": "text_cluster",
+      "position_note": "Left-side explanation and governance labels"
+    },
+    {
+      "id": "terminal_hero",
+      "role": "trust anchor",
+      "type": "image_or_svg",
+      "position_note": "Dominant right-side terminal or control panel object"
+    },
+    {
+      "id": "trust_badges",
+      "role": "governance cues",
+      "type": "signal_labels",
+      "position_note": "Small supporting indicators around the trust argument"
+    }
+  ],
+  "why_it_works": [
+    "The terminal turns trust into something inspectable and concrete.",
+    "The composition gives the abstract argument a visible runtime object.",
+    "The page reads as governance and execution, not as generic marketing reassurance."
+  ],
+  "anti_patterns": [
+    "A terminal that is too small to anchor the page.",
+    "Dense left text that competes with the visual object.",
+    "Decorative indicators that clutter the terminal area."
+  ],
+  "reuse_notes": {
+    "safe_to_reuse": true,
+    "do_not_copy_blindly": [
+      "Specific terminal commands or source screenshots",
+      "Any source-specific trust badge labels"
+    ],
+    "adaptation_notes": [
+      "Keep the object-centric trust framing even if the terminal becomes a control console.",
+      "Use realistic runtime or policy details to preserve credibility."
+    ]
+  }
+}

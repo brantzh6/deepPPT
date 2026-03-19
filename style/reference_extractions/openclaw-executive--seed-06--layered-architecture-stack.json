@@ -1,0 +1,71 @@
+{
+  "reference_id": "openclaw-executive-seed-06",
+  "source": {
+    "deck_id": "openclaw-executive",
+    "slide_number": 6,
+    "extraction_mode": "documented_seed",
+    "title": "Documented seed: layered architecture stack page",
+    "file_path": "references/validated-slide-patterns.md",
+    "source_note": "This extraction is reconstructed from the documented OpenClaw slide pattern summaries, not from the original slide screenshot.",
+    "tags": ["openclaw", "seed", "architecture", "stack"]
+  },
+  "narrative_role": "architecture explanation",
+  "page_type_candidate": "layered_architecture_stack",
+  "audience_tone": "enterprise, structured, system-level",
+  "claim": "Explain architecture as a layered operating stack rather than a table or loose diagram.",
+  "visual_anchor": "A vertically layered stack with clear separation between architectural layers anchors the page.",
+  "weight_center": "middle",
+  "composition": {
+    "structure": "Main stacked architecture layers in the center or left-center with aligned detail notes on the right.",
+    "density_level": "high",
+    "alignment_logic": "All layers share the same outer boundaries; labels align to one left grid and right-side notes align to the stack edge.",
+    "asymmetry": "The stack remains centered, while supporting annotations create controlled asymmetry.",
+    "image_usage": "No image is needed; geometric stack blocks and connector logic carry the page.",
+    "highlight_grammar": [
+      "accent color on the critical layer or control plane",
+      "subtle gradients or glows only at layer boundaries",
+      "high-contrast labels for rapid scanability"
+    ]
+  },
+  "components": [
+    {
+      "id": "layer_stack",
+      "role": "primary architecture object",
+      "type": "stack_blocks",
+      "position_note": "Main vertical stack with consistent boundaries"
+    },
+    {
+      "id": "layer_labels",
+      "role": "layer identification",
+      "type": "label_system",
+      "position_note": "Aligned with each layer on the left"
+    },
+    {
+      "id": "detail_annotations",
+      "role": "cross-cutting explanations",
+      "type": "annotation_cards",
+      "position_note": "Right-side details aligned to the stack edge"
+    }
+  ],
+  "why_it_works": [
+    "The stack makes architecture hierarchy legible at a glance.",
+    "Consistent boundaries and spacing make a dense page feel controlled.",
+    "The page reads like a real system decomposition instead of a generic diagram."
+  ],
+  "anti_patterns": [
+    "Inconsistent layer widths or spacing.",
+    "Too many layers with no visual grouping.",
+    "A matrix or table replacing the stack and losing architectural hierarchy."
+  ],
+  "reuse_notes": {
+    "safe_to_reuse": true,
+    "do_not_copy_blindly": [
+      "Exact layer naming from the source topic",
+      "Topic-specific architectural decomposition"
+    ],
+    "adaptation_notes": [
+      "Use only as many layers as the audience can parse quickly.",
+      "Preserve the stack's geometric discipline even when the content changes."
+    ]
+  }
+}

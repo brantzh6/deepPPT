@@ -1,7 +1,7 @@
 {
   "id": "layered_architecture_stack_openclaw_seed",
   "page_type": "layered_architecture_stack",
-  "source_references": ["openclaw-executive-seed-architecture"],
+  "source_references": ["openclaw-executive-seed-06"],
   "narrative_roles": ["architecture explanation", "stack visualization", "layered system"],
   "topic_fit": ["system architecture", "platform layers", "infrastructure stack", "enterprise systems"],
   "visual_anchor": "Layered stack with distinct visual separation between architectural layers.",

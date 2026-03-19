@@ -81,7 +81,7 @@ export async function buildStyleMapCommand(args: string[]): Promise<void> {
         page_type: pageType,
         visual_anchor: patternCard?.visual_anchor ?? slide.notes?.visual_anchor ?? registryEntry.visual_anchor,
         weight_center: patternCard?.weight_center ?? slide.layout_hints?.weight_center ?? registryEntry.weight_center,
-        density_level: slide.layout_hints?.density_level ?? registryEntry.density_level,
+        density_level: slide.layout_hints?.density_level ?? patternCard?.density_level ?? registryEntry.density_level,
         component_bindings: Array.from(componentBindings),
         editable_target: patternCard?.editable_target ?? registryEntry.editable_target,
         learned_pattern: patternCard

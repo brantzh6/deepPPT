@@ -309,26 +309,26 @@ function renderLayeredArchitecture(slide: SlideRecord, styleEntry: StyleEntry | 
   const layers = blocks.layers ?? [];
   const crossCutting = blocks.cross_cutting ?? [];
   
-  // Layout
+  // Layout following reference extraction: "Main stacked architecture layers in the center or left-center with aligned detail notes on the right"
   const contentTop = 280;
   const contentBottom = 780;
   const stackX = 90;
-  const stackW = 900;
-  const detailX = 1020;
-  const detailW = 490;
+  const stackW = 950;
+  const detailX = 1080;
+  const detailW = 430;
   
   const layerCount = Math.max(layers.length, 1);
   const layerSpacing = 16;
   const layerHeight = (contentBottom - contentTop - (layerCount - 1) * layerSpacing) / layerCount;
 
   // alignment_rules: "Right-side details align to the stack's right edge"
-  const titleY = contentTop - 40; // Shared title baseline
+  const titleY = contentTop - 40;
   
   return `
     <!-- Architecture title -->
     <text x="${stackX}" y="${titleY}" fill="${palette.text_secondary}" font-family="${theme.typography.font_family}" font-size="18">${escapeHtml(blocks.architecture_title ?? "Architecture")}</text>
     
-    <!-- Stack layers -->
+    <!-- Stack layers - visual anchor of the page -->
     ${layers.map((layer, index) => {
       const yPos = contentTop + index * (layerHeight + layerSpacing);
       const isHighlighted = layer.highlight;
@@ -345,21 +345,27 @@ function renderLayeredArchitecture(slide: SlideRecord, styleEntry: StyleEntry | 
       `;
     }).join("")}
     
-    <!-- Cross-cutting concerns - distributed to fill available space -->
+    <!-- Detail annotations - compact annotation cards aligned to stack edge -->
     ${crossCutting.length > 0 ? (() => {
-      const detailCardHeight = 56;
-      const detailSpacing = (contentBottom - contentTop - detailCardHeight) / Math.max(crossCutting.length - 1, 1);
+      const pillHeight = 42;
+      const pillSpacing = 24;
+      const startY = contentTop + 20;
       return `
-      <text x="${detailX}" y="${titleY}" fill="${palette.text_secondary}" font-family="${theme.typography.font_family}" font-size="18">Cross-cutting concerns</text>
+      <text x="${detailX}" y="${titleY}" fill="${palette.text_secondary}" font-family="${theme.typography.font_family}" font-size="16">Governance controls</text>
       ${crossCutting.map((item, index) => {
-        const yPos = contentTop + index * detailSpacing;
-        // Align connector with corresponding layer
+        const yPos = startY + index * (pillHeight + pillSpacing);
+        // Connect to corresponding layer center
         const layerIndex = Math.min(index, layerCount - 1);
         const targetLayerY = contentTop + layerIndex * (layerHeight + layerSpacing) + layerHeight / 2;
+        const connectorY2 = yPos + pillHeight / 2;
         return `
-        <line x1="${stackX + stackW}" y1="${targetLayerY}" x2="${detailX - 20}" y2="${yPos + detailCardHeight / 2}" stroke="${withOpacity(palette.accent_secondary, 0.5)}" stroke-width="2" stroke-dasharray="8,4" />
-        <rect x="${detailX}" y="${yPos}" width="${detailW}" height="${detailCardHeight}" rx="12" fill="${withOpacity(palette.surface_alt, 0.08)}" stroke="${withOpacity(palette.accent_secondary, 0.24)}" stroke-width="1" />
-        <text x="${detailX + 20}" y="${yPos + 36}" fill="${palette.text_primary}" font-family="${theme.typography.font_family}" font-size="20">${escapeHtml(item)}</text>
+        <!-- Subtle connector line -->
+        <line x1="${stackX + stackW + 8}" y1="${targetLayerY}" x2="${detailX - 12}" y2="${connectorY2}" stroke="${withOpacity(palette.accent_secondary, 0.35)}" stroke-width="1.5" stroke-dasharray="6,4" />
+        <!-- Status indicator dot -->
+        <circle cx="${detailX + 12}" cy="${connectorY2}" r="5" fill="${palette.accent_primary}" opacity="0.8" />
+        <!-- Annotation pill -->
+        <rect x="${detailX + 28}" y="${yPos}" width="${detailW - 28}" height="${pillHeight}" rx="21" fill="${withOpacity(palette.surface_alt, 0.12)}" stroke="${withOpacity(palette.accent_secondary, 0.3)}" stroke-width="1" />
+        <text x="${detailX + 48}" y="${connectorY2 + 5}" fill="${palette.text_primary}" font-family="${theme.typography.font_family}" font-size="16">${escapeHtml(item)}</text>
       `;
       }).join("")}
     `;

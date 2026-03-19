@@ -979,70 +979,46 @@ function renderLayeredArchitectureSlide(
     });
   });
 
-  // Cross-cutting concerns on the right side
-  // alignment_rules: "Right-side details align to the stack's right edge"
+  // Detail annotations - compact governance controls aligned to stack edge
+  // Following reference extraction: "detail annotations" as "annotation_cards"
   if (crossCutting.length > 0) {
     // Title aligned with architecture title
-    slide.addText("Cross-cutting concerns", {
+    slide.addText("Governance controls", {
       x: detailX,
       y: 2.05,
       w: detailW,
       h: 0.22,
       fontFace: theme.typography.font_family,
-      fontSize: 11,
+      fontSize: 10,
       color: theme.palette.text_secondary.replace("#", ""),
       margin: 0
     });
 
-    // Distribute cards evenly to fill the available vertical space
-    // alignment_rules: "Right-side details align to the stack's right edge"
-    const detailCardHeight = 0.45;
-    const detailSpacing = (contentBottom - contentTop - detailCardHeight) / Math.max(crossCutting.length - 1, 1);
+    // Compact pill-style annotations
+    const pillHeight = 0.28;
+    const pillSpacing = 0.35;
+    const startY = contentTop + 0.08;
 
     crossCutting.forEach((item, index) => {
-      // Position card to fill space from contentTop to contentBottom
-      const yPos = contentTop + index * detailSpacing;
-      // Align connector with corresponding layer (match layer index to card index)
-      const layerIndex = Math.min(index, layerCount - 1);
-      const targetLayerY = contentTop + (layerCount - 1 - layerIndex) * (baseLayerHeight + layerSpacing) + baseLayerHeight / 2;
-
-      // Connector line from stack middle to detail card
-      // Only draw if within reasonable distance
-      const lineY1 = targetLayerY;
-      const lineY2 = yPos + 0.22;
-      
-      // Only draw connector if it makes visual sense (not too long)
-      if (Math.abs(lineY2 - lineY1) < 2.0) {
-        const lineX = stackX + stackW;
-        const lineW = detailX - 0.1 - lineX;
-        const lineH = lineY2 - lineY1;
-        slide.addShape("line", {
-          x: lineX,
-          y: Math.min(lineY1, lineY2),
-          w: lineW,
-          h: Math.abs(lineH),
-          line: { color: theme.palette.accent_secondary.replace("#", ""), transparency: 50, width: 1, dashType: "dash" }
-        });
-      }
-
-      // Detail card
+      const yPos = startY + index * (pillHeight + pillSpacing);
+      // Annotation pill
       slide.addShape("roundRect", {
-        x: detailX,
+        x: detailX + 0.15,
         y: yPos,
-        w: detailW,
-        h: 0.45,
-        rectRadius: 0.1,
-        fill: { color: theme.palette.surface_alt.replace("#", ""), transparency: 8 },
-        line: { color: theme.palette.accent_secondary.replace("#", ""), transparency: 60, width: 1 }
+        w: detailW - 0.15,
+        h: pillHeight,
+        rectRadius: 0.15,
+        fill: { color: theme.palette.surface_alt.replace("#", ""), transparency: 12 },
+        line: { color: theme.palette.accent_secondary.replace("#", ""), transparency: 70, width: 0.75 }
       });
 
       slide.addText(item, {
-        x: detailX + 0.15,
-        y: yPos + 0.12,
-        w: detailW - 0.3,
-        h: 0.22,
+        x: detailX + 0.38,
+        y: yPos + 0.08,
+        w: detailW - 0.5,
+        h: 0.18,
         fontFace: theme.typography.font_family,
-        fontSize: 11,
+        fontSize: 10,
         color: theme.palette.text_primary.replace("#", ""),
         margin: 0
       });

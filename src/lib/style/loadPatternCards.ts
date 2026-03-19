@@ -7,6 +7,7 @@ import { repoPath } from "../paths.js";
 export type PatternCard = {
   id: string;
   page_type: string;
+  density_level?: "low" | "medium" | "high";
   source_references: string[];
   narrative_roles: string[];
   topic_fit?: string[];

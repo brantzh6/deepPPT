@@ -61,20 +61,44 @@ export async function validateContractsCommand(): Promise<void> {
       path: repoPath("style", "reference_extractions", "openclaw-executive--seed-03--chapter-summary-signal.json")
     },
     {
+      schemaId: "reference_slide_extraction.schema.json",
+      path: repoPath("style", "reference_extractions", "openclaw-executive--seed-04--narrative-map.json")
+    },
+    {
+      schemaId: "reference_slide_extraction.schema.json",
+      path: repoPath("style", "reference_extractions", "openclaw-executive--seed-05--trust-terminal.json")
+    },
+    {
+      schemaId: "reference_slide_extraction.schema.json",
+      path: repoPath("style", "reference_extractions", "openclaw-executive--seed-06--layered-architecture-stack.json")
+    },
+    {
       schemaId: "pattern_card.schema.json",
       path: repoPath("style", "patterns", "template.pattern-card.json")
     },
     {
       schemaId: "pattern_card.schema.json",
-      path: repoPath("style", "patterns", "cover_orbit.openclaw-seed.pattern.json")
+      path: repoPath("style", "patterns", "openclaw-executive--seed--cover_orbit.pattern.json")
     },
     {
       schemaId: "pattern_card.schema.json",
-      path: repoPath("style", "patterns", "bottleneck_shift.openclaw-seed.pattern.json")
+      path: repoPath("style", "patterns", "openclaw-executive--seed--bottleneck_shift.pattern.json")
     },
     {
       schemaId: "pattern_card.schema.json",
-      path: repoPath("style", "patterns", "chapter_summary_signal.openclaw-seed.pattern.json")
+      path: repoPath("style", "patterns", "openclaw-executive--seed--chapter_summary_signal.pattern.json")
+    },
+    {
+      schemaId: "pattern_card.schema.json",
+      path: repoPath("style", "patterns", "openclaw-executive--seed--narrative_map.pattern.json")
+    },
+    {
+      schemaId: "pattern_card.schema.json",
+      path: repoPath("style", "patterns", "openclaw-executive--seed--trust_terminal.pattern.json")
+    },
+    {
+      schemaId: "pattern_card.schema.json",
+      path: repoPath("style", "patterns", "openclaw-executive--seed--layered_architecture_stack.pattern.json")
     },
     {
       schemaId: "benchmark_gallery.schema.json",

@@ -17,10 +17,11 @@
 
 ## Update Summary
 **Changes Made**
+- Enhanced cross-cutting concerns distribution algorithm in renderLayeredArchitectureSlide function
+- Improved vertical spacing calculation for better visual presentation alignment
+- Refined connector line positioning with proper layer-to-detail matching
 - Enhanced coordinate format handling for line shapes in layered architecture presentations
 - Improved rendering reliability for cross-layer connector lines
-- Added robust coordinate calculation with proper min/max handling for line positioning
-- Maintained backward compatibility while fixing coordinate format issues
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -225,12 +226,17 @@ Validate --> End(["Done"])
 - [chapter_summary_signal.openclaw-seed.pattern.json:19-23](file://style/patterns/chapter_summary_signal.openclaw-seed.pattern.json#L19-L23)
 
 #### Layered Architecture Rendering
-- **Updated**: Enhanced coordinate format handling for line shapes in layered architecture presentations.
-- Stack layers with consistent spacing and visual hierarchy.
-- Cross-cutting concerns with connector lines that properly handle coordinate calculations.
-- Improved rendering reliability for cross-layer relationships.
+- **Updated**: Enhanced cross-cutting concerns distribution algorithm with improved vertical spacing calculation.
+- Stack layers with consistent spacing and visual hierarchy using fixed layer heights.
+- Cross-cutting concerns with connector lines that properly handle coordinate calculations and layer alignment.
+- Improved rendering reliability for cross-layer relationships with enhanced algorithmic precision.
 
-**Updated** Enhanced coordinate format handling for line shapes in layered architecture presentations. The rendering now uses robust coordinate calculation with proper min/max handling for line positioning, ensuring reliable cross-layer connector lines regardless of layer arrangement.
+**Updated** Enhanced cross-cutting concerns distribution algorithm in renderLayeredArchitectureSlide function. The algorithm now features improved vertical spacing calculation and proper alignment with architectural layers for better visual presentation. Key improvements include:
+
+- **Enhanced Vertical Spacing Calculation**: Uses `(contentBottom - contentTop - detailCardHeight) / Math.max(crossCutting.length - 1, 1)` for precise spacing distribution
+- **Improved Layer-to-Detail Matching**: Connects cross-cutting concerns to corresponding architectural layers using `Math.min(index, layerCount - 1)` for robust layer indexing
+- **Refined Coordinate Format Handling**: Implements proper min/max handling for line positioning with `Math.min(lineY1, lineY2)` and `Math.abs(lineH)`
+- **Better Visual Presentation Alignment**: Ensures connector lines align precisely with layer centers using `contentTop + (layerCount - 1 - layerIndex) * (baseLayerHeight + layerSpacing) + baseLayerHeight / 2`
 
 **Section sources**
 - [renderPptx.ts:868-1049](file://src/commands/renderPptx.ts#L868-L1049)
@@ -330,7 +336,7 @@ Common issues and remedies:
 - Overlapping text elements: The overlap validator raises warnings and suggestions; adjust positions to avoid overlaps.
 - Elements outside slide bounds: The out-of-bounds validator logs violations; constrain coordinates within slide dimensions.
 - Output path conflicts: The resolver appends a timestamped suffix when the file exists; confirm the intended output location.
-- **Updated**: Layered architecture line rendering issues: The enhanced coordinate format handling ensures reliable cross-layer connector lines regardless of layer arrangement or positioning.
+- **Updated**: Layered architecture line rendering issues: The enhanced cross-cutting concerns distribution algorithm ensures reliable cross-layer connector lines with improved vertical spacing calculation and proper alignment with architectural layers.
 
 **Section sources**
 - [renderPptx.ts:94-99](file://src/commands/renderPptx.ts#L94-L99)
@@ -340,7 +346,7 @@ Common issues and remedies:
 - [renderPptx.ts:791-800](file://src/commands/renderPptx.ts#L791-L800)
 
 ## Conclusion
-The PPTX export system integrates CLI orchestration, theme-driven styling, and pattern-aware rendering to produce editable PowerPoint decks. It leverages PptxGenJS for native object fidelity, enforces layout correctness via helper validations, and supports an editable delivery strategy. The modular design allows extension to new page types and refinement of visual styles. Recent enhancements to coordinate format handling for line shapes in layered architecture presentations improve rendering reliability while maintaining backward compatibility.
+The PPTX export system integrates CLI orchestration, theme-driven styling, and pattern-aware rendering to produce editable PowerPoint decks. It leverages PptxGenJS for native object fidelity, enforces layout correctness via helper validations, and supports an editable delivery strategy. The modular design allows extension to new page types and refinement of visual styles. Recent enhancements to the cross-cutting concerns distribution algorithm in the layered architecture rendering significantly improve visual presentation alignment and rendering reliability while maintaining backward compatibility.
 
 ## Appendices
 
@@ -356,15 +362,30 @@ The PPTX export system integrates CLI orchestration, theme-driven styling, and p
 - [layered_architecture_stack.openclaw-seed.pattern.json:10-23](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json#L10-L23)
 - [template.pattern-card.json:19-23](file://style/patterns/template.pattern-card.json#L19-L23)
 
-### Appendix B: Enhanced Coordinate Format Handling
-**Updated** The layered architecture rendering now includes enhanced coordinate format handling for line shapes, ensuring reliable cross-layer connector lines regardless of layer arrangement or positioning.
+### Appendix B: Enhanced Cross-Cutting Concerns Distribution Algorithm
+**Updated** The layered architecture rendering now includes a sophisticated cross-cutting concerns distribution algorithm with several key improvements:
 
-Key improvements:
-- Robust coordinate calculation using Math.min() and Math.max() for proper line positioning
-- Enhanced line shape rendering with improved coordinate format handling
-- Backward compatibility maintained while improving rendering reliability
-- Proper handling of diagonal line segments and their bounding boxes
+**Enhanced Vertical Spacing Calculation**
+- Uses `(contentBottom - contentTop - detailCardHeight) / Math.max(crossCutting.length - 1, 1)` for precise vertical spacing distribution
+- Ensures equal spacing between cross-cutting concern cards regardless of the number of items
+- Handles edge cases where there are no cross-cutting concerns gracefully
+
+**Improved Layer-to-Detail Matching**
+- Connects cross-cutting concerns to corresponding architectural layers using `Math.min(index, layerCount - 1)` for robust layer indexing
+- Calculates target layer positions with `contentTop + (layerCount - 1 - layerIndex) * (baseLayerHeight + layerSpacing) + baseLayerHeight / 2`
+- Ensures connector lines align precisely with layer centers for better visual presentation
+
+**Enhanced Coordinate Format Handling**
+- Implements proper min/max handling for line positioning with `Math.min(lineY1, lineY2)` and `Math.abs(lineH)`
+- Uses `Math.min()` to ensure line coordinates are always valid regardless of layer order
+- Employs `Math.abs()` for line height calculations to prevent negative values
+
+**Robust Connector Line Rendering**
+- Only draws connector lines when the distance between layer and detail is within reasonable limits (`< 2.0`)
+- Prevents overly long or misplaced connector lines that would disrupt visual presentation
+- Uses dashed lines with `dashType: "dash"` for subtle visual connections
 
 **Section sources**
+- [renderPptx.ts:1000-1026](file://src/commands/renderPptx.ts#L1000-L1026)
 - [renderPptx.ts:1017-1024](file://src/commands/renderPptx.ts#L1017-L1024)
-- [layout.js:82-156](file://render/pptxgenjs_helpers/layout.js#L82-L156)
+- [layout.js:519-573](file://render/pptxgenjs_helpers/layout.js#L519-L573)

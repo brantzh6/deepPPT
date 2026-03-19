@@ -1,0 +1,71 @@
+{
+  "reference_id": "openclaw-executive-seed-04",
+  "source": {
+    "deck_id": "openclaw-executive",
+    "slide_number": 4,
+    "extraction_mode": "documented_seed",
+    "title": "Documented seed: narrative map agenda page",
+    "file_path": "references/validated-slide-patterns.md",
+    "source_note": "This extraction is reconstructed from the documented OpenClaw slide pattern summaries, not from the original slide screenshot.",
+    "tags": ["openclaw", "seed", "agenda", "narrative-map"]
+  },
+  "narrative_role": "agenda",
+  "page_type_candidate": "narrative_map",
+  "audience_tone": "executive, staged, control-first",
+  "claim": "Establish narrative hierarchy with one dominant chapter and two supporting chapters rather than a flat agenda list.",
+  "visual_anchor": "A dominant chapter card paired with a supporting chapter stack creates the agenda's focal hierarchy.",
+  "weight_center": "center-middle",
+  "composition": {
+    "structure": "One dominant left chapter card, one right supporting stack, and one full-width bottom decision cue band.",
+    "density_level": "medium",
+    "alignment_logic": "Left dominant card and right stack share the same top and bottom frame; the bottom cue aligns to the full content width.",
+    "asymmetry": "Narrative priority is shown by scale difference, not by breaking the shared column alignment.",
+    "image_usage": "No hero image is needed; card hierarchy and spacing carry the page.",
+    "highlight_grammar": [
+      "accent color on chapter numbers",
+      "subtle border and shadow treatment on cards",
+      "decision cue band highlighted without overpowering the page"
+    ]
+  },
+  "components": [
+    {
+      "id": "dominant_chapter_card",
+      "role": "narrative priority",
+      "type": "content_card",
+      "position_note": "Large left-side anchor card"
+    },
+    {
+      "id": "supporting_chapter_stack",
+      "role": "secondary agenda items",
+      "type": "card_stack",
+      "position_note": "Two aligned cards on the right"
+    },
+    {
+      "id": "decision_cue_band",
+      "role": "discussion framing",
+      "type": "signal_band",
+      "position_note": "Full-width bottom band"
+    }
+  ],
+  "why_it_works": [
+    "The page stages the story instead of listing chapters with equal weight.",
+    "Shared top and bottom boundaries keep the asymmetry disciplined.",
+    "The bottom cue turns the agenda into a decision-oriented opening page."
+  ],
+  "anti_patterns": [
+    "Three equal cards that flatten chapter priority.",
+    "A bottom cue floating independently from the main frame.",
+    "Misaligned left and right columns that make the page feel sloppy."
+  ],
+  "reuse_notes": {
+    "safe_to_reuse": true,
+    "do_not_copy_blindly": [
+      "Exact chapter wording",
+      "Any source-specific numeric sequencing"
+    ],
+    "adaptation_notes": [
+      "Keep the dominant-versus-supporting hierarchy even if the chapter count changes.",
+      "Use this pattern only when the deck benefits from staged narrative framing."
+    ]
+  }
+}
