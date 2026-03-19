@@ -980,29 +980,45 @@ function renderLayeredArchitectureSlide(
   });
 
   // Cross-cutting concerns on the right side
+  // alignment_rules: "Right-side details align to the stack's right edge"
   if (crossCutting.length > 0) {
+    // Title aligned with architecture title
     slide.addText("Cross-cutting concerns", {
       x: detailX,
-      y: contentTop,
+      y: 2.05,
       w: detailW,
-      h: 0.2,
+      h: 0.22,
       fontFace: theme.typography.font_family,
       fontSize: 11,
       color: theme.palette.text_secondary.replace("#", ""),
       margin: 0
     });
 
-    crossCutting.forEach((item, index) => {
-      const yPos = contentTop + 0.4 + index * 0.6;
+    // Calculate vertical positions to align with layers
+    const detailStartY = contentTop + 0.3;
+    const detailSpacing = (contentBottom - contentTop - 0.5) / Math.max(crossCutting.length, 1);
 
-      // Connector line from stack to detail
-      slide.addShape("line", {
-        x1: stackX + stackW,
-        y1: contentTop + 0.5 + index * 1.5,
-        x2: detailX - 0.15,
-        y2: yPos + 0.15,
-        line: { color: theme.palette.accent_secondary.replace("#", ""), transparency: 50, width: 1, dashType: "dash" }
-      });
+    crossCutting.forEach((item, index) => {
+      // Align detail card with corresponding layer area
+      const layerIndex = Math.min(index, layerCount - 1);
+      const targetLayerY = contentTop + (layerCount - 1 - layerIndex) * (baseLayerHeight + layerSpacing) + baseLayerHeight / 2;
+      const yPos = detailStartY + index * Math.min(detailSpacing, 1.3);
+
+      // Connector line from stack middle to detail card
+      // Only draw if within reasonable distance
+      const lineY1 = targetLayerY;
+      const lineY2 = yPos + 0.22;
+      
+      // Only draw connector if it makes visual sense (not too long)
+      if (Math.abs(lineY2 - lineY1) < 2.0) {
+        slide.addShape("line", {
+          x1: stackX + stackW,
+          y1: lineY1,
+          x2: detailX - 0.1,
+          y2: lineY2,
+          line: { color: theme.palette.accent_secondary.replace("#", ""), transparency: 50, width: 1, dashType: "dash" }
+        });
+      }
 
       // Detail card
       slide.addShape("roundRect", {
