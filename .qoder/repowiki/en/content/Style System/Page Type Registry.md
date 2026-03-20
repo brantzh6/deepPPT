@@ -7,7 +7,7 @@
 - [loadPatternCards.ts](file://src/lib/style/loadPatternCards.ts)
 - [buildStyleMap.ts](file://src/commands/buildStyleMap.ts)
 - [trust_terminal.openclaw-seed.pattern.json](file://style/patterns/trust_terminal.openclaw-seed.pattern.json)
-- [layered_architecture_stack.openclaw-seed.pattern.json](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json)
+- [layered_architecture_stack.openclaw-seed.pattern.json](file://style/patterns/openclaw-executive--seed--layered_architecture_stack.pattern.json)
 - [narrative_map.openclaw-seed.pattern.json](file://style/patterns/narrative_map.openclaw-seed.pattern.json)
 - [template.pattern-card.json](file://style/patterns/template.pattern-card.json)
 - [cover_orbit.openclaw-seed.pattern.json](file://style/patterns/cover_orbit.openclaw-seed.pattern.json)
@@ -21,14 +21,15 @@
 - [renderPptx.ts](file://src/commands/renderPptx.ts)
 - [svgPreview.ts](file://src/lib/render/svgPreview.ts)
 - [layout.js](file://render/pptxgenjs_helpers/layout.js)
+- [openclaw-executive--seed-06--layered-architecture-stack.json](file://style/reference_extractions/openclaw-executive--seed-06--layered-architecture-stack.json)
 </cite>
 
 ## Update Summary
 **Changes Made**
-- Updated to reflect enhanced layered architecture stack connector line rendering with improved coordinate calculation logic
-- Added documentation for consistent line positioning regardless of layer order
-- Documented prevention of negative values in line height calculations
-- Enhanced rendering reliability for cross-cutting concerns and layer relationships
+- Updated to reflect enhanced layered architecture stack rendering with modern control panel design
+- Documented the new control plane interface that replaces the previous detail annotation system
+- Added documentation for interactive control elements directly integrated into slide design
+- Enhanced rendering system with modern dashboard aesthetics and connector line improvements
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -45,7 +46,7 @@
 ## Introduction
 This document describes the page type registry system that classifies and manages slide types in the Enterprise PPT System. The registry defines page types by narrative roles, visual anchors, weight centers, density levels, and editability targets. It also connects page types to pattern cards that encode layout rules, alignment logic, component recipes, and design constraints. The system integrates with the style intelligence pipeline to produce a style map that guides rendering and ensures consistent, strategic design decisions across presentations.
 
-**Updated** Enhanced layered architecture stack connector line rendering with improved coordinate calculation logic that ensures consistent line positioning regardless of layer order and prevents negative values in line height calculations.
+**Updated** Enhanced layered architecture stack rendering now features a modern control panel interface that replaces the previous detail annotation system with interactive control elements directly integrated into the slide design, providing a more intuitive and visually appealing representation of cross-cutting concerns.
 
 ## Project Structure
 The page type registry and related assets are organized as follows:
@@ -66,6 +67,7 @@ PC4["trust_terminal.openclaw-seed.pattern.json"]
 PC5["layered_architecture_stack.openclaw-seed.pattern.json"]
 PC6["narrative_map.openclaw-seed.pattern.json"]
 TPL["template.pattern-card.json"]
+REF["openclaw-executive--seed-06--layered-architecture-stack.json"]
 end
 subgraph "Loaders"
 LPR["loadPageTypeRegistry.ts"]
@@ -73,6 +75,10 @@ LPC["loadPatternCards.ts"]
 end
 subgraph "Pipeline"
 BSM["buildStyleMap.ts"]
+end
+subgraph "Rendering"
+RPPTX["renderPptx.ts"]
+SPREV["svgPreview.ts"]
 end
 subgraph "Validation"
 SMS["style_map.schema.json"]
@@ -87,11 +93,14 @@ PC4 --> LPC
 PC5 --> LPC
 PC6 --> LPC
 TPL --> LPC
+REF --> LPC
 LPR --> BSM
 LPC --> BSM
-BSM --> SMS
-BSM --> PCS
-BSM --> SOS
+BSM --> RPPTX
+BSM --> SPREV
+RPPTX --> SMS
+SPREV --> PCS
+RPPTX --> SOS
 ```
 
 **Diagram sources**
@@ -99,9 +108,8 @@ BSM --> SOS
 - [loadPageTypeRegistry.ts:1-21](file://src/lib/style/loadPageTypeRegistry.ts#L1-L21)
 - [loadPatternCards.ts:1-49](file://src/lib/style/loadPatternCards.ts#L1-L49)
 - [buildStyleMap.ts:1-110](file://src/commands/buildStyleMap.ts#L1-L110)
-- [trust_terminal.openclaw-seed.pattern.json:1-53](file://style/patterns/trust_terminal.openclaw-seed.pattern.json#L1-L53)
-- [layered_architecture_stack.openclaw-seed.pattern.json:1-55](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json#L1-L55)
-- [narrative_map.openclaw-seed.pattern.json:1-52](file://style/patterns/narrative_map.openclaw-seed.pattern.json#L1-L52)
+- [renderPptx.ts:150-160](file://src/commands/renderPptx.ts#L150-L160)
+- [svgPreview.ts:95-105](file://src/lib/render/svgPreview.ts#L95-L105)
 
 **Section sources**
 - [page-type-registry.json:1-115](file://style/patterns/page-type-registry.json#L1-L115)
@@ -116,14 +124,14 @@ BSM --> SOS
   - Registry loader: Loads the registry JSON and exposes a typed interface.
   - Pattern card loader: Scans the patterns directory, loads all pattern cards, and selects the best candidate per page type (preferring seed references when present).
 - Style Map Builder: Consumes slide outputs, resolves page types via the registry, augments with pattern card details, and writes a validated style map artifact.
+- Enhanced Rendering System: Now includes modern control panel design for layered architecture stacks with interactive control elements.
 
 Key responsibilities:
 - Classification: Narrative roles and visual anchors classify page types for semantic routing.
 - Layout requirements: Pattern cards define layout and alignment rules; registry entries supply defaults.
 - Design constraints: Anti-patterns and highlight grammar constrain design choices.
 - Editability: Editable target informs whether native shapes/text, hybrid (SVG), or native-only editing is preferred.
-
-**Updated** The registry now includes enhanced layered architecture stack rendering with improved coordinate calculation logic for reliable connector line positioning.
+- **Updated** Control Plane Integration: The layered architecture stack now includes a modern control panel interface with interactive elements that replace traditional detail annotations.
 
 **Section sources**
 - [page-type-registry.json:1-115](file://style/patterns/page-type-registry.json#L1-L115)
@@ -175,7 +183,7 @@ The registry encodes page types with:
 - MVP priority: Whether the page type is prioritized for MVP.
 - Editable target: Native shapes plus text, hybrid native plus SVG, or native only.
 
-**Updated** The registry now includes enhanced layered architecture stack rendering with improved coordinate calculation logic:
+**Updated** The registry now includes enhanced layered architecture stack rendering with modern control panel design:
 
 #### Layered Architecture Stack Page Type
 - **Identifier**: layered_architecture_stack
@@ -187,10 +195,10 @@ The registry encodes page types with:
 - **Editable target**: native_shapes_plus_text
 
 Enhanced rendering capabilities include:
-- Improved coordinate calculation for consistent line positioning
-- Prevention of negative values in line height calculations
-- Reliable connector line rendering regardless of layer order
-- Enhanced cross-cutting concerns visualization
+- Modern control panel interface with dashboard aesthetics
+- Interactive control elements (status LEDs, toggle switches)
+- Integrated connector lines between control panel and stack layers
+- Improved visual hierarchy communication through modern design patterns
 
 Common page types include:
 - Cover: Strategic framing and chapter opener.
@@ -239,16 +247,23 @@ Pattern cards provide detailed design guidance for each page type:
 - Editable target: Preferred editability mode.
 - Anti-patterns and reuse notes: What to avoid and how to adapt.
 
-**Updated** The layered architecture stack pattern card now includes enhanced connector line rendering guidance:
+**Updated** The layered architecture stack pattern card now includes enhanced control panel guidance:
 
 #### Layered Architecture Stack Pattern Card
-Defines layout rules for multi-layer system architecture explanations. Uses vertical stacking with consistent spacing to show architectural hierarchy, featuring distinct visual treatment for each layer. Enhanced with improved coordinate calculation logic for reliable connector line rendering between layers and cross-cutting concerns.
+Defines layout rules for multi-layer system architecture explanations. Uses vertical stacking with consistent spacing to show architectural hierarchy, featuring distinct visual treatment for each layer. Enhanced with modern control panel design guidance that replaces traditional detail annotations with interactive control elements.
 
 Layout enhancements include:
-- Consistent line positioning regardless of layer order
-- Prevention of negative values in line height calculations
-- Reliable connector line rendering for cross-cutting concerns
-- Enhanced visual hierarchy communication
+- Modern control panel interface with dashboard aesthetics
+- Interactive control elements (status indicators, toggle switches)
+- Integrated connector lines between control panel and stack layers
+- Improved visual hierarchy communication through modern design patterns
+
+**Component Recipe Enhancement:**
+- layer container blocks
+- layer label system
+- layer description text
+- cross-layer connector lines
+- **Updated** control plane interface with interactive elements
 
 ```mermaid
 classDiagram
@@ -278,19 +293,65 @@ class ImageUsage {
 
 **Diagram sources**
 - [loadPatternCards.ts:7-27](file://src/lib/style/loadPatternCards.ts#L7-L27)
-- [layered_architecture_stack.openclaw-seed.pattern.json:1-55](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json#L1-L55)
+- [layered_architecture_stack.openclaw-seed.pattern.json:1-55](file://style/patterns/openclaw-executive--seed--layered_architecture_stack.pattern.json#L1-L55)
 
 **Section sources**
 - [loadPatternCards.ts:1-49](file://src/lib/style/loadPatternCards.ts#L1-L49)
-- [layered_architecture_stack.openclaw-seed.pattern.json:1-55](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json#L1-L55)
+- [layered_architecture_stack.openclaw-seed.pattern.json:1-55](file://style/patterns/openclaw-executive--seed--layered_architecture_stack.pattern.json#L1-L55)
+
+### Modern Control Panel Interface
+The layered architecture stack rendering system now includes a sophisticated control panel interface that replaces the previous detail annotation system:
+
+**Control Panel Features:**
+- **Dashboard Design**: Modern rounded rectangle interface with subtle borders and background
+- **Interactive Controls**: Status LEDs, toggle switches, and active state indicators
+- **Layer Alignment**: Control elements automatically align with corresponding stack layers
+- **Visual Feedback**: Active states with accent colors and hover effects
+- **Connector Lines**: Dashed lines connect control panel elements to their respective layers
+
+**Control Element Components:**
+- Control row backgrounds with active/inactive state differentiation
+- Status LEDs with color-coded feedback (green for active, secondary colors for inactive)
+- Toggle switches with simplified indicator dots
+- Control labels with bold emphasis for active items
+- Connector lines with dashed patterns for visual connection
+
+**Layout Integration:**
+- Control panel positioned to the right of the main stack
+- Automatic alignment with stack layer positions
+- Consistent spacing and proportions maintained
+- Responsive design that adapts to varying layer counts
+
+```mermaid
+sequenceDiagram
+participant RPTX as "renderPptx.ts"
+participant PANEL as "Control Panel"
+participant LAYER as "Stack Layer"
+RPTX->>PANEL : "Render control panel background"
+RPTX->>PANEL : "Add panel header 'Control Plane'"
+RPTX->>PANEL : "Render control item rows"
+PANEL->>PANEL : "Create status LED ellipse"
+PANEL->>PANEL : "Add toggle switch indicator"
+PANEL->>PANEL : "Format control label text"
+RPTX->>PANEL : "Draw connector lines"
+PANEL->>LAYER : "Connect to corresponding layer"
+```
+
+**Diagram sources**
+- [renderPptx.ts:980-1062](file://src/commands/renderPptx.ts#L980-L1062)
+- [svgPreview.ts:347-378](file://src/lib/render/svgPreview.ts#L347-L378)
+
+**Section sources**
+- [renderPptx.ts:980-1062](file://src/commands/renderPptx.ts#L980-L1062)
+- [svgPreview.ts:347-378](file://src/lib/render/svgPreview.ts#L347-L378)
 
 ### Enhanced Connector Line Rendering
-The layered architecture stack rendering system now includes improved coordinate calculation logic for reliable connector line positioning:
+The layered architecture stack rendering system includes improved connector line positioning logic:
 
 **Coordinate Calculation Improvements:**
 - Consistent line positioning regardless of layer order
 - Prevention of negative values in line height calculations
-- Reliable connector line rendering between stack layers and cross-cutting concerns
+- Reliable connector line rendering between stack layers and control panel elements
 - Enhanced visual hierarchy communication through precise line placement
 
 **Rendering Logic:**
@@ -419,7 +480,7 @@ BSM --> SOS["slides_output.schema.json"]
 - Pattern selection: The best pattern lookup scans all cards and filters by page type; this scales linearly with the number of pattern cards. For large catalogs, consider indexing pattern cards by page type.
 - Style map building: Iterates over slides and performs lookups; complexity is O(S) for slides plus O(P) for pattern cards. Parallelization of pattern loading is possible if needed.
 - Validation: JSON Schema validation occurs during artifact writing; keep schemas concise and targeted to reduce overhead.
-- **Updated** Enhanced layered architecture stack rendering maintains optimal performance while ensuring reliable connector line positioning through improved coordinate calculations.
+- **Updated** Enhanced layered architecture stack rendering maintains optimal performance while ensuring reliable connector line positioning through improved coordinate calculations and efficient control panel rendering.
 
 ## Troubleshooting Guide
 Common issues and resolutions:
@@ -427,7 +488,7 @@ Common issues and resolutions:
 - Missing pattern card: If no pattern card matches a page type, the learned pattern section is omitted; the builder still succeeds using registry defaults for layout hints and editable target.
 - Schema mismatch: Validate generated artifacts against the style map, pattern card, and slides output schemas to catch field mismatches early.
 - Editability conflicts: If a slide's editable target differs from the pattern card, the builder prefers the pattern card's editable target; adjust pattern cards or slide hints accordingly.
-- **Updated** Layered architecture stack rendering issues: Ensure layer count calculations use `Math.min(layerIndex, layerCount - 1)` and coordinate calculations prevent negative line heights through `Math.abs(lineH)`.
+- **Updated** Control panel rendering issues: Ensure cross-cutting concerns are properly defined and that the control panel elements align correctly with stack layers. Verify that connector lines use proper coordinate calculations with `Math.min()` and `Math.abs()` functions.
 
 **Section sources**
 - [buildStyleMap.ts:67-74](file://src/commands/buildStyleMap.ts#L67-L74)
@@ -440,7 +501,7 @@ Common issues and resolutions:
 ## Conclusion
 The page type registry system provides a structured, extensible foundation for classifying slide types, encoding layout and design constraints, and integrating with the style intelligence pipeline. By combining registry entries with detailed pattern cards, the system enables automated, strategic design decisions and supports maintainable evolution of presentation requirements.
 
-**Updated** The addition of enhanced layered architecture stack connector line rendering significantly improves the reliability and consistency of architectural visualization, ensuring proper line positioning regardless of layer order and preventing rendering errors through improved coordinate calculation logic.
+**Updated** The addition of the modern control panel interface significantly enhances the layered architecture stack rendering, providing a more intuitive and visually appealing representation of cross-cutting concerns. The replacement of static detail annotations with interactive control elements creates a more engaging and informative presentation experience while maintaining the structural integrity and design principles established by the registry system.
 
 ## Appendices
 
@@ -452,7 +513,7 @@ The page type registry system provides a structured, extensible foundation for c
 
 **Updated** Expanded list with new specialized page types:
 - Trust Terminal: Trust explanation and architecture reasoning with terminal window visual anchor.
-- Layered Architecture Stack: Architecture and stack explanation with layered stack visual anchor and enhanced connector line rendering.
+- Layered Architecture Stack: Architecture and stack explanation with layered stack visual anchor and modern control panel interface.
 - Narrative Map: Agenda and chapter framing with chapter card stack visual anchor.
 
 These roles inform narrative routing and help select appropriate page types and pattern cards.
@@ -467,7 +528,7 @@ Steps to add a new page type:
 3. Optionally add a reference slide extraction to capture composition insights.
 4. Run the style map builder to validate and incorporate the new page type into the style map.
 
-**Updated** The workflow now supports enhanced layered architecture stack rendering with improved coordinate calculation logic that ensures reliable connector line positioning.
+**Updated** The workflow now supports modern control panel design for layered architecture stacks with interactive control elements that replace traditional detail annotations.
 
 **Section sources**
 - [page-type-registry.json:1-115](file://style/patterns/page-type-registry.json#L1-L115)
@@ -481,7 +542,7 @@ Steps to add a new page type:
 - Use anti-patterns to codify recurring design pitfalls.
 - Maintain a clear separation between registry entries and pattern cards to enable independent evolution.
 - Validate artifacts with JSON Schemas to ensure compatibility and correctness.
-- **Updated** For layered architecture stacks, ensure coordinate calculations prevent negative line heights and maintain consistent connector line positioning regardless of layer order.
+- **Updated** For layered architecture stacks, ensure control panel elements align properly with stack layers and use modern dashboard aesthetics. Implement proper coordinate calculations to prevent rendering issues with connector lines.
 
 **Section sources**
 - [style-intelligence.md:15-23](file://references/style-intelligence.md#L15-L23)
@@ -489,22 +550,29 @@ Steps to add a new page type:
 - [pattern_card.schema.json:7-49](file://schemas/pattern_card.schema.json#L7-L49)
 - [renderPptx.ts:1001-1024](file://src/commands/renderPptx.ts#L1001-L1024)
 
-### Appendix D: Enhanced Layered Architecture Stack Rendering
+### Appendix D: Modern Control Panel Interface Implementation
 **Layered Architecture Stack Page Type**
 - **Purpose**: Explain multi-layer system architectures and platform stacks
 - **Visual Strategy**: Vertical layered stack with distinct visual separation between architectural layers
-- **Layout Pattern**: Dominant left column for layer hierarchy, right column for details and cross-cutting concerns
-- **Design Elements**: Layer container blocks, layer label system, layer description text, cross-layer connector lines, detail annotation cards
-- **Enhanced Rendering**: Improved coordinate calculation logic ensures consistent line positioning regardless of layer order and prevents negative values in line height calculations
+- **Layout Pattern**: Dominant left column for layer hierarchy, right column for modern control panel with interactive elements
+- **Design Elements**: Layer container blocks, layer label system, layer description text, cross-layer connector lines, **Updated** control plane interface with status LEDs, toggle switches, and interactive controls
+- **Enhanced Rendering**: Modern dashboard aesthetics with rounded rectangles, status indicators, and connector lines that replace traditional detail annotations
 
-**Connector Line Rendering Improvements:**
-- Coordinate calculation uses `Math.min(layerIndex, layerCount - 1)` for reliable layer alignment
-- Target layer Y-coordinate calculation ensures proper vertical positioning
-- Detail card positioning prevents excessive distances between layers
-- Connector line rendering uses `Math.min(lineY1, lineY2)` for x-position and `Math.abs(lineH)` for height
-- Prevents negative line heights through absolute value calculations
+**Control Panel Features:**
+- **Dashboard Design**: Modern rounded rectangle interface with subtle borders and background
+- **Interactive Controls**: Status LEDs with color-coded feedback, toggle switches with simplified indicators
+- **Visual Feedback**: Active states with accent colors and hover effects for user engagement
+- **Connector Lines**: Dashed lines connecting control panel elements to corresponding stack layers
+- **Alignment**: Automatic positioning that maintains visual harmony with stack layers
+
+**Rendering Improvements:**
+- Control panel layout: stack on left, control panel on right
+- Modern dashboard styling with rounded rectangles and subtle borders
+- Interactive elements with proper alignment and spacing
+- Enhanced connector line rendering with improved coordinate calculations
 
 **Section sources**
-- [layered_architecture_stack.openclaw-seed.pattern.json:1-55](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json#L1-L55)
-- [renderPptx.ts:1001-1024](file://src/commands/renderPptx.ts#L1001-L1024)
-- [svgPreview.ts:320-355](file://src/lib/render/svgPreview.ts#L320-L355)
+- [layered_architecture_stack.openclaw-seed.pattern.json:1-55](file://style/patterns/openclaw-executive--seed--layered_architecture_stack.pattern.json#L1-L55)
+- [renderPptx.ts:980-1062](file://src/commands/renderPptx.ts#L980-L1062)
+- [svgPreview.ts:347-378](file://src/lib/render/svgPreview.ts#L347-L378)
+- [openclaw-executive--seed-06--layered-architecture-stack.json:1-72](file://style/reference_extractions/openclaw-executive--seed-06--layered-architecture-stack.json#L1-L72)

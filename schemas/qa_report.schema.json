@@ -15,12 +15,22 @@
         "additionalProperties": false,
         "required": ["category", "severity", "message"],
         "properties": {
-          "category": { "type": "string", "enum": ["content", "story", "visual", "export"] },
+          "category": { "type": "string", "enum": ["content", "story", "visual", "layout", "export"] },
           "severity": { "type": "string", "enum": ["low", "medium", "high"] },
           "slide_id": { "type": "string" },
           "message": { "type": "string", "minLength": 1 },
-          "owner": { "type": "string" }
+          "owner": { "type": "string" },
+          "standard": { "type": "string", "enum": ["shared_boundaries", "title_alignment", "spacing_consistency", "no_overlap", "visual_hierarchy"] }
         }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "total_slides": { "type": "integer", "minimum": 0 },
+        "pages_tested": { "type": "array", "items": { "type": "string" } },
+        "layout_violations": { "type": "integer", "minimum": 0 },
+        "overlap_violations": { "type": "integer", "minimum": 0 }
       }
     }
   }

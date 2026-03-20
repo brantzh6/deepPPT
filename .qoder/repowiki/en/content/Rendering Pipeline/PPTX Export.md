@@ -8,20 +8,17 @@
 - [cli.ts](file://src/cli.ts)
 - [dark-enterprise-tech.theme.json](file://style/themes/dark-enterprise-tech.theme.json)
 - [page-type-registry.json](file://style/patterns/page-type-registry.json)
-- [cover_orbit.openclaw-seed.pattern.json](file://style/patterns/cover_orbit.openclaw-seed.pattern.json)
-- [bottleneck_shift.openclaw-seed.pattern.json](file://style/patterns/bottleneck_shift.openclaw-seed.pattern.json)
-- [chapter_summary_signal.openclaw-seed.pattern.json](file://style/patterns/chapter_summary_signal.openclaw-seed.pattern.json)
-- [layered_architecture_stack.openclaw-seed.pattern.json](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json)
+- [openclaw-executive--seed--layered_architecture_stack.pattern.json](file://style/patterns/openclaw-executive--seed--layered_architecture_stack.pattern.json)
 - [template.pattern-card.json](file://style/patterns/template.pattern-card.json)
 </cite>
 
 ## Update Summary
 **Changes Made**
-- Enhanced cross-cutting concerns distribution algorithm in renderLayeredArchitectureSlide function
-- Improved vertical spacing calculation for better visual presentation alignment
-- Refined connector line positioning with proper layer-to-detail matching
-- Enhanced coordinate format handling for line shapes in layered architecture presentations
-- Improved rendering reliability for cross-layer connector lines
+- Complete redesign of layered architecture slide rendering from traditional two-column layout to modern control panel interface
+- Added integrated interactive elements including status LEDs, toggle switches, and connecting lines
+- Implemented modern dashboard-style control plane with active state highlighting
+- Enhanced visual hierarchy with status indicators and interactive controls
+- Refined connector line positioning with proper layer-to-control matching
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -36,7 +33,7 @@
 10. [Appendices](#appendices)
 
 ## Introduction
-This document explains the PPTX export functionality that generates editable PowerPoint presentations using the PptxGenJS library. It covers the native PowerPoint generation process, slide creation and formatting, layout management, command-line interface, argument handling, output path resolution, slide rendering functions for different page types (cover, narrative map, bottleneck shift, summary, layered architecture), editable delivery strategy, visual styling (shadows, typography, color schemes), performance considerations, memory management, error handling, and integration with the style system and theme application.
+This document explains the PPTX export functionality that generates editable PowerPoint presentations using the PptxGenJS library. It covers the native PowerPoint generation process, slide creation and formatting, layout management, command-line interface, argument handling, output path resolution, slide rendering functions for different page types (cover, narrative map, bottleneck shift, summary, trust terminal, layered architecture), editable delivery strategy, visual styling (shadows, typography, color schemes), performance considerations, memory management, error handling, and integration with the style system and theme application.
 
 ## Project Structure
 The PPTX export capability is implemented as a command-line tool that orchestrates rendering of slides into a PowerPoint deck. Key areas:
@@ -159,7 +156,8 @@ Cmd-->>User : "outputs + manifest"
   - Narrative map: Dominant/supporting chapters, decision cue.
   - Bottleneck shift: Thesis statement, contextual grounding image, support cards.
   - Chapter summary signal: Summary takeaways, implications, decision cue.
-  - Layered architecture: Stack layers with cross-cutting concerns and connector lines.
+  - Trust terminal: Terminal window interface with security indicators.
+  - Layered architecture: Modern control panel interface with integrated interactive elements.
   - Fallback: Generic centered claim block.
 
 ```mermaid
@@ -170,12 +168,14 @@ Type --> |cover_orbit| Cover["renderCoverSlide"]
 Type --> |narrative_map| Map["renderNarrativeMapSlide"]
 Type --> |bottleneck_shift| Bottleneck["renderBottleneckSlide"]
 Type --> |chapter_summary_signal| Summary["renderSummarySlide"]
+Type --> |trust_terminal| Terminal["renderTrustTerminalSlide"]
 Type --> |layered_architecture_stack| Architecture["renderLayeredArchitectureSlide"]
 Type --> |other/default| Fallback["renderFallbackSlide"]
 Cover --> Validate["Validate Layout"]
 Map --> Validate
 Bottleneck --> Validate
 Summary --> Validate
+Terminal --> Validate
 Architecture --> Validate
 Fallback --> Validate
 Validate --> End(["Done"])
@@ -187,8 +187,9 @@ Validate --> End(["Done"])
 - [renderPptx.ts:365-436](file://src/commands/renderPptx.ts#L365-L436)
 - [renderPptx.ts:438-540](file://src/commands/renderPptx.ts#L438-L540)
 - [renderPptx.ts:542-645](file://src/commands/renderPptx.ts#L542-L645)
-- [renderPptx.ts:868-1049](file://src/commands/renderPptx.ts#L868-L1049)
-- [renderPptx.ts:647-668](file://src/commands/renderPptx.ts#L647-L668)
+- [renderPptx.ts:700-866](file://src/commands/renderPptx.ts#L700-L866)
+- [renderPptx.ts:868-1063](file://src/commands/renderPptx.ts#L868-L1063)
+- [renderPptx.ts:1065-1086](file://src/commands/renderPptx.ts#L1065-L1086)
 
 #### Cover Slide Rendering
 - Hero image region with inset and rounded frame.
@@ -198,7 +199,7 @@ Validate --> End(["Done"])
 
 **Section sources**
 - [renderPptx.ts:246-363](file://src/commands/renderPptx.ts#L246-L363)
-- [cover_orbit.openclaw-seed.pattern.json:19-23](file://style/patterns/cover_orbit.openclaw-seed.pattern.json#L19-L23)
+- [openclaw-executive--seed--layered_architecture_stack.pattern.json:19-23](file://style/patterns/openclaw-executive--seed--layered_architecture_stack.pattern.json#L19-L23)
 
 #### Narrative Map Rendering
 - Left column: dominant chapter block.
@@ -215,7 +216,7 @@ Validate --> End(["Done"])
 
 **Section sources**
 - [renderPptx.ts:438-540](file://src/commands/renderPptx.ts#L438-L540)
-- [bottleneck_shift.openclaw-seed.pattern.json:19-23](file://style/patterns/bottleneck_shift.openclaw-seed.pattern.json#L19-L23)
+- [openclaw-executive--seed--layered_architecture_stack.pattern.json:19-23](file://style/patterns/openclaw-executive--seed--layered_architecture_stack.pattern.json#L19-L23)
 
 #### Chapter Summary Signal Rendering
 - Left: summary takeaways and implications list.
@@ -223,30 +224,46 @@ Validate --> End(["Done"])
 
 **Section sources**
 - [renderPptx.ts:542-645](file://src/commands/renderPptx.ts#L542-L645)
-- [chapter_summary_signal.openclaw-seed.pattern.json:19-23](file://style/patterns/chapter_summary_signal.openclaw-seed.pattern.json#L19-L23)
+- [openclaw-executive--seed--layered_architecture_stack.pattern.json:19-23](file://style/patterns/openclaw-executive--seed--layered_architecture_stack.pattern.json#L19-L23)
 
-#### Layered Architecture Rendering
-- **Updated**: Enhanced cross-cutting concerns distribution algorithm with improved vertical spacing calculation.
-- Stack layers with consistent spacing and visual hierarchy using fixed layer heights.
-- Cross-cutting concerns with connector lines that properly handle coordinate calculations and layer alignment.
-- Improved rendering reliability for cross-layer relationships with enhanced algorithmic precision.
-
-**Updated** Enhanced cross-cutting concerns distribution algorithm in renderLayeredArchitectureSlide function. The algorithm now features improved vertical spacing calculation and proper alignment with architectural layers for better visual presentation. Key improvements include:
-
-- **Enhanced Vertical Spacing Calculation**: Uses `(contentBottom - contentTop - detailCardHeight) / Math.max(crossCutting.length - 1, 1)` for precise spacing distribution
-- **Improved Layer-to-Detail Matching**: Connects cross-cutting concerns to corresponding architectural layers using `Math.min(index, layerCount - 1)` for robust layer indexing
-- **Refined Coordinate Format Handling**: Implements proper min/max handling for line positioning with `Math.min(lineY1, lineY2)` and `Math.abs(lineH)`
-- **Better Visual Presentation Alignment**: Ensures connector lines align precisely with layer centers using `contentTop + (layerCount - 1 - layerIndex) * (baseLayerHeight + layerSpacing) + baseLayerHeight / 2`
+#### Trust Terminal Rendering
+- Left column: trust claim and governance labels with pill-shaped indicators.
+- Right column: terminal window interface with control dots and security indicators.
+- Terminal content with green monospace text and status indicators.
 
 **Section sources**
-- [renderPptx.ts:868-1049](file://src/commands/renderPptx.ts#L868-L1049)
-- [layered_architecture_stack.openclaw-seed.pattern.json:10-23](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json#L10-L23)
+- [renderPptx.ts:700-866](file://src/commands/renderPptx.ts#L700-L866)
+
+#### Layered Architecture Rendering
+**Updated** Complete redesign from traditional two-column layout to modern control panel interface with integrated interactive elements. The layered architecture slide now features:
+
+- **Modern Control Panel Interface**: Stack layers on the left with a control panel on the right featuring interactive elements
+- **Status LEDs**: Elliptical indicators showing active/inactive states for each control item
+- **Toggle Switches**: Simplified toggle indicators with active state highlighting
+- **Connecting Lines**: Dashed lines linking control items to corresponding architecture layers
+- **Active State Highlighting**: First control item is highlighted as active with accent color
+- **Dashboard Aesthetics**: Modern rounded rectangles with subtle borders and background variations
+
+**Enhanced Layout Structure**:
+- Stack area (left): Traditional layer stack with numbering, names, and descriptions
+- Control panel (right): Dashboard-style interface with control rows
+- Visual connectors: Subtle dashed lines connecting controls to layers
+
+**Interactive Elements**:
+- Status LEDs: Green for active, accent color for inactive
+- Toggle indicators: Accent color for active, muted for inactive  
+- Control rows: Background transparency varies by state
+- Labels: Bold text for active items, regular for inactive
+
+**Section sources**
+- [renderPptx.ts:868-1063](file://src/commands/renderPptx.ts#L868-L1063)
+- [openclaw-executive--seed--layered_architecture_stack.pattern.json:10-23](file://style/patterns/openclaw-executive--seed--layered_architecture_stack.pattern.json#L10-L23)
 
 #### Fallback Rendering
 - Large centered claim card for unknown page types.
 
 **Section sources**
-- [renderPptx.ts:647-668](file://src/commands/renderPptx.ts#L647-L668)
+- [renderPptx.ts:1065-1086](file://src/commands/renderPptx.ts#L1065-L1086)
 
 ### Editable Delivery Strategy
 - Uses native PptxGenJS shapes and text to maintain editable object structure.
@@ -258,10 +275,7 @@ Validate --> End(["Done"])
 - [page-type-registry.json:21](file://style/patterns/page-type-registry.json#L21)
 - [page-type-registry.json:48](file://style/patterns/page-type-registry.json#L48)
 - [page-type-registry.json:102](file://style/patterns/page-type-registry.json#L102)
-- [cover_orbit.openclaw-seed.pattern.json:35](file://style/patterns/cover_orbit.openclaw-seed.pattern.json#L35)
-- [bottleneck_shift.openclaw-seed.pattern.json:35](file://style/patterns/bottleneck_shift.openclaw-seed.pattern.json#L35)
-- [chapter_summary_signal.openclaw-seed.pattern.json:34](file://style/patterns/chapter_summary_signal.openclaw-seed.pattern.json#L34)
-- [layered_architecture_stack.openclaw-seed.pattern.json:42](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json#L42)
+- [openclaw-executive--seed--layered_architecture_stack.pattern.json:42](file://style/patterns/openclaw-executive--seed--layered_architecture_stack.pattern.json#L42)
 
 ### Visual Styling: Shadows, Typography, Color Schemes
 - Shadows: safeOuterShadow helper ensures consistent outer shadows with color, opacity, angle, blur, offset.
@@ -288,7 +302,7 @@ Validate --> End(["Done"])
 - Writes PPTX, SVG previews, and a render manifest with deck metadata and artifact references.
 
 **Section sources**
-- [renderPptx.ts:791-800](file://src/commands/renderPptx.ts#L791-L800)
+- [renderPptx.ts:1210-1219](file://src/commands/renderPptx.ts#L1210-L1219)
 - [renderPptx.ts:161-186](file://src/commands/renderPptx.ts#L161-L186)
 
 ## Dependency Analysis
@@ -336,17 +350,17 @@ Common issues and remedies:
 - Overlapping text elements: The overlap validator raises warnings and suggestions; adjust positions to avoid overlaps.
 - Elements outside slide bounds: The out-of-bounds validator logs violations; constrain coordinates within slide dimensions.
 - Output path conflicts: The resolver appends a timestamped suffix when the file exists; confirm the intended output location.
-- **Updated**: Layered architecture line rendering issues: The enhanced cross-cutting concerns distribution algorithm ensures reliable cross-layer connector lines with improved vertical spacing calculation and proper alignment with architectural layers.
+- **Updated**: Layered architecture rendering issues: The modern control panel interface now features integrated interactive elements with proper state management and visual feedback.
 
 **Section sources**
 - [renderPptx.ts:94-99](file://src/commands/renderPptx.ts#L94-L99)
 - [renderPptx.ts:111-113](file://src/commands/renderPptx.ts#L111-L113)
 - [layout.js:23-232](file://render/pptxgenjs_helpers/layout.js#L23-L232)
 - [layout.js:575-633](file://render/pptxgenjs_helpers/layout.js#L575-L633)
-- [renderPptx.ts:791-800](file://src/commands/renderPptx.ts#L791-L800)
+- [renderPptx.ts:1210-1219](file://src/commands/renderPptx.ts#L1210-L1219)
 
 ## Conclusion
-The PPTX export system integrates CLI orchestration, theme-driven styling, and pattern-aware rendering to produce editable PowerPoint decks. It leverages PptxGenJS for native object fidelity, enforces layout correctness via helper validations, and supports an editable delivery strategy. The modular design allows extension to new page types and refinement of visual styles. Recent enhancements to the cross-cutting concerns distribution algorithm in the layered architecture rendering significantly improve visual presentation alignment and rendering reliability while maintaining backward compatibility.
+The PPTX export system integrates CLI orchestration, theme-driven styling, and pattern-aware rendering to produce editable PowerPoint decks. It leverages PptxGenJS for native object fidelity, enforces layout correctness via helper validations, and supports an editable delivery strategy. The modular design allows extension to new page types and refinement of visual styles. Recent enhancements to the layered architecture rendering introduce a modern control panel interface with integrated interactive elements, significantly improving the visual presentation while maintaining backward compatibility.
 
 ## Appendices
 
@@ -356,36 +370,37 @@ The PPTX export system integrates CLI orchestration, theme-driven styling, and p
 
 **Section sources**
 - [page-type-registry.json:3-112](file://style/patterns/page-type-registry.json#L3-L112)
-- [cover_orbit.openclaw-seed.pattern.json:19-23](file://style/patterns/cover_orbit.openclaw-seed.pattern.json#L19-L23)
-- [bottleneck_shift.openclaw-seed.pattern.json:19-23](file://style/patterns/bottleneck_shift.openclaw-seed.pattern.json#L19-L23)
-- [chapter_summary_signal.openclaw-seed.pattern.json:19-23](file://style/patterns/chapter_summary_signal.openclaw-seed.pattern.json#L19-L23)
-- [layered_architecture_stack.openclaw-seed.pattern.json:10-23](file://style/patterns/layered_architecture_stack.openclaw-seed.pattern.json#L10-L23)
+- [openclaw-executive--seed--layered_architecture_stack.pattern.json:19-23](file://style/patterns/openclaw-executive--seed--layered_architecture_stack.pattern.json#L19-L23)
 - [template.pattern-card.json:19-23](file://style/patterns/template.pattern-card.json#L19-L23)
 
-### Appendix B: Enhanced Cross-Cutting Concerns Distribution Algorithm
-**Updated** The layered architecture rendering now includes a sophisticated cross-cutting concerns distribution algorithm with several key improvements:
+### Appendix B: Modern Control Panel Interface Implementation
+**Updated** The layered architecture slide rendering now implements a sophisticated control panel interface with the following key features:
 
-**Enhanced Vertical Spacing Calculation**
-- Uses `(contentBottom - contentTop - detailCardHeight) / Math.max(crossCutting.length - 1, 1)` for precise vertical spacing distribution
-- Ensures equal spacing between cross-cutting concern cards regardless of the number of items
-- Handles edge cases where there are no cross-cutting concerns gracefully
+**Control Panel Layout**:
+- Positioned on the right side of the slide with dedicated width and spacing
+- Rounded rectangular background with subtle accent border
+- Header text "Control Plane" with secondary color styling
+- Aligned with layer stack using consistent vertical spacing
 
-**Improved Layer-to-Detail Matching**
-- Connects cross-cutting concerns to corresponding architectural layers using `Math.min(index, layerCount - 1)` for robust layer indexing
-- Calculates target layer positions with `contentTop + (layerCount - 1 - layerIndex) * (baseLayerHeight + layerSpacing) + baseLayerHeight / 2`
-- Ensures connector lines align precisely with layer centers for better visual presentation
+**Interactive Control Items**:
+- Each control item corresponds to a specific architecture layer
+- Control rows feature rounded rectangles with state-dependent transparency
+- Status LEDs: elliptical indicators showing active (green) or inactive states
+- Toggle switches: simplified circular indicators with active/inactive colors
+- Labels: bold text for active items, regular for inactive with accent color highlighting
 
-**Enhanced Coordinate Format Handling**
-- Implements proper min/max handling for line positioning with `Math.min(lineY1, lineY2)` and `Math.abs(lineH)`
-- Uses `Math.min()` to ensure line coordinates are always valid regardless of layer order
-- Employs `Math.abs()` for line height calculations to prevent negative values
+**Visual Connections**:
+- Dashed lines connect control items to corresponding architecture layers
+- Lines use accent secondary color with 60% transparency
+- Proper coordinate calculation ensures clean visual alignment
+- Distance constraints prevent overly long or misplaced connections
 
-**Robust Connector Line Rendering**
-- Only draws connector lines when the distance between layer and detail is within reasonable limits (`< 2.0`)
-- Prevents overly long or misplaced connector lines that would disrupt visual presentation
-- Uses dashed lines with `dashType: "dash"` for subtle visual connections
+**State Management**:
+- First control item automatically becomes active
+- Active state triggers accent color application across all interactive elements
+- Inactive items use muted color schemes for visual hierarchy
+- Background transparency varies by state for depth perception
 
 **Section sources**
-- [renderPptx.ts:1000-1026](file://src/commands/renderPptx.ts#L1000-L1026)
-- [renderPptx.ts:1017-1024](file://src/commands/renderPptx.ts#L1017-L1024)
-- [layout.js:519-573](file://render/pptxgenjs_helpers/layout.js#L519-L573)
+- [renderPptx.ts:980-1063](file://src/commands/renderPptx.ts#L980-L1063)
+- [openclaw-executive--seed--layered_architecture_stack.pattern.json:10-23](file://style/patterns/openclaw-executive--seed--layered_architecture_stack.pattern.json#L10-L23)

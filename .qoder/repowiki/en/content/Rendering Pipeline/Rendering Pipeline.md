@@ -29,11 +29,11 @@
 
 ## Update Summary
 **Changes Made**
-- Enhanced layered architecture rendering with compact annotation pill design following OpenClaw seed reference extraction guidance
-- Replaced previous cross-cutting concern card approach with pill-shaped annotation elements
-- Improved connector line positioning algorithms for precise layer-to-annotation relationships
-- Updated trust_terminal page type with comprehensive security architecture visualization
-- Strengthened layout validation with advanced overlap detection and positioning algorithms
+- Enhanced layered architecture rendering with improved coordinate calculation logic using fixed-height layer system
+- Integrated modern control panel with interactive elements including status LEDs and toggle switches
+- Implemented precise layer-to-control panel alignment with connector line positioning algorithms
+- Added sophisticated shadow and highlighting effects for critical layers
+- Enhanced layout validation with improved overlap detection for complex architectural elements
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -50,7 +50,7 @@
 ## Introduction
 This document explains the Enterprise PPT System's rendering pipeline that transforms structured slide data and style maps into editable PowerPoint presentations using PptxGenJS. It documents the preview rendering system for HTML/SVG visualization, the delivery pipeline for native PPTX export, and asset management strategies. The pipeline emphasizes an editable delivery strategy that preserves PowerPoint object structure for content modification, along with layout algorithms, utility functions, page-type handlers, formatting specifications, performance considerations, memory management, scalability, external tool integrations, and quality assurance processes.
 
-**Updated** Enhanced with sophisticated layered architecture rendering featuring compact annotation pill design that replaces cross-cutting concern cards, improved cross-cutting concerns alignment, connector line positioning algorithms, and visual coherence improvements that ensure precise layer relationships and professional presentation quality.
+**Updated** Enhanced with sophisticated layered architecture rendering featuring a fixed-height layer system with precise coordinate calculation, modern control panel integration with interactive elements, and improved connector line positioning algorithms that maintain architectural stack integrity while adding visual control elements.
 
 ## Project Structure
 The rendering pipeline spans several areas:
@@ -238,7 +238,12 @@ RPTX-->>CLI : PPTX + previews + manifest
   - Applies layout validation helpers after each slide.
   - Writes PPTX, SVG previews, and a render manifest.
 
-**Updated** Enhanced with sophisticated layered architecture rendering featuring compact annotation pill design that replaces cross-cutting concern cards, improved cross-cutting concerns alignment, connector line positioning algorithms, and visual coherence improvements that ensure precise layer relationships and professional presentation quality.
+**Updated** Enhanced with sophisticated layered architecture rendering featuring:
+- Fixed-height layer calculation system ensuring consistent visual hierarchy
+- Modern control panel integration with interactive elements including status LEDs and toggle switches
+- Precise layer-to-control panel alignment with connector line positioning algorithms
+- Enhanced shadow and highlighting effects for critical layers
+- Improved layout validation with advanced overlap detection for complex architectural elements
 
 ```mermaid
 flowchart TD
@@ -281,15 +286,15 @@ WriteOut --> End(["Done"])
 - Bottleneck Shift: Presents a primary statement, contextual visuals, and up to three impact cards.
 - Chapter Summary Signal: Summarizes key signals and implications with a decision cue panel.
 - Trust Terminal: Implements comprehensive security architecture explanation with terminal window visualization, governance labels, and security indicators.
-- Layered Architecture Stack: Creates multi-layer system architecture visualization with distinct layer containers, labels, and compact annotation pills for cross-cutting concerns.
+- Layered Architecture Stack: Creates multi-layer system architecture visualization with distinct layer containers, labels, and modern control panel with interactive elements including status LEDs and toggle switches.
 - Fallback: Provides a robust default layout for unknown page types.
 
 **Updated** Enhanced with sophisticated layered architecture rendering featuring:
-- Precise layer positioning with fixed heights and uniform spacing
-- Advanced connector line algorithms that position lines between stack and cross-cutting concerns
-- Visual coherence improvements ensuring proper alignment and relationship visualization
-- Compact annotation pill design replacing previous cross-cutting concern card approach
-- Enhanced cross-cutting concerns alignment with intelligent positioning algorithms
+- Fixed-height layer calculation system with precise coordinate positioning
+- Modern control panel layout with interactive elements (status LEDs, toggle switches)
+- Advanced connector line algorithms positioning lines between stack and control panel
+- Enhanced shadow and highlighting effects for critical layers
+- Improved alignment algorithms ensuring precise layer-to-control panel relationships
 
 ```mermaid
 classDiagram
@@ -327,11 +332,11 @@ class RenderPptx {
 - Shadow Factory: Provides a safe outer shadow configuration to avoid XML pitfalls.
 
 **Updated** Enhanced with sophisticated layered architecture positioning algorithms:
-- Fixed-height layer calculation ensuring consistent visual hierarchy
-- Intelligent connector line positioning with distance-based validation
-- Cross-cutting concerns alignment with target layer mapping
-- Advanced overlap detection with diagonal line false-positive filtering
-- Compact annotation pill design with precise positioning and styling
+- Fixed-height layer calculation ensuring consistent visual hierarchy with precise coordinate positioning
+- Advanced control panel alignment with interactive element positioning
+- Sophisticated connector line algorithms with distance-based validation and precise layer-to-control panel relationships
+- Enhanced overlap detection with diagonal line false-positive filtering and complex architectural element handling
+- Improved shadow and highlighting effects for critical layers with conditional application
 
 ```mermaid
 flowchart TD
@@ -344,9 +349,9 @@ O --> E["warnIfSlideElementsOutOfBounds()"]
 D --> F["alignSlideElements()"]
 F --> G["distributeSlideElements()"]
 H["Layered Architecture Positioning"] --> I["Fixed-height layer calculation"]
-I --> J["Connector line positioning"]
-J --> K["Cross-cutting concern alignment"]
-K --> L["Compact annotation pill design"]
+I --> J["Control panel alignment"]
+J --> K["Connector line positioning"]
+K --> L["Interactive element rendering"]
 ```
 
 **Diagram sources**
@@ -366,7 +371,7 @@ K --> L["Compact annotation pill design"]
 - SVG Previews: Generates SVG previews for slides and writes an index.html for easy visualization.
 - Asset Management: Ensures visual assets are available under the preview directory using theme-provided assets.
 
-**Updated** Enhanced with comprehensive SVG preview support for new page types including trust_terminal and layered_architecture_stack with detailed terminal window visualization and architecture stack rendering featuring compact annotation pill design.
+**Updated** Enhanced with comprehensive SVG preview support for new page types including trust_terminal and layered_architecture_stack with detailed terminal window visualization and modern control panel rendering featuring interactive elements including status LEDs and toggle switches.
 
 **Section sources**
 - [renderPptx.ts:165-166](file://src/commands/renderPptx.ts#L165-L166)
@@ -404,7 +409,7 @@ K --> L["Compact annotation pill design"]
 - Output Dependencies:
   - render-manifest.json links editable PPTX and preview assets.
 
-**Updated** Enhanced with dependencies on new pattern files for trust_terminal, layered_architecture_stack, and narrative_map page types, including reference extraction guidance from OpenClaw seed patterns.
+**Updated** Enhanced with dependencies on new pattern files for trust_terminal, layered_architecture_stack, and narrative_map page types, including reference extraction guidance from OpenClaw seed patterns with modern control panel integration.
 
 ```mermaid
 graph LR
@@ -456,10 +461,12 @@ REF --> WFLOW["Reference Extraction Workflow"]
 - Rendering Cost:
   - Prefer vector assets for scalability; limit heavy shadows and gradients where unnecessary.
 - Layered Architecture Performance:
-  - Compact annotation pill design reduces rendering complexity compared to traditional cross-cutting concern cards.
+  - Fixed-height layer calculation system reduces computational overhead compared to dynamic sizing.
+  - Modern control panel rendering with simplified interactive elements minimizes rendering complexity.
   - Optimized connector line positioning algorithms minimize computational overhead.
+  - Enhanced shadow and highlighting effects are conditionally applied only to critical layers.
 
-**Updated** Performance considerations now include handling of complex SVG rendering for new page types with multiple layers and terminal windows, with optimized connector line positioning algorithms that minimize computational overhead and improved memory usage for compact annotation pill rendering.
+**Updated** Performance considerations now include handling of complex SVG rendering for new page types with multiple layers and modern control panels, with optimized coordinate calculation algorithms that minimize computational overhead and improved memory usage for interactive element rendering.
 
 ## Troubleshooting Guide
 - Missing Arguments:
@@ -476,14 +483,16 @@ REF --> WFLOW["Reference Extraction Workflow"]
   - Verify trust_terminal, layered_architecture_stack, and enhanced narrative_map patterns are properly loaded.
   - Check that learned patterns contain required layout_rules and alignment_rules.
 - Layered Architecture Issues:
-  - Verify layer positioning calculations are within slide boundaries.
-  - Check connector line distance validation to ensure proper visual relationships.
-  - Ensure compact annotation pill design is properly sized and positioned.
+  - Verify fixed-height layer calculation system is functioning correctly with proper coordinate positioning.
+  - Check control panel alignment algorithms for precise layer-to-control panel relationships.
+  - Ensure connector line positioning algorithms maintain proper visual relationships.
+  - Verify interactive element rendering (status LEDs, toggle switches) is properly aligned.
 - Reference Extraction Issues:
   - Verify OpenClaw seed reference extraction guidance is properly applied.
   - Check that "detail annotations" are correctly mapped to "annotation_cards".
+  - Ensure modern control panel integration follows established design patterns.
 
-**Updated** Added troubleshooting guidance for new page types including trust_terminal rendering issues and layered architecture stack layout problems, with specific attention to connector line positioning, cross-cutting concerns alignment, and compact annotation pill design implementation. Also includes guidance for reference extraction workflow compliance with OpenClaw seed patterns.
+**Updated** Added troubleshooting guidance for new page types including trust_terminal rendering issues and layered architecture stack layout problems, with specific attention to fixed-height layer calculation, control panel alignment, connector line positioning, and interactive element rendering. Also includes guidance for reference extraction workflow compliance with OpenClaw seed patterns and modern control panel integration.
 
 **Section sources**
 - [renderPptx.ts:94-99](file://src/commands/renderPptx.ts#L94-L99)
@@ -494,7 +503,7 @@ REF --> WFLOW["Reference Extraction Workflow"]
 ## Conclusion
 The Enterprise PPT System's rendering pipeline integrates story scaffolding, style mapping, and PptxGenJS-driven rendering to produce editable PowerPoint decks with robust preview and asset management. Layout algorithms and utilities ensure visual quality, while the editable delivery strategy preserves PowerPoint object structure for enterprise review and revision. With careful attention to performance, memory, and scalability, the pipeline supports iterative development and QA processes for large presentations.
 
-**Updated** The pipeline now supports sophisticated layered architecture rendering with compact annotation pill design that replaces cross-cutting concern cards, enhanced cross-cutting concerns alignment, connector line positioning algorithms, and visual coherence improvements that ensure precise layer relationships and professional presentation quality. These enhancements enable complex system architecture explanations and security architecture visualizations with improved clarity and visual hierarchy, following OpenClaw seed reference extraction guidance for optimal design patterns.
+**Updated** The pipeline now supports sophisticated layered architecture rendering with fixed-height layer calculation system, modern control panel integration featuring interactive elements, and enhanced coordinate positioning algorithms. These improvements enable complex system architecture explanations with precise layer relationships, interactive control plane visualization, and professional presentation quality following OpenClaw seed reference extraction guidance for optimal design patterns.
 
 ## Appendices
 
@@ -518,13 +527,13 @@ The Enterprise PPT System's rendering pipeline integrates story scaffolding, sty
 
 ### New Page Types Reference
 - Trust Terminal: Security architecture explanation with terminal window visualization, governance labels, and security indicators
-- Layered Architecture Stack: Multi-layer system architecture with distinct layer containers, cross-cutting concerns, and compact annotation pill design
+- Layered Architecture Stack: Multi-layer system architecture with distinct layer containers, modern control panel, and interactive elements
 - Enhanced Narrative Map: Improved agenda setting with better layout algorithms, visual hierarchy enforcement, and alignment rules
 
 ### Reference Extraction Workflow
 - OpenClaw Seed Reference Extraction: Following documented guidance for "detail annotations" as "annotation_cards" with precise positioning and styling requirements
 - Pattern Card Development: Merging repeated logic into reusable pattern cards with layout rules, alignment rules, and highlight grammar
-- Quality Assurance: Ensuring patterns meet enterprise standards for visual hierarchy, editable-friendly composition, and cross-cutting concerns alignment
+- Quality Assurance: Ensuring patterns meet enterprise standards for visual hierarchy, editable-friendly composition, and modern control panel integration
 
 **Section sources**
 - [trust_terminal.openclaw-seed.pattern.json:1-53](file://style/patterns/trust_terminal.openclaw-seed.pattern.json#L1-L53)
